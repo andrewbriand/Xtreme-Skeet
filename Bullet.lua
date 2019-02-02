@@ -2,6 +2,7 @@ BULLET_SPEED = 400
 
 function Bullet(x, y, velocity, color, owner)
 	color = color or {0, 0, 255}
+	owener = owner or 1
 	local bullet = {}
 	bullet.update = bulletUpdate
 	bullet.draw = bulletDraw
