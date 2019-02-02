@@ -116,9 +116,10 @@ function updatePlayer(self, dt)
 	end
 	
 	-- shooting input
-	if (love.keyboard.isDown(self.controls.shoot) and not self.hasShot) then
+	if (love.keyboard.isDown(self.controls.shoot) and not self.hasShot and self.ammo > 0) then
 		self.hasShot = true
 		shootPlayer(self)
+		self.ammo = self.ammo - 1
 	end
 	if ((not love.keyboard.isDown(self.controls.shoot)) and self.hasShot) then
 		self.hasShot = false

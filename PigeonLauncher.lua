@@ -1,5 +1,5 @@
-NUM_PIGEONS = 3
-DELAY = .5
+numPigeons = 3
+pigeonDelay = .5
 
 PigeonLauncher = {
 	isShooting = false,
@@ -14,9 +14,18 @@ function PigeonLauncher.update(self, dt)
 			PigeonLauncher.isShooting = true
 			PigeonLauncher.pigeonsShot = 0
 			PigeonLauncher.timer = 0
+			
+			--determine shooting pattern
+			shootingPattern = shootPigeon
+			numPigeons = 3
+			pigeonDelay = .5
+			
+			for k, v in pairs(objects.players) do
+				v.ammo = numPigeons
+			end
 		end
 	else
-		if(shootPigeon(NUM_PIGEONS, DELAY)) then
+		if(shootingPattern(numPigeons, pigeonDelay)) then
 			PigeonLauncher.isShooting = false
 		end
 	end
