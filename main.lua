@@ -6,7 +6,7 @@ require 'Pigeon'
 function love.load()
 	objects = {}
 	objects.pigeons = {}
-	table.insert(objects.pigeons, Pigeon(50, 50, {x = 5, y = 4}))
+	table.insert(objects.pigeons, Pigeon(50, 50, {x = 20, y = 16}))
 	objects.players = {}
 	table.insert(objects.players, Player("Player 1"))
 	objects.bullets = {}
