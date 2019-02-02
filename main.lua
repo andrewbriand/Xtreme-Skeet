@@ -23,7 +23,6 @@ function love.load()
 	--table.insert(objects.fragments, Fragment(150, 150, {x = 80, y = 64}))
 	objects.physics = {Physics()}
 	--objects.pigeonLauncher = PigeonLauncher()=
-	
 	scoreFont = love.graphics.newFont(30)
 	background = love.graphics.newImage("grass.jpg")
 	shotgunSound = love.sound.newSoundData("shotgun.mp3")
