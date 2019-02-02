@@ -140,11 +140,29 @@ function drawPlayer(self)
 	
 	-- draw shotgun arc
 	numSegments = 10
-	for i = 1, numSegments do
+	arcLength = 300
+	for i = 0, numSegments do
+		love.graphics.setColor({self.color[1],
+								self.color[2],
+								self.color[3],
+								(-1 / numSegments) * i + 1})
 		
-		love.graphics.line(self.x, self.y, self.x + math.cos(self.dir + (.5/BULLET_SPREAD)) * 200, self.y + math.sin(self.dir + (.5/BULLET_SPREAD)) * 200)
+		-- first arm
+		x1Left  = ((((self.x + math.cos(self.dir - (.5/BULLET_SPREAD)) * arcLength) - self.x) / numSegments) * (i + 0)) + self.x
+		y1Left  = ((((self.y + math.sin(self.dir - (.5/BULLET_SPREAD)) * arcLength) - self.y) / numSegments) * (i + 0)) + self.y
+		x2Left  = ((((self.x + math.cos(self.dir - (.5/BULLET_SPREAD)) * arcLength) - self.x) / numSegments) * (i + 1)) + self.x
+		y2Left  = ((((self.y + math.sin(self.dir - (.5/BULLET_SPREAD)) * arcLength) - self.y) / numSegments) * (i + 1)) + self.y
+		
+		--second arm
+		x1Right = ((((self.x + math.cos(self.dir + (.5/BULLET_SPREAD)) * arcLength) - self.x) / numSegments) * (i + 0)) + self.x
+		y1Right = ((((self.y + math.sin(self.dir + (.5/BULLET_SPREAD)) * arcLength) - self.y) / numSegments) * (i + 0)) + self.y
+		x2Right = ((((self.x + math.cos(self.dir + (.5/BULLET_SPREAD)) * arcLength) - self.x) / numSegments) * (i + 1)) + self.x
+		y2Right = ((((self.y + math.sin(self.dir + (.5/BULLET_SPREAD)) * arcLength) - self.y) / numSegments) * (i + 1)) + self.y
+		love.graphics.line(x1Left, y1Left, x2Left, y2Left)
+		love.graphics.line(x1Right, y1Right, x2Right, y2Right)
 	end
-	love.graphics.line(self.x, self.y, self.x + math.cos(self.dir - (.5/BULLET_SPREAD)) * 200, self.y + math.sin(self.dir - (.5/BULLET_SPREAD)) * 200)
+	--love.graphics.line(self.x, self.y, self.x + math.cos(self.dir + (.5/BULLET_SPREAD)) * 200, self.y + math.sin(self.dir + (.5/BULLET_SPREAD)) * 200)
+	--love.graphics.line(self.x, self.y, self.x + math.cos(self.dir - (.5/BULLET_SPREAD)) * 200, self.y + math.sin(self.dir - (.5/BULLET_SPREAD)) * 200)
 	
 	love.graphics.line(self.x, self.y, self.x + math.cos(self.dir) * self.radius * 2, self.y + math.sin(self.dir) * self.radius * 2)
 	
