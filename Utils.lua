@@ -9,3 +9,9 @@ end
 function circleCollision(object1, object2)
 	return dist(object1.x, object1.y, object2.x, object2.y) < (object1.radius + object2.radius)
 end
+
+--Returns the magnitude of a 2d vector v
+--Pre: v has properties x and y
+function magnitude(v)
+	return math.sqrt(math.pow(v.x,2) + math.pow(v.y,2))
+end
