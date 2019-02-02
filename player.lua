@@ -2,6 +2,8 @@ PLAYER_SPEED = 0--1000    -- lateral movement speed
 PLAYER_ROTATION_SPEED = 5 -- rotational movement speed
 PLAYER_RADIUS = 10        -- draw radius
 PLAYER_FRICTION = .9      -- later movement damper
+BULLET_SPREAD = 2
+NUM_BULLETS = 10
 
 math.randomseed(os.time())
 math.random()
@@ -47,12 +49,14 @@ PLAYER_CONTROLS = {{ -- for use with still players
 function Player(name, controlSet)
 	if (controlSet == 2) then -- player two if '2' is passed
 		controls = PLAYER_CONTROLS[2]
-		color = {1,.3,.3}
+		color = {1,0,0}
 		x = SCREEN_WIDTH/4 * 3
+		id = 2
 	else -- player one otherwise
 		controls = PLAYER_CONTROLS[1]
-		color = {.3,.3,1}
+		color = {0,0,1}
 		x = SCREEN_WIDTH/4
+		id = 1
 	end
 	
 	local player = {
@@ -63,6 +67,8 @@ function Player(name, controlSet)
 		controls = controls,
 		color = color,
 		ammo = 1, -- TODO: update by pigeon launcher
+		score = 0,
+		id = id,
 		
 		hasShoot = false, -- used to prevent repeated shooting
 		
@@ -119,19 +125,23 @@ function updatePlayer(self, dt)
 	end
 end
 
+-- shoots a cluster of bullets
 function shootPlayer(self)
-	local numBullets = 3
-	local spread = 2
-	for i = 1, numBullets do
-		xSpread = math.random()/spread - .5/spread
-		ySpread = math.random()/spread - .5/spread
-		table.insert(objects.bullets, Bullet(self.x, self.y, {x = math.cos(self.dir + xSpread) * BULLET_SPEED, y = math.sin(self.dir + ySpread) * BULLET_SPEED}, {self.color[1]/2, self.color[2]/2, self.color[3]/2}))
+	for i = 1, NUM_BULLETS do
+		spread = (math.random() - .5) / BULLET_SPREAD
+		table.insert(objects.bullets, Bullet(self.x, self.y, {x = math.cos(self.dir + spread) * BULLET_SPEED, y = math.sin(self.dir + spread) * BULLET_SPEED}, {self.color[1]/2, self.color[2]/2, self.color[3]/2}, self.id))
 	end
+	love.audio.newSource(shotgunSound, "static"):play()
 end
 
 function drawPlayer(self)
 	love.graphics.setColor(self.color)
-	love.graphics.setLineWidth(4)
+	love.graphics.setLineWidth(2)
+	
+	-- draw shotgun arc
+	love.graphics.line(self.x, self.y, self.x + math.cos(self.dir + (.5/BULLET_SPREAD)) * 200, self.y + math.sin(self.dir + (.5/BULLET_SPREAD)) * 200)
+	love.graphics.line(self.x, self.y, self.x + math.cos(self.dir - (.5/BULLET_SPREAD)) * 200, self.y + math.sin(self.dir - (.5/BULLET_SPREAD)) * 200)
+	
 	love.graphics.line(self.x, self.y, self.x + math.cos(self.dir) * self.radius * 2, self.y + math.sin(self.dir) * self.radius * 2)
 	love.graphics.circle("fill", self.x, self.y, self.radius)
 end

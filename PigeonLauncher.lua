@@ -2,7 +2,32 @@ PigeonLauncher = {}
 
 function PigeonLauncher.update()
 	if (roundOver()) then
-		table.insert(objects.pigeons, Pigeon(50, 50, {x = 20, y = 16}))
+		local x
+		local y
+		if (math.random() < .5) then
+			x = math.random() * SCREEN_WIDTH
+			if (math.random() < .5) then
+				y = 0
+			else
+				y = SCREEN_HEIGHT
+			end
+		else
+			y = math.random() * SCREEN_HEIGHT
+			x = 0
+			if (math.random() < .5) then
+				x = 0
+			else
+				x = SCREEN_WIDTH
+			end
+		end
+		-- the direction the pigeons will fly
+		local targetX = SCREEN_WIDTH / 2 
+		local targetY = SCREEN_HEIGHT / 2 
+		
+		local angle = math.atan2((targetY - y), (targetX - x))
+		table.insert(objects.pigeons, Pigeon(x, y, {x = math.cos(angle) * PIGEON_SPEED, y = math.sin(angle) * PIGEON_SPEED}))
+		
+		love.audio.newSource(pigeonLauncerSound, "static"):play()
 	end
 end
 

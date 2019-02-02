@@ -23,6 +23,11 @@ function love.load()
 	table.insert(objects.fragments, Fragment(150, 150, {x = 80, y = 64}))
 	objects.physics = {Physics()}
 	--objects.pigeonLauncher = PigeonLauncher()=
+	
+	scoreFont = love.graphics.newFont(30)
+	background = love.graphics.newImage("grass.jpg")
+	shotgunSound = love.sound.newSoundData("shotgun.mp3")
+	pigeonLauncerSound = love.sound.newSoundData("pigeon launcher.mp3")
 end
 
 function love.keypressed(k)
@@ -40,6 +45,37 @@ function love.update(dt)
 end
 
 function love.draw()
+	-- draw background
+	love.graphics.setColor(1,1,1)
+	love.graphics.draw(background)
+	
+	-- draw score
+	do
+		-- boarders of both scores
+		love.graphics.setFont(scoreFont)
+		love.graphics.setColor(0,0,0)
+		for i = 1, 8 do
+			xDiff =  math.floor(2*1.1547 * math.sin(8.37758 * math.ceil(i/3)) + .5) -- don't mind the magic equations
+			yDiff =  math.floor(2*1.1547 * math.sin(8.37758 * (i%3)) + .5)
+			love.graphics.print(objects.players[1].name .. "'s score: " .. objects.players[1].score,xDiff,yDiff)
+			text = love.graphics.newText(scoreFont, objects.players[2].name .. "'s score: 99")
+			love.graphics.print(objects.players[2].name .. "'s score: " .. objects.players[2].score,SCREEN_WIDTH-text:getWidth() + xDiff,yDiff)
+		end
+		
+		brightness = .2 -- 0 is white, 1 is the original color
+		-- players 1 score
+		love.graphics.setColor({objects.players[1].color[1]*brightness + (1 - brightness),
+								objects.players[1].color[2]*brightness + (1 - brightness),
+								objects.players[1].color[3]*brightness + (1 - brightness)})
+		love.graphics.print(objects.players[1].name .. "'s score: " .. objects.players[1].score,0,0)
+		text = love.graphics.newText(scoreFont, objects.players[2].name .. "'s score: 99")
+		
+		--players 2 score
+		love.graphics.setColor(1,.8,.8)
+		love.graphics.print(objects.players[2].name .. "'s score: " .. objects.players[2].score,SCREEN_WIDTH-text:getWidth(),0)
+	end
+
+	-- draw objects
 	for key, t in pairs(objects) do 
 		for key2, obj in pairs(t) do 
 			obj:draw()

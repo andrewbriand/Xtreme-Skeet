@@ -1,3 +1,5 @@
+PIGEON_SPEED = 180
+
 function Pigeon(x, y, velocity)
 	local pigeon = {}
 	pigeon.update = pigeonUpdate

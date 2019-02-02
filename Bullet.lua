@@ -1,6 +1,6 @@
-BULLET_SPEED = 100
+BULLET_SPEED = 400
 
-function Bullet(x, y, velocity, color)
+function Bullet(x, y, velocity, color, owner)
 	color = color or {0, 0, 255}
 	local bullet = {}
 	bullet.update = bulletUpdate
@@ -10,6 +10,7 @@ function Bullet(x, y, velocity, color)
 	bullet.velocity = velocity
 	bullet.color = color
 	bullet.radius = 5
+	bullet.owner = owner
 	return bullet
 end
 
