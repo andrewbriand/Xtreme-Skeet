@@ -5,6 +5,9 @@ require 'Fragment'
 require 'Physics'
 
 function love.load()
+	SCREEN_WIDTH = love.graphics.getWidth() --Screen width
+	SCREEN_HEIGHT = love.graphics.getHeight() --Screen height
+	
 	objects = {}
 	objects.pigeons = {}
 	table.insert(objects.pigeons, Pigeon(50, 50, {x = 20, y = 64}))
