@@ -139,9 +139,23 @@ function drawPlayer(self)
 	love.graphics.setLineWidth(2)
 	
 	-- draw shotgun arc
-	love.graphics.line(self.x, self.y, self.x + math.cos(self.dir + (.5/BULLET_SPREAD)) * 200, self.y + math.sin(self.dir + (.5/BULLET_SPREAD)) * 200)
+	numSegments = 10
+	for i = 1, numSegments do
+		
+		love.graphics.line(self.x, self.y, self.x + math.cos(self.dir + (.5/BULLET_SPREAD)) * 200, self.y + math.sin(self.dir + (.5/BULLET_SPREAD)) * 200)
+	end
 	love.graphics.line(self.x, self.y, self.x + math.cos(self.dir - (.5/BULLET_SPREAD)) * 200, self.y + math.sin(self.dir - (.5/BULLET_SPREAD)) * 200)
 	
 	love.graphics.line(self.x, self.y, self.x + math.cos(self.dir) * self.radius * 2, self.y + math.sin(self.dir) * self.radius * 2)
+	
+	-- give player light outline
+	brightness = .2 -- 0 is white, 1 is the original color
+	love.graphics.setColor({self.color[1]*brightness + (1 - brightness),
+							self.color[2]*brightness + (1 - brightness),
+							self.color[3]*brightness + (1 - brightness)})
+	love.graphics.circle("fill", self.x, self.y, self.radius*1.2)
+	
+	-- main player drawing
+	love.graphics.setColor(self.color)
 	love.graphics.circle("fill", self.x, self.y, self.radius)
 end
