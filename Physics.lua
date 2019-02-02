@@ -12,6 +12,11 @@ function physicsUpdate(physics, dt)
 		for key2, pigeon in pairs(objects.pigeons) do
 			--Bullet and pigeon are colliding
 			if  circleCollision(pigeon, bullet) then
+				if (bullet.owner == 2) then --update the appropriate scores
+					objects.players[2].score = objects.players[2].score + 1
+				else
+					objects.players[1].score = objects.players[1].score + 1
+				end
 				-- Fake physics: push the pigeon and bullet away from each other's centers when they collide
 				bulletToPigeon = {}
 				bulletToPigeonMag = dist(pigeon.x, pigeon.y, bullet.x, bullet.y)
@@ -22,13 +27,14 @@ function physicsUpdate(physics, dt)
 				pigeon.velocity.y = 0*pigeon.velocity.y + 200*bulletToPigeon.y
 				bullet.velocity.x = bullet.velocity.x - bulletToPigeon.x
 				bullet.velocity.y = bullet.velocity.y - bulletToPigeon.y
+
 				-- Generate the pigeon fragments
 				for i=1,pigeon.numFragments do
 					local fragment = Fragment(pigeon.x, pigeon.y, {})
 					-- Randomize the initial velocity of the fragments using 
 					-- the 2d rotation matrix and a magnitude factor
-					theta = 0 --math.random()
-					randMag = 1--math.random()/2 + 1
+					theta = math.random()
+					randMag = math.random()/2 + 1
 					fragment.velocity.x = (pigeon.velocity.x * math.cos(theta) - pigeon.velocity.y * math.sin(theta)) * randMag
 					fragment.velocity.y = (pigeon.velocity.x * math.sin(theta) + pigeon.velocity.y * math.cos(theta)) * randMag
 					table.insert(objects.fragments, fragment)
