@@ -14,11 +14,12 @@ PLAYER_CONTROLS = {{
 				  }}
 
 function Player(name, controls)
-	if (controls = 2) then
-		controls = 
+	if (controls == 2) then
+		controls = 2
 	else
-	
+		x = 4
 	end
+	
 	local player = {
 		name = name,
 		x = 100,
