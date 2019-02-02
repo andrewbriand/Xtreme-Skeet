@@ -20,8 +20,10 @@ function physicsUpdate(physics, dt)
 				pigeon.velocity.y = pigeon.velocity.y + bulletToPigeon.y
 				for i=1,pigeon.numFragments do
 					local fragment = Fragment(pigeon.x, pigeon.y, {})
-					fragment.velocity.x = pigeon.velocity.x
-					fragment.velocity.y = pigeon.velocity.y
+					theta = math.random()
+					randMag = math.random()/2 + 1
+					fragment.velocity.x = (pigeon.velocity.x * math.cos(theta) - pigeon.velocity.y * math.sin(theta)) * randMag
+					fragment.velocity.y = (pigeon.velocity.x * math.sin(theta) + pigeon.velocity.y * math.cos(theta)) * randMag
 					table.insert(objects.fragments, fragment)
 				end
 				bullet.velocity.x = bullet.velocity.x - bulletToPigeon.x
