@@ -7,6 +7,7 @@ function Pigeon(x, y, velocity)
 	pigeon.velocity = velocity
 	pigeon.color = {1, 127/255, 80/255}
 	pigeon.radius = 10
+	pigeon.numFragments = 3
 	return pigeon
 end
 

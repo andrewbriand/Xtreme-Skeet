@@ -2,6 +2,7 @@ require 'Player'
 require 'Pigeon'
 require 'Bullet'
 require 'Fragment'
+require 'Physics'
 
 function love.load()
 	SCREEN_WIDTH = love.graphics.getWidth() --Screen width
@@ -14,10 +15,10 @@ function love.load()
 	table.insert(objects.players, Player("Player 1", 1))
 	table.insert(objects.players, Player("Player 2", 2))
 	objects.bullets = {}
-	table.insert(objects.bullets, Bullet(100, 100, {x = 20, y = 16}))
+	table.insert(objects.bullets, Bullet(100, 100, {x = -20, y = -16}))
 	objects.fragments = {}
 	table.insert(objects.fragments, Fragment(150, 150, {x = 20, y = 16}))
-	--objects.physics = Physics()
+	objects.physics = {Physics()}
 	--objects.pigeonLauncher = PigeonLauncher()
 end
 
