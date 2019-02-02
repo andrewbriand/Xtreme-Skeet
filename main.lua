@@ -1,6 +1,6 @@
 require 'Player'
 require 'Pigeon'
-
+require 'Bullet'
 
 
 function love.load()
@@ -10,6 +10,7 @@ function love.load()
 	objects.players = {}
 	table.insert(objects.players, Player("Player 1"))
 	objects.bullets = {}
+	table.insert(objects.bullets, Bullet(100, 100, {x = 20, y = 16}))
 	objects.fragments = {}
 	--objects.physics = Physics()
 	--objects.pigeonLauncher = PigeonLauncher()

@@ -6,7 +6,7 @@ function Bullet(x, y, velocity)
 	bullet.y = y
 	bullet.velocity = velocity
 	bullet.color = {1, 127/255, 80/255}
-	bullet.radius = 1
+	bullet.radius = 5
 	return bullet
 end
 
