@@ -8,7 +8,8 @@ function love.load()
 	objects.pigeons = {}
 	table.insert(objects.pigeons, Pigeon(50, 50, {x = 5, y = 4}))
 	objects.players = {}
-	table.insert(objects.players, Player("Player 1"))
+	table.insert(objects.players, Player("Player 1", 1))
+	table.insert(objects.players, Player("Player 2", 2))
 	objects.bullets = {}
 	objects.fragments = {}
 	--objects.physics = Physics()
@@ -18,7 +19,7 @@ end
 function love.update(dt)
 	for key, t in pairs(objects) do
 		for key2, obj in pairs(t) do 
-			obj:update()
+			obj:update(dt)
 		end
 	end
 end
