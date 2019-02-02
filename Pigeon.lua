@@ -4,17 +4,17 @@ function Pigeon(x, y, velocity)
 	pigeon.draw = pigeonDraw
 	pigeon.x = x
 	pigeon.y = y
-	pigeon.velocity = {}
-	pigeon.velocity.x = 0
-	pigeon.velocity.y = 0
+	pigeon.velocity = velocity
+	pigeon.color = {1, 127/255, 80/255}
 	return pigeon
 end
 
 function pigeonUpdate(pigeon)
-	pigeon.x = pigeon.x + velocity.x
-	pigeon.y = pigeon.y + velocity.y
+	pigeon.x = pigeon.x + pigeon.velocity.x
+	pigeon.y = pigeon.y + pigeon.velocity.y
 end
 
 function pigeonDraw(pigeon)
+	love.graphics.setColor(pigeon.color)
 	love.graphics.circle("fill", pigeon.x, pigeon.y, 10)
 end
