@@ -12,14 +12,17 @@ function physicsUpdate(physics, dt)
 		for key2, pigeon in pairs(objects.pigeons) do
 			--Bullet and pigeon are colliding
 			if  dist(bullet.x, bullet.y, pigeon.x, pigeon.y) < (bullet.radius + pigeon.radius) then
+				print("Collision")
 				bulletToPigeon = {}
-				bulletToPigeon.x = (pigeon.x - bullet.x)
-				bulletToPigeon.y = (pigeon.y - bullet.y)
-				--pigeon.velocity.x = pigeon.velocity.x + bulletToPigeon.x
-				--pigeon.velocity.y = pigeon.velocity.y + bulletToPigeon.y
+				bulletToPigeon.x = 10*(pigeon.x - bullet.x)
+				bulletToPigeon.y = 10*(pigeon.y - bullet.y)
+				pigeon.velocity.x = pigeon.velocity.x + bulletToPigeon.x
+				pigeon.velocity.y = pigeon.velocity.y + bulletToPigeon.y
 				for i=1,pigeon.numFragments do
-					table.insert(objects.fragments, Fragment(pigeon.x, pigeon.y, {x = pigeon.velocity.x + bulletToPigeon.x + 10*math.random(), 
-																					y = pigeon.velocity.y + bulletToPigeon.y + 10*math.random()}))
+					local fragment = Fragment(pigeon.x, pigeon.y, {})
+					fragment.velocity.x = pigeon.velocity.x
+					fragment.velocity.y = pigeon.velocity.y
+					table.insert(objects.fragments, fragment)
 				end
 				bullet.velocity.x = bullet.velocity.x - bulletToPigeon.x
 				bullet.velocity.y = bullet.velocity.y - bulletToPigeon.y
