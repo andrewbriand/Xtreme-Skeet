@@ -18,7 +18,7 @@ end
 function love.update(dt)
 	for key, t in pairs(objects) do
 		for key2, obj in pairs(t) do 
-			obj:update()
+			obj:update(dt)
 		end
 	end
 end
