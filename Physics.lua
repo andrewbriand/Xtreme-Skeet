@@ -13,11 +13,6 @@ function physicsUpdate(physics, dt)
 			--Bullet and pigeon are colliding
 			if  circleCollision(pigeon, bullet) then
 				-- Fake physics: push the pigeon and bullet away from each other's centers when they collide
-				if (bullet.owner == 1) then --update the appropriate scores
-					objects.players[1].score = objects.players[1].score + 1
-				else
-					objects.players[2].score = objects.players[2].score + 1
-				end
 				bulletToPigeon = {}
 				bulletToPigeon.x = 10*(pigeon.x - bullet.x)
 				bulletToPigeon.y = 10*(pigeon.y - bullet.y)
@@ -38,6 +33,33 @@ function physicsUpdate(physics, dt)
 				end
 				-- Remove the pigeon from the game
 				table.remove(objects.pigeons, key2)
+			end
+		end
+	end
+	-- Fragment-player collision
+	for key, player in pairs(objects.players) do
+		for key2, fragment in pairs(objects.fragments) do
+			if circleCollision(player, fragment) then
+				if (player.id == 1) then --update the appropriate scores
+					objects.players[2].score = objects.players[2].score + 1
+				else
+					objects.players[1].score = objects.players[1].score + 1
+				end
+				table.remove(objects.fragments, key2)
+			end
+		end
+	end
+	-- Bullet-player collision
+	for key, player in pairs(objects.players) do
+		for key2, bullet in pairs(objects.bullets) do
+			if circleCollision(player, bullet) then
+				if (player.id == 1 and bullet.owner == 2) then --update the appropriate scores
+					objects.players[2].score = objects.players[2].score - 1
+					table.remove(objects.bullets, key2)
+				elseif(player.id == 2 and bullet.owner == 1) then
+					objects.players[1].score = objects.players[1].score - 1
+					table.remove(objects.bullets, key2)
+				end
 			end
 		end
 	end
