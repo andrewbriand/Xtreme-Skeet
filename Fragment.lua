@@ -17,5 +17,5 @@ end
 
 function fragmentDraw(fragment)
 	love.graphics.setColor(fragment.color)
-	love.graphics.circle("fill", fragment.x, fragment.y, fragment.radius)
+	love.graphics.circle("fill", fragment.x, fragment.y, fragment.radius, 5)
 end
