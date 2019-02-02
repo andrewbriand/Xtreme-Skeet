@@ -12,6 +12,11 @@ function physicsUpdate(physics, dt)
 		for key2, pigeon in pairs(objects.pigeons) do
 			--Bullet and pigeon are colliding
 			if  circleCollision(pigeon, bullet) then
+				if (bullet.owner == 2) then --update the appropriate scores
+					objects.players[2].score = objects.players[2].score + 1
+				else
+					objects.players[1].score = objects.players[1].score + 1
+				end
 				-- Fake physics: push the pigeon and bullet away from each other's centers when they collide
 				bulletToPigeon = {}
 				bulletToPigeonMag = dist(pigeon.x, pigeon.y, bullet.x, bullet.y)
@@ -22,6 +27,7 @@ function physicsUpdate(physics, dt)
 				pigeon.velocity.y = 0*pigeon.velocity.y + 200*bulletToPigeon.y
 				bullet.velocity.x = bullet.velocity.x - bulletToPigeon.x
 				bullet.velocity.y = bullet.velocity.y - bulletToPigeon.y
+
 				-- Generate the pigeon fragments
 				for i=1,pigeon.numFragments do
 					local fragment = Fragment(pigeon.x, pigeon.y, {})
