@@ -33,8 +33,8 @@ function physicsUpdate(physics, dt)
 					local fragment = Fragment(pigeon.x, pigeon.y, {})
 					-- Randomize the initial velocity of the fragments using 
 					-- the 2d rotation matrix and a magnitude factor
-					theta = 0 --math.random()
-					randMag = 1--math.random()/2 + 1
+					theta = math.random()
+					randMag = math.random()/2 + 1
 					fragment.velocity.x = (pigeon.velocity.x * math.cos(theta) - pigeon.velocity.y * math.sin(theta)) * randMag
 					fragment.velocity.y = (pigeon.velocity.x * math.sin(theta) + pigeon.velocity.y * math.cos(theta)) * randMag
 					table.insert(objects.fragments, fragment)
