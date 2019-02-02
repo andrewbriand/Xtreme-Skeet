@@ -2,23 +2,12 @@ PigeonLauncher = {}
 
 function PigeonLauncher.update()
 	if (roundOver()) then
-		local x
+		local x = math.random() * SCREEN_WIDTH
 		local y
 		if (math.random() < .5) then
-			x = math.random() * SCREEN_WIDTH
-			if (math.random() < .5) then
-				y = 0
-			else
-				y = SCREEN_HEIGHT
-			end
+			y = 0
 		else
-			y = math.random() * SCREEN_HEIGHT
-			x = 0
-			if (math.random() < .5) then
-				x = 0
-			else
-				x = SCREEN_WIDTH
-			end
+			y = SCREEN_HEIGHT
 		end
 		-- the direction the pigeons will fly
 		local targetX = SCREEN_WIDTH / 2 
