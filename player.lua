@@ -12,7 +12,7 @@ function Player(name)
 		
 		dir = 0,
 		
-		radius = PLAYER_RADIUS
+		radius = PLAYER_RADIUS,
 		
 		speed = PLAYER_SPEED,
 		
