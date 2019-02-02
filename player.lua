@@ -1,7 +1,24 @@
 PLAYER_SPEED = 200
 PLAYER_RADIUS = 20
 
-function Player(name)
+PLAYER_CONTROLS = {{
+					up = "w",
+					down = "s",
+					left = "a",
+					right = "d",
+				  },{
+					up = "up",
+					down = "down",
+					left = "left",
+					right = "right",
+				  }}
+
+function Player(name, controls)
+	if (controls = 2) then
+		controls = 
+	else
+	
+	end
 	local player = {
 		name = name,
 		x = 100,
@@ -19,6 +36,7 @@ function Player(name)
 		draw = drawPlayer,
 		update = updatePlayer,
 	}
+	return player
 end
 
 function updatePlayer(self, dt)

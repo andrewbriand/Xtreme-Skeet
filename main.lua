@@ -7,6 +7,7 @@ function love.load()
 	objects.pigeons = {}
 	--table.insert(objects.pigeons, Pigeon(50, 50))
 	objects.players = {}
+	table.insert(objects.players, Player("Player 1"))
 	objects.bullets = {}
 	objects.fragments = {}
 	--objects.physics = Physics()
