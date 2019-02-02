@@ -41,6 +41,7 @@ function physicsUpdate(physics, dt)
 				end
 				-- Remove the pigeon from the game
 				table.remove(objects.pigeons, key2)
+				table.remove(objects.bullets, key)
 			end
 		end
 	end
