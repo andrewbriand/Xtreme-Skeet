@@ -21,7 +21,7 @@ function love.load()
 	--table.insert(objects.bullets, Bullet(100, 100, {x = -60, y = -64}))
 	objects.fragments = {}
 	--table.insert(objects.fragments, Fragment(150, 150, {x = 80, y = 64}))
-	objects.physics = {Physics()}
+	physics = Physics()
 	--objects.pigeonLauncher = PigeonLauncher()=
 	scoreFont = love.graphics.newFont(30)
 	background = love.graphics.newImage("grass.jpg")
@@ -36,6 +36,7 @@ function love.keypressed(k)
 end
 
 function love.update(dt)
+	physics:update(dt)
 	for key, t in pairs(objects) do
 		for key2, obj in pairs(t) do 
 			obj:update(dt)
