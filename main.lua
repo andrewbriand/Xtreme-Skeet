@@ -1,4 +1,6 @@
-require 'player'
+require 'Player'
+require 'Pigeon'
+
 
 function love.load()
 	objects = {}
