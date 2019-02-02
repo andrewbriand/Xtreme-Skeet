@@ -19,6 +19,12 @@ function love.load()
 	--objects.pigeonLauncher = PigeonLauncher()
 end
 
+function love.keypressed(k)
+	if k == 'escape' then
+		love.event.quit()
+	end
+end
+
 function love.update(dt)
 	for key, t in pairs(objects) do
 		for key2, obj in pairs(t) do 
