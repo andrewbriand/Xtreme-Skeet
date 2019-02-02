@@ -1,4 +1,4 @@
-PLAYER_SPEED = 1000
+PLAYER_SPEED = 0--1000
 PLAYER_ROTATION_SPEED = 5
 PLAYER_RADIUS = 10
 PLAYER_FRICTION = .9
@@ -15,7 +15,7 @@ PLAYER_CONTROLS = {{
 					right = "d",
 					clockwise = "e",
 					counterClockwise = "q",
-					shoot = "shift",
+					shoot = "lshift",
 				  },{
 					up = "i",
 					down = "k",
@@ -23,16 +23,18 @@ PLAYER_CONTROLS = {{
 					right = "l",
 					clockwise = "u",
 					counterClockwise = "o",
-					shoot = ";"
+					shoot = ";",
 				  }}
 
 function Player(name, controlSet)
 	if (controlSet == 2) then
 		controls = PLAYER_CONTROLS[2]
 		color = {1,0,0}
+		x = SCREEN_WIDTH/4 * 3
 	else
 		controls = PLAYER_CONTROLS[1]
 		color = {.25,.25,1}
+		x = SCREEN_WIDTH/4
 	end
 	
 	local player = {
@@ -44,10 +46,12 @@ function Player(name, controlSet)
 		color = color,
 		ammo = 0,
 		
-		x = math.random()*200,
-		y = 150,
-		dx = 100,
-		dy = 150,
+		hasShoot = false,
+		
+		x = x,
+		y = SCREEN_HEIGHT/2,
+		dx = 0,
+		dy = 0,
 		dir = 0,
 		
 		draw = drawPlayer,
@@ -80,6 +84,15 @@ function updatePlayer(self, dt)
 	end
 	if (love.keyboard.isDown(self.controls.counterClockwise)) then
 		self.dir = self.dir - self.rotationSpeed * dt
+	end
+	
+	-- shooting
+	if (love.keyboard.isDown(self.controls.shoot) and not self.hasShot) then
+		self.hasShot = true
+		table.insert(objects.bullets, Bullet(self.x, self.y, {x = math.cos(self.dir) * BULLET_SPEED, y = math.sin(self.dir) * BULLET_SPEED}, {self.color[1]/2, self.color[2]/2, self.color[3]/2}))
+	end
+	if ((not love.keyboard.isDown(self.controls.shoot)) and self.hasShot) then
+		self.hasShot = false
 	end
 	
 	self.dx = self.dx * PLAYER_FRICTION

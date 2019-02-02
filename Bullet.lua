@@ -1,11 +1,14 @@
-function Bullet(x, y, velocity)
+BULLET_SPEED = 100
+
+function Bullet(x, y, velocity, color)
+	color = color or {0, 0, 255}
 	local bullet = {}
 	bullet.update = bulletUpdate
 	bullet.draw = bulletDraw
 	bullet.x = x
 	bullet.y = y
 	bullet.velocity = velocity
-	bullet.color = {0, 0, 255}
+	bullet.color = color
 	bullet.radius = 5
 	return bullet
 end
