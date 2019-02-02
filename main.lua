@@ -2,10 +2,11 @@ require 'Player'
 require 'Pigeon'
 
 
+
 function love.load()
 	objects = {}
 	objects.pigeons = {}
-	--table.insert(objects.pigeons, Pigeon(50, 50))
+	table.insert(objects.pigeons, Pigeon(50, 50, {x = 5, y = 4}))
 	objects.players = {}
 	table.insert(objects.players, Player("Player 1"))
 	objects.bullets = {}
