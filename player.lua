@@ -8,7 +8,7 @@ math.random()
 math.random()
 math.random()
 
-PLAYER_CONTROLS = {{
+--[[PLAYER_CONTROLS = {{ -- for use with moving players
 					up = "w",
 					down = "s",
 					left = "a",
@@ -24,16 +24,34 @@ PLAYER_CONTROLS = {{
 					clockwise = "u",
 					counterClockwise = "o",
 					shoot = ";",
+				  }}]]
+				  
+PLAYER_CONTROLS = {{ -- for use with still players
+					up = "`",
+					down = "`",
+					left = "`",
+					right = "`",
+					clockwise = "d",
+					counterClockwise = "a",
+					shoot = "w",
+				  },{
+					up = "`",
+					down = "`",
+					left = "`",
+					right = "`",
+					clockwise = "right",
+					counterClockwise = "left",
+					shoot = "up",
 				  }}
 
 function Player(name, controlSet)
 	if (controlSet == 2) then
 		controls = PLAYER_CONTROLS[2]
-		color = {1,0,0}
+		color = {1,.3,.3}
 		x = SCREEN_WIDTH/4 * 3
 	else
 		controls = PLAYER_CONTROLS[1]
-		color = {.25,.25,1}
+		color = {.3,.3,1}
 		x = SCREEN_WIDTH/4
 	end
 	
