@@ -15,7 +15,7 @@ function love.load()
 	table.insert(objects.bullets, Bullet(100, 100, {x = -20, y = -16}))
 	objects.fragments = {}
 	table.insert(objects.fragments, Fragment(150, 150, {x = 20, y = 16}))
-	objects.physics = Physics()
+	objects.physics = {Physics()}
 	--objects.pigeonLauncher = PigeonLauncher()
 end
 
