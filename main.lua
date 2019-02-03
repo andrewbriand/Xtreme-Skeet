@@ -54,8 +54,8 @@ function love.draw()
 	do
 		-- boarders of both scores
 		love.graphics.setFont(scoreFont)
-		love.graphics.setColor(0,0,0)
 		for i = 1, 8 do
+			love.graphics.setColor(0,0,0)
 			xDiff =  math.floor(2*1.1547 * math.sin(8.37758 * math.ceil(i/3)) + .5) -- don't mind the magic equations
 			yDiff =  math.floor(2*1.1547 * math.sin(8.37758 * (i%3)) + .5)
 			love.graphics.print(objects.players[1].name .. "'s score: " .. objects.players[1].score,xDiff,yDiff)
@@ -65,7 +65,7 @@ function love.draw()
 			-- draw round
 			roundString = "Round: " .. objects.pigeonLauncher[1].round
 			text = love.graphics.newText(scoreFont, roundString)
-			love.graphics.print(roundString,SCREEN_WIDTH/2-text:getWidth()/2,yDiff)
+			love.graphics.print(roundString,SCREEN_WIDTH/2-text:getWidth()/2 + xDiff,yDiff)
 		end
 		
 		brightness = .2 -- 0 is white, 1 is the original color
@@ -77,10 +77,13 @@ function love.draw()
 		text = love.graphics.newText(scoreFont, objects.players[2].name .. "'s score: 99")
 		
 		-- players 2 score
-		love.graphics.setColor(1,.8,.8)
+		love.graphics.setColor({objects.players[2].color[1]*brightness + (1 - brightness),
+								objects.players[2].color[2]*brightness + (1 - brightness),
+								objects.players[2].color[3]*brightness + (1 - brightness)})
 		love.graphics.print(objects.players[2].name .. "'s score: " .. objects.players[2].score,SCREEN_WIDTH-text:getWidth(),0)
 		
 		-- round number
+		love.graphics.setColor(1,1,1)
 		roundString = "Round: " .. objects.pigeonLauncher[1].round
 		text = love.graphics.newText(scoreFont, roundString)
 		love.graphics.print(roundString,SCREEN_WIDTH/2-text:getWidth()/2)
