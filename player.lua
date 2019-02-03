@@ -88,6 +88,14 @@ function Player(name, controlSet)
 		update = updatePlayer,
 		velocity = {x = 0, y = 0}
 	}
+	player.psystem = love.graphics.newParticleSystem(love.graphics.newImage("smoke.png"))
+	player.psystem:setParticleLifetime(0.5,2) 
+	player.psystem:setEmissionRate(0)
+	player.psystem:setSizes(0.4) 
+	player.psystem:setColors(255, 255, 255, 255, 255, 255, 255, 0)
+	player.psystem:setLinearAcceleration(-10, -10, 10, 10)
+	--player.psystem:setSpeed(5, 5)
+	--player.psystem:setEmissionArea("ellipse", 0, 0, 2*math.pi, true )
 	return player
 end
 
@@ -132,6 +140,7 @@ function updatePlayer(self, dt)
 		if(self.ammo > 0) then
 			shootPlayer(self)
 			self.ammo = self.ammo - 1
+			self.psystem:emit(20)
 		else
 			love.audio.newSource(clickSound, "static"):play()
 		end
@@ -140,6 +149,7 @@ function updatePlayer(self, dt)
 	if ((not love.keyboard.isDown(self.controls.shoot)) and self.hasShot) then
 		self.hasShot = false
 	end
+	self.psystem:update(dt)
 end
 
 -- shoots a cluster of bullets
@@ -193,4 +203,6 @@ function drawPlayer(self)
 	-- main player drawing
 	love.graphics.setColor(self.color)
 	love.graphics.circle("fill", self.x, self.y, self.radius)
+	love.graphics.setColor(1,1, 1)
+	love.graphics.draw(self.psystem, self.x + self.radius*math.cos(self.dir), self.y + self.radius*math.sin(self.dir)) 
 end
