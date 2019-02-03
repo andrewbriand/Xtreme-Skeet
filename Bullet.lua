@@ -1,4 +1,4 @@
-BULLET_SPEED = 100000
+BULLET_SPEED = 100
 
 function Bullet(x, y, velocity, color, owner)
 	color = color or {0, 0, 255}
