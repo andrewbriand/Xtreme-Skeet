@@ -97,5 +97,5 @@ function love.graphics.printWithBoarder(text, x, y, size, mainColor, boarderColo
 	end
 	
 	love.graphics.setColor(mainColor)
-	love.graphics.print(text, x, y)
+	love.graphics.print(text, x, y) -- draw the regular text
 end

@@ -7,6 +7,8 @@ require 'PigeonLauncher'
 require 'PowerUp'
 
 function love.load()
+	load()
+	
 	drawTimer = 0
 	SCREEN_WIDTH = love.graphics.getWidth() -- screen width
 	SCREEN_HEIGHT = love.graphics.getHeight() -- screen height
@@ -33,20 +35,6 @@ function love.load()
 	scoreFont = love.graphics.newFont(30)
 	menuFont = fonts[50]
 	
-	-- images
-	background  = love.graphics.newImage("grass.jpg")
-	titleScreen = love.graphics.newImage("title screen.png")
-	
-	-- sounds
-	shotgunSound       = love.sound.newSoundData("shotgun.mp3")
-	pigeonLauncerSound = love.sound.newSoundData("pigeon launcher.mp3")
-	clickSound         = love.sound.newSoundData("Gun_Click.mp3")
-	pigeonBreakSound   = love.sound.newSoundData("pigeon break.mp3")
-	menuSound          = love.sound.newSoundData("menu select.mp3")
-	
-	-- music
-	menuMusic          = love.sound.newSoundData("menu music.mp3")
-	gameMusic          = love.sound.newSoundData("game music.mp3")
 	currentMusic = love.audio.newSource(menuMusic, "static")
 	currentMusic:setLooping(true)
 	currentMusic:play()
@@ -250,4 +238,25 @@ function drawButtons()
 								titleScreen:getHeight()*scale*yPos+y + text:getHeight() * selectedMenu * scale,
 								text:getWidth()+1,
 								text:getHeight()+1)
+end
+
+function load()
+	-- images
+	background  = love.graphics.newImage("images/grass.jpg")
+	titleScreen = love.graphics.newImage("images/title screen.png")
+	smokeImage = love.graphics.newImage("images/smoke.png")
+	fireImage = love.graphics.newImage("images/Fire.png")
+	
+	-- sounds
+	grunt1             = love.sound.newSoundData("sounds/grunt 1.mp3")
+	grunt2             = love.sound.newSoundData("sounds/grunt 2.mp3")
+	shotgunSound       = love.sound.newSoundData("sounds/shotgun.mp3")
+	pigeonLauncerSound = love.sound.newSoundData("sounds/pigeon launcher.mp3")
+	clickSound         = love.sound.newSoundData("sounds/Gun_Click.mp3")
+	pigeonBreakSound   = love.sound.newSoundData("sounds/pigeon break.mp3")
+	menuSound          = love.sound.newSoundData("sounds/menu select.mp3")
+	
+	-- music
+	menuMusic          = love.sound.newSoundData("sounds/menu music.mp3")
+	gameMusic          = love.sound.newSoundData("sounds/game music.mp3")
 end

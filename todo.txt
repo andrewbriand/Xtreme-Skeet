@@ -1,8 +1,7 @@
 delays between rounds?
-power up
+more power ups
 menu
-distinguish between bullet-player sound and fragment-bullet sound
+distinguish between bullet-player sound and fragment-bullet sound?
 aim help
 pigeon texture
-allow bullet trail to leave screen
 AI???

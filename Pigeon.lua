@@ -11,7 +11,7 @@ function Pigeon(x, y, velocity)
 	pigeon.color = {1, 127/255, 80/255}
 	pigeon.radius = 10
 	pigeon.numFragments = 10
-	pigeon.psystem = love.graphics.newParticleSystem(love.graphics.newImage("Fire.png"))
+	pigeon.psystem = love.graphics.newParticleSystem(fireImage)
 	pigeon.psystem:setParticleLifetime(2, 5) -- Particles live at least 2s and at most 5s.
 	pigeon.psystem:setEmissionRate(10)
 	pigeon.psystem:setSizeVariation(0)

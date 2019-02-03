@@ -11,7 +11,7 @@ function PowerUp(x, y, velocity, pType)
 	powerUp.velocity = velocity
 	powerUp.color = {0, 0, 1}
 	powerUp.radius = 10
-	powerUp.psystem = love.graphics.newParticleSystem(love.graphics.newImage("Fire.png"))
+	powerUp.psystem = love.graphics.newParticleSystem(fireImage)
 	powerUp.psystem:setParticleLifetime(2, 5) -- Particles live at least 2s and at most 5s.
 	powerUp.psystem:setEmissionRate(10)
 	powerUp.psystem:setSizeVariation(0)

@@ -59,14 +59,14 @@ function Player(name, controlSet)
 		color = {1,0,0}
 		x = SCREEN_WIDTH/4 * 3
 		id = 2
-		gruntSound = love.sound.newSoundData("grunt 2.mp3")
+		gruntSound = grunt2
 		dir = math.pi+.08
 	else -- player one otherwise
 		controls = PLAYER_CONTROLS[1]
 		color = {0,0,1}
 		x = SCREEN_WIDTH/4
 		id = 1
-		gruntSound = love.sound.newSoundData("grunt 1.mp3")
+		gruntSound = grunt1
 		dir = .08
 	end
 	
@@ -99,7 +99,7 @@ function Player(name, controlSet)
 		powerUpShots = 3,
 		aimBot = false
 	}
-	player.psystem = love.graphics.newParticleSystem(love.graphics.newImage("smoke.png"))
+	player.psystem = love.graphics.newParticleSystem(smokeImage)
 	player.psystem:setParticleLifetime(1,1) 
 	player.psystem:setEmissionRate(0)
 	player.psystem:setSizes(0.4) 
