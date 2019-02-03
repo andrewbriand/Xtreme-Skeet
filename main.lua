@@ -163,8 +163,8 @@ function drawScoreBoard()
 		love.graphics.setFont(scoreFont)
 		for i = 1, 8 do
 			love.graphics.setColor(0,0,0)
-			xDiff =  math.floor(2*1.1547 * math.sin(8.37758 * math.ceil(i/3)) + .5) -- don't mind the magic equations
-			yDiff =  math.floor(2*1.1547 * math.sin(8.37758 * (i%3)) + .5)
+			xDiff =  math.floor(2 * math.sqrt(4/3) * math.sin(8 * math.pi / 3 * math.ceil(i/3)) + .5) -- don't mind the magic equations
+			yDiff =  math.floor(2 * math.sqrt(4/3) * math.sin(8 * math.pi / 3 * (i%3)         ) + .5)
 			love.graphics.print(objects.players[1].name .. "'s score: " .. objects.players[1].score,xDiff,yDiff)
 			text = love.graphics.newText(scoreFont, objects.players[2].name .. "'s score: 99")
 			love.graphics.print(objects.players[2].name .. "'s score: " .. objects.players[2].score,SCREEN_WIDTH-text:getWidth() + xDiff,yDiff)
