@@ -8,6 +8,7 @@ require 'PigeonLauncher'
 function love.load()
 	SCREEN_WIDTH = love.graphics.getWidth() --Screen width
 	SCREEN_HEIGHT = love.graphics.getHeight() --Screen height
+	love.graphics.setBackgroundColor(89/255,100/255,105/255)
 	
 	objects = {}
 	objects.pigeons   = {}
@@ -24,7 +25,8 @@ function love.load()
 	scoreFont = love.graphics.newFont(30)
 	
 	-- images
-	background = love.graphics.newImage("grass.jpg")
+	background  = love.graphics.newImage("grass.jpg")
+	titleScreen = love.graphics.newImage("title screen.png")
 	
 	-- sounds
 	shotgunSound       = love.sound.newSoundData("shotgun.mp3")
@@ -43,6 +45,15 @@ function love.keypressed(k)
 	elseif gameState == "menu" then
 		gameState = "game"
 	end
+end
+
+function love.resize(w, h)
+	SCREEN_WIDTH = love.graphics.getWidth() --Screen width
+	SCREEN_HEIGHT = love.graphics.getHeight() --Screen height
+	objects.players[1].x = SCREEN_WIDTH  / 4
+	objects.players[1].y = SCREEN_HEIGHT / 2
+	objects.players[2].x = SCREEN_WIDTH  / 4 * 3
+	objects.players[2].y = SCREEN_HEIGHT / 2
 end
 
 function love.update(dt)
@@ -73,6 +84,8 @@ function love.draw()
 			end
 		end
 	elseif gameState == "menu" then
+		scale = math.min(SCREEN_WIDTH/titleScreen:getWidth(),SCREEN_HEIGHT/titleScreen:getHeight())
+		love.graphics.draw(titleScreen,(SCREEN_WIDTH-titleScreen:getWidth()*scale)/2,(SCREEN_HEIGHT-titleScreen:getHeight()*scale)/2,0,scale)
 		love.graphics.print("press any key to play")
 	end
 end
