@@ -28,6 +28,7 @@ function love.load()
 	shotgunSound = love.sound.newSoundData("shotgun.mp3")
 	pigeonLauncerSound = love.sound.newSoundData("pigeon launcher.mp3")
 	clickSound = love.sound.newSoundData("Gun_Click.mp3")
+	pigeonBreakSound = love.sound.newSoundData("pigeon break.mp3")
 end
 
 function love.keypressed(k)
