@@ -1,7 +1,8 @@
 require 'Utils'
 POWER_UP_COLOR = {0, 0, 1}
+POWER_UP_TYPES = {"SPIRAL", "SEEK"}
 
-function PowerUp(x, y, velocity)
+function PowerUp(x, y, velocity, pType)
 	local powerUp = {}
 	powerUp.update = powerUpUpdate
 	powerUp.draw = powerUpDraw
@@ -23,7 +24,7 @@ function PowerUp(x, y, velocity)
 	powerUp.psystem:setDirection(math.pi + math.atan2(powerUp.velocity.y, powerUp.velocity.x), math.atan2(powerUp.velocity.y, powerUp.velocity.x))
 	powerUp.psystem:setRelativeRotation(true)
 	powerUp.destroyed = false
-	powerUp.type = "SPIRAL"
+	powerUp.type = pType or "SEEK"
 	return powerUp
 end
 
