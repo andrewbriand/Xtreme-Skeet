@@ -60,6 +60,11 @@ function love.draw()
 			love.graphics.print(objects.players[1].name .. "'s score: " .. objects.players[1].score,xDiff,yDiff)
 			text = love.graphics.newText(scoreFont, objects.players[2].name .. "'s score: 99")
 			love.graphics.print(objects.players[2].name .. "'s score: " .. objects.players[2].score,SCREEN_WIDTH-text:getWidth() + xDiff,yDiff)
+			
+			-- draw round
+			roundString = "Round: " .. objects.pigeonLauncher[1].round
+			text = love.graphics.newText(scoreFont, roundString)
+			love.graphics.print(roundString,SCREEN_WIDTH/2-text:getWidth()/2,yDiff)
 		end
 		
 		brightness = .2 -- 0 is white, 1 is the original color
@@ -70,9 +75,14 @@ function love.draw()
 		love.graphics.print(objects.players[1].name .. "'s score: " .. objects.players[1].score,0,0)
 		text = love.graphics.newText(scoreFont, objects.players[2].name .. "'s score: 99")
 		
-		--players 2 score
+		-- players 2 score
 		love.graphics.setColor(1,.8,.8)
 		love.graphics.print(objects.players[2].name .. "'s score: " .. objects.players[2].score,SCREEN_WIDTH-text:getWidth(),0)
+		
+		-- round number
+		roundString = "Round: " .. objects.pigeonLauncher[1].round
+		text = love.graphics.newText(scoreFont, roundString)
+		love.graphics.print(roundString,SCREEN_WIDTH/2-text:getWidth()/2)
 	end
 
 	-- draw objects
