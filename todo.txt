@@ -1,4 +1,3 @@
 change the color of the pigeon fragments
 delays between rounds?
-shattering sound of pigeon
-hurt sound of opponent getting shot
+power up
