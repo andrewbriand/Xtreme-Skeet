@@ -92,7 +92,9 @@ function Player(name, controlSet)
 		
 		draw = drawPlayer,
 		update = updatePlayer,
-		velocity = {x = 0, y = 0}
+		velocity = {x = 0, y = 0},
+		seek = false,
+		spiral = false
 	}
 	player.psystem = love.graphics.newParticleSystem(love.graphics.newImage("smoke.png"))
 	player.psystem:setParticleLifetime(1,1) 
@@ -162,7 +164,7 @@ end
 function shootPlayer(self)
 	for i = 1, NUM_BULLETS do
 		spread = (math.random() - .5) / BULLET_SPREAD
-		table.insert(objects.bullets, Bullet(self.x, self.y, {x = math.cos(self.dir + spread) * BULLET_SPEED, y = math.sin(self.dir + spread) * BULLET_SPEED}, {self.color[1]/2, self.color[2]/2, self.color[3]/2}, self.id))
+		table.insert(objects.bullets, Bullet(self.x, self.y, {x = math.cos(self.dir + spread) * BULLET_SPEED, y = math.sin(self.dir + spread) * BULLET_SPEED}, {self.color[1]/2, self.color[2]/2, self.color[3]/2}, self.id, self.seek or self.spiral, self.spiral))
 	end
 	love.audio.newSource(shotgunSound, "static"):play()
 end

@@ -8,7 +8,7 @@ function PowerUp(x, y, velocity)
 	powerUp.x = x
 	powerUp.y = y
 	powerUp.velocity = velocity
-	powerUp.color = {1, 127/255, 80/255}
+	powerUp.color = {0, 0, 1}
 	powerUp.radius = 10
 	powerUp.psystem = love.graphics.newParticleSystem(love.graphics.newImage("Fire.png"))
 	powerUp.psystem:setParticleLifetime(2, 5) -- Particles live at least 2s and at most 5s.
@@ -23,6 +23,7 @@ function PowerUp(x, y, velocity)
 	powerUp.psystem:setDirection(math.pi + math.atan2(powerUp.velocity.y, powerUp.velocity.x), math.atan2(powerUp.velocity.y, powerUp.velocity.x))
 	powerUp.psystem:setRelativeRotation(true)
 	powerUp.destroyed = false
+	powerUp.type = "spiral"
 	return powerUp
 end
 
