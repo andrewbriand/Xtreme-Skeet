@@ -1,6 +1,6 @@
 require 'Utils'
 POWER_UP_COLOR = {0, 0, 1}
-POWER_UP_TYPES = {"SPIRAL", "SEEK"}
+POWER_UP_TYPES = {"SPIRAL", "SEEK", "AIMBOT"}
 
 function PowerUp(x, y, velocity, pType)
 	local powerUp = {}

@@ -3,8 +3,13 @@ function dist(x1, y1, x2, y2)
 	return math.sqrt(math.pow(x1-x2, 2) + math.pow(y1-y2,2))
 end
 
+--Returns: euclidean distance between v1 and v2 (as points)
+function vDist(v1, v2)
+	return dist(v1.x, v1.y, v2.x, v2.y)
+end
+
 -- Returns: boolean
--- Determines if two circular objects are colliding
+-- Determnes if two circular objects are colliding
 -- Pre: both objects must have properties x,y and radius 
 function circleCollision(object1, object2)
 	return dist(object1.x, object1.y, object2.x, object2.y) < (object1.radius + object2.radius)
