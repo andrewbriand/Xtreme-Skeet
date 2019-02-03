@@ -1,0 +1,1 @@
+clicking sound when attempting to fire a gun with no ammo
