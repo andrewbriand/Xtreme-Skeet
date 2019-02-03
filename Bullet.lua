@@ -11,9 +11,9 @@ function Bullet(x, y, velocity, color, owner, seeking)
 	bullet.color = color
 	bullet.radius = 5
 	bullet.owner = owner
-	bullet.seeking = seeking or true
+	bullet.seeking = seeking or false
 	
-	bullet.spiral = true
+	bullet.spiral = false
 	bullet.thrust = 1000
 	bullet.thrustDecay = 10
 	if(bullet.seeking) then
