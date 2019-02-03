@@ -7,8 +7,8 @@ require 'PigeonLauncher'
 require 'PowerUp'
 
 function love.load()
-	SCREEN_WIDTH = love.graphics.getWidth() --Screen width
-	SCREEN_HEIGHT = love.graphics.getHeight() --Screen height
+	SCREEN_WIDTH = love.graphics.getWidth() -- screen width
+	SCREEN_HEIGHT = love.graphics.getHeight() -- screen height
 	love.graphics.setBackgroundColor(89/255,100/255,105/255)
 	
 	objects = {}
@@ -25,6 +25,7 @@ function love.load()
 	physics = Physics()
 	
 	-- fonts
+	controlsFont = love.graphics.newFont(21)
 	scoreFont = love.graphics.newFont(30)
 	menuFont = love.graphics.newFont(50)
 	
@@ -37,22 +38,32 @@ function love.load()
 	pigeonLauncerSound = love.sound.newSoundData("pigeon launcher.mp3")
 	clickSound         = love.sound.newSoundData("Gun_Click.mp3")
 	pigeonBreakSound   = love.sound.newSoundData("pigeon break.mp3")
+	meunSound          = love.sound.newSoundData("menu select.mp3")
 	
-	gameState = "game" -- "menu", "game"
+	gameState = "menu" -- "menu", "game", "controls"
 	selectedMenu = 0
+	beginText = "Begin"
 end
 
 function love.keypressed(k)
-	if k == 'escape' then
-		love.event.quit()
-	end
 	if gameState == "game" then
+		if k == 'escape' then
+			gameState = "menu"
+			beginText = "Resume"
+				love.audio.newSource(meunSound, "static"):play()
+		end
 	elseif gameState == "menu" then
 		if k == 'up' or k == objects.players[1].controls.selectUp or k == objects.players[2].controls.selectUp then
-			selectedMenu = selectedMenu - 1
+			if selectedMenu > 0 then
+				selectedMenu = selectedMenu - 1
+				love.audio.newSource(meunSound, "static"):play()
+			end
 		end
 		if k == 'down' or k == objects.players[1].controls.selectDown or k == objects.players[2].controls.selectDown then
-			selectedMenu = selectedMenu + 1
+			if selectedMenu < 2 then
+				selectedMenu = selectedMenu + 1
+				love.audio.newSource(meunSound, "static"):play()
+			end
 		end
 		if k == 'return' then
 			if selectedMenu == 0 then
@@ -62,21 +73,29 @@ function love.keypressed(k)
 			elseif selectedMenu == 2 then
 				love.event.quit()
 			end
+			love.audio.newSource(meunSound, "static"):play()
+		end
+		if k == 'escape' then
+			love.event.quit()
 		end
 	elseif gameState == "controls" then
 		gameState = "menu"
+		love.audio.newSource(meunSound, "static"):play()
 	end
 end
 
 function love.resize(w, h)
-	SCREEN_WIDTH = love.graphics.getWidth() --Screen width
-	SCREEN_HEIGHT = love.graphics.getHeight() --Screen height
+	SCREEN_WIDTH = love.graphics.getWidth() -- screen width
+	SCREEN_HEIGHT = love.graphics.getHeight() -- screen height
 	
+	-- player positions
 	objects.players[1].x = SCREEN_WIDTH  / 4
 	objects.players[1].y = SCREEN_HEIGHT / 2
 	objects.players[2].x = SCREEN_WIDTH  / 4 * 3
 	objects.players[2].y = SCREEN_HEIGHT / 2
 	
+	-- fonts
+	controlsFont = love.graphics.newFont(math.min(SCREEN_WIDTH/800,SCREEN_HEIGHT/600)*21)
 	scoreFont = love.graphics.newFont(math.min(SCREEN_WIDTH/800,SCREEN_HEIGHT/600)*30)
 	menuFont = love.graphics.newFont(math.min(SCREEN_WIDTH/800,SCREEN_HEIGHT/600)*50)
 end
@@ -115,10 +134,25 @@ function love.draw()
 		love.graphics.draw(titleScreen, x, y, 0, scale)
 		drawButtons()
 	elseif gameState == "controls" then
-		love.graphics.setFont(scoreFont)
-		love.graphics.print("Player 1 controls:")
-		love.graphics.print("Press any key to return to the menu")
-		love.graphics.print("Press any key to return to the menu")
+		love.graphics.setFont(controlsFont)
+		text = love.graphics.newText(controlsFont, "1")
+		
+		love.graphics.print("Player 1 controls:",0,text:getHeight() * 0)
+		love.graphics.print("	Aim: " .. objects.players[1].controls.counterClockwise .. " " .. objects.players[1].controls.clockwise,0,text:getHeight() * 1)
+		love.graphics.print("	Shoot: " .. objects.players[1].controls.shoot,0,text:getHeight() * 2)
+		love.graphics.print("	Slow turn: " .. objects.players[1].controls.slow,0,text:getHeight() * 3)
+		
+		love.graphics.print("Player 2 controls:",0,text:getHeight() * 5)
+		love.graphics.print("	Aim: " .. objects.players[2].controls.counterClockwise .. " " .. objects.players[2].controls.clockwise,0,text:getHeight() * 6)
+		love.graphics.print("	Shoot: " .. objects.players[2].controls.shoot,0,text:getHeight() * 7)
+		love.graphics.print("	Slow turn: " .. objects.players[2].controls.slow,0,text:getHeight() * 8)
+		
+		love.graphics.print("Try to shoot the clay pigeons",0,text:getHeight() * 10)
+		love.graphics.print("Every pigeon you shoot is worth one point",0,text:getHeight() * 11)
+		love.graphics.print("If you shoot your oponent directly, you loose one point",0,text:getHeight() * 12)
+		love.graphics.print("If the fragments from a shot pigeon hit your opponent, you gain one point",0,text:getHeight() * 13)
+		
+		love.graphics.print("Press any key to return to the menu",0,text:getHeight() * 16)
 	end
 end
 
@@ -173,7 +207,7 @@ function drawButtons()
 	
 	local xPos = .55
 	local yPos = .6
-	love.graphics.print("Begin",   titleScreen:getWidth()*scale*xPos+x,titleScreen:getHeight()*scale*yPos+y + text:getHeight() * 0 * scale)
+	love.graphics.print(beginText,   titleScreen:getWidth()*scale*xPos+x,titleScreen:getHeight()*scale*yPos+y + text:getHeight() * 0 * scale)
 	love.graphics.print("Controls",titleScreen:getWidth()*scale*xPos+x,titleScreen:getHeight()*scale*yPos+y + text:getHeight() * 1 * scale)
 	love.graphics.print("Exit",    titleScreen:getWidth()*scale*xPos+x,titleScreen:getHeight()*scale*yPos+y + text:getHeight() * 2 * scale)
 	
