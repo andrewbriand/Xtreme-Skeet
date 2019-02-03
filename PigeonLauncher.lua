@@ -87,9 +87,9 @@ function shootCascade(numPigeons, delay)
 	if(launcherReady(numPigeons)) then
 		for i = 1, numPigeons do
 			y = ((i+ySide)%2) * SCREEN_HEIGHT
-			x = math.random() * SCREEN_WIDTH
+			x = (((-SCREEN_WIDTH) / numPigeons) * (i + 0)) + SCREEN_WIDTH
 			
-			local targetX = SCREEN_WIDTH / 2  + ((math.random() - .5) * 2 * SCREEN_WIDTH/4)
+			local targetX = ((((SCREEN_WIDTH / 4) - (SCREEN_WIDTH / 4 * 3)) / numPigeons) * (i + 0)) + (SCREEN_WIDTH / 4 * 3)
 			local targetY = SCREEN_HEIGHT / 2
 			
 			shootPigeon(x, y, targetX, targetY)
