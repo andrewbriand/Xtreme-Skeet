@@ -34,6 +34,7 @@ function pigeonUpdate(pigeon, dt)
 end
 
 function pigeonDraw(pigeon)
+	love.graphics.setColor(FRAGMENT_COLOR)
 	love.graphics.draw(pigeon.psystem, pigeon.x, pigeon.y)
 	love.graphics.setColor(pigeon.color)
 	love.graphics.circle("fill", pigeon.x, pigeon.y, pigeon.radius)
