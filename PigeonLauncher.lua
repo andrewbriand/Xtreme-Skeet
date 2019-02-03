@@ -42,7 +42,7 @@ function PigeonLauncher.draw()
 	-- intentionally empty, only here so it can be called by physics
 end
 
--- return true if the round is
+-- return true if the round is over, ie. all bullets, pigeons, and fragments are off the screen
 function roundOver()
 	local returnVar = false
 	for k, v in pairs(objects.pigeons) do
@@ -63,6 +63,9 @@ function roundOver()
 	return true
 end
 
+-- all shooting patterns
+-- each pattern has a .shoot(numPigeons, delay)
+--              and a .ammo(numPigeons)
 PigeonLauncher.pigeon = {}
 PigeonLauncher.pigeons = {}
 PigeonLauncher.cascade = {}
@@ -74,6 +77,7 @@ function PigeonLauncher.pigeon.shoot(x, y, targetX, targetY, speedMod)
 	table.insert(objects.pigeons, Pigeon(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED * speedMod}))
 end
 
+-- single pigeon allows 1 ammo
 function PigeonLauncher.pigeon.ammo(numPigeons)
 	return 1
 end
@@ -102,6 +106,7 @@ function PigeonLauncher.pigeons.shoot(numPigeons, delay)
 	return(PigeonLauncher.returnLauncher(numPigeons))
 end
 
+-- pigeons allows half as many ammo as pigeons, rounded up
 function PigeonLauncher.pigeons.ammo(numPigeons)
 	return math.ceil(numPigeons/2+.01) -- the +.01 is so that 2/2 ceils to 2, not 1
 end
@@ -125,16 +130,19 @@ function PigeonLauncher.cascade.shoot(numPigeons, delay)
 	return(PigeonLauncher.returnLauncher(numPigeons))
 end
 
+-- cascade allows 1 ammo
 function PigeonLauncher.cascade.ammo(numPigeons)
 	return 1
 end
 
+-- plays launcher sound, increments the number of pigeons shot, and resets the launch delay timer
 function PigeonLauncher.resetLauncer()
 		love.audio.newSource(pigeonLauncerSound, "static"):play()
 		PigeonLauncher.pigeonsShot = PigeonLauncher.pigeonsShot + 1
 		PigeonLauncher.timer = 0
 end
 
+-- returns true if all possible pigeons have be launched this round
 function PigeonLauncher.returnLauncher(numPigeons)
 	if(PigeonLauncher.pigeonsShot >= numPigeons) then
 		return true
@@ -143,6 +151,7 @@ function PigeonLauncher.returnLauncher(numPigeons)
 	end
 end
 
+-- returns true if the launcher is ready to fire
 function PigeonLauncher.launcherReady(numPigeons, delay)
 	delay = delay or 0
 	return ((PigeonLauncher.pigeonsShot < numPigeons and PigeonLauncher.timer >= delay) or (PigeonLauncher.pigeonsShot == 0))
