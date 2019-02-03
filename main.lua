@@ -39,7 +39,16 @@ function love.load()
 	pigeonLauncerSound = love.sound.newSoundData("pigeon launcher.mp3")
 	clickSound         = love.sound.newSoundData("Gun_Click.mp3")
 	pigeonBreakSound   = love.sound.newSoundData("pigeon break.mp3")
-	meunSound          = love.sound.newSoundData("menu select.mp3")
+	menuSound          = love.sound.newSoundData("menu select.mp3")
+	
+	-- music
+	menuMusic          = love.sound.newSoundData("menu music.mp3")
+	gameMusic          = love.sound.newSoundData("game music.mp3")
+	currentMusic = love.audio.newSource(menuMusic, "static")
+	currentMusic:setLooping(true)
+	currentMusic:play()
+	MUSIC_VOLUME = .3
+	currentMusic:setVolume(MUSIC_VOLUME)
 	
 	gameState = "menu" -- "menu", "game", "controls"
 	selectedMenu = 0
@@ -51,37 +60,46 @@ function love.keypressed(k)
 		if k == 'escape' then
 			gameState = "menu"
 			beginText = "Resume"
-				love.audio.newSource(meunSound, "static"):play()
+			currentMusic:stop()
+			currentMusic = love.audio.newSource(menuMusic, "static")
+			currentMusic:setLooping(true)
+			currentMusic:play()
+			currentMusic:setVolume(MUSIC_VOLUME)
 		end
 	elseif gameState == "menu" then
 		if k == 'up' or k == objects.players[1].controls.selectUp or k == objects.players[2].controls.selectUp then
 			if selectedMenu > 0 then
 				selectedMenu = selectedMenu - 1
-				love.audio.newSource(meunSound, "static"):play()
+				love.audio.newSource(menuSound, "static"):play()
 			end
 		end
 		if k == 'down' or k == objects.players[1].controls.selectDown or k == objects.players[2].controls.selectDown then
 			if selectedMenu < 2 then
 				selectedMenu = selectedMenu + 1
-				love.audio.newSource(meunSound, "static"):play()
+				love.audio.newSource(menuSound, "static"):play()
 			end
 		end
 		if k == 'return' then
 			if selectedMenu == 0 then
 				gameState = "game"
+				currentMusic:stop()
+				currentMusic = love.audio.newSource(gameMusic, "static")
+				currentMusic:setLooping(true)
+				currentMusic:play()
+				currentMusic:setVolume(MUSIC_VOLUME)
 			elseif selectedMenu == 1 then
 				gameState = "controls"
 			elseif selectedMenu == 2 then
 				love.event.quit()
 			end
-			love.audio.newSource(meunSound, "static"):play()
+			love.audio.newSource(menuSound, "static"):play()
 		end
 		if k == 'escape' then
 			love.event.quit()
 		end
 	elseif gameState == "controls" then
 		gameState = "menu"
-		love.audio.newSource(meunSound, "static"):play()
+		love.audio.newSource(menuSound, "static"):play()
 	end
 end
 
