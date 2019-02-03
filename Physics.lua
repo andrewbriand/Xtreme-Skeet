@@ -76,6 +76,11 @@ function physicsUpdate(physics, dt)
 			end
 		end
 	end
+	for key, bullet in pairs(objects.bullets) do
+		if(bullet.x > SCREEN_WIDTH or bullet.x < 0 or bullet.y < 0 or bullet.y > SCREEN_HEIGHT) then
+			table.remove(objects.bullets, key)
+		end
+	end
 end
 
 function physicsDraw(physics)
