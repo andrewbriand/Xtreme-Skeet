@@ -56,6 +56,7 @@ function physicsUpdate(physics, dt)
 					objects.players[1].score = objects.players[1].score + 1
 				end
 				table.remove(objects.fragments, key2)
+				love.audio.newSource(player.gruntSound, "static"):play()
 			end
 		end
 	end

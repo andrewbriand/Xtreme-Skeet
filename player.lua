@@ -1,5 +1,5 @@
 PLAYER_SPEED = 0--1000    -- lateral movement speed
-PLAYER_ROTATION_SPEED = 5 -- rotational movement speed
+PLAYER_ROTATION_SPEED = 3 -- rotational movement speed
 PLAYER_RADIUS = 10        -- draw radius
 PLAYER_FRICTION = .9      -- later movement damper
 BULLET_SPREAD = 10

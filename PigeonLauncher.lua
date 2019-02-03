@@ -18,10 +18,14 @@ function PigeonLauncher.update(self, dt)
 			PigeonLauncher.timer = 0
 			
 			--determine shooting pattern
-			shootingPattern = PigeonLauncher.pigeons
-			--shootingPattern = PigeonLauncher.cascade
+			if (PigeonLauncher.round % 8 == 0) then
+				shootingPattern = PigeonLauncher.cascade
+			else
+				shootingPattern = PigeonLauncher.pigeons
+			end
 			numPigeons = math.floor(math.sqrt(10*PigeonLauncher.round + 225) + -14)
-			pigeonDelay = .15--math.random()
+			speedOfDecay = 30
+			pigeonDelay = (speedOfDecay * .25)/(PigeonLauncher.round + speedOfDecay -1)
 			
 			for k, v in pairs(objects.players) do
 				--v.ammo = shootingPattern.ammo
