@@ -17,7 +17,6 @@ function love.load()
 	objects.bullets   = {}
 	objects.fragments = {}
 	objects.powerUps = {}
-	table.insert(objects.powerUps, PowerUp(50, 50, {x = 100, y = 100}))
 	objects.pigeonLauncher = {}
 	table.insert(objects.pigeonLauncher, PigeonLauncher)
 	objects.players   = {}

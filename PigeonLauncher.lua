@@ -12,7 +12,7 @@ function PigeonLauncher.update(self, dt)
 		if (roundOver()) then -- if all bullets, pigeons, and fragments have left the screen
 			PigeonLauncher.round = PigeonLauncher.round + 1 -- next round
 			PigeonLauncher.isShooting = true -- launcher is firing
-			PigeonLauncher.pigeonsShot = 0 -- conter for number of pigeons launcher has fired
+			PigeonLauncher.pigeonsShot = 0 -- counter for number of pigeons launcher has fired
 			PigeonLauncher.timer = 0 -- number of seconds since previous launch
 			
 			--determine shooting pattern
@@ -75,6 +75,14 @@ function PigeonLauncher.pigeon.shoot(x, y, targetX, targetY, speedMod)
 	table.insert(objects.pigeons, Pigeon(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED * speedMod}))
 end
 
+-- shoots a random power up from the given location to the given target
+function PigeonLauncher.pigeon.shootPowerUp(x, y, targetX, targetY, speedMod)
+	speedMod = speedMod or 1
+	local angle = math.atan2((targetY - y), (targetX - x))
+	table.insert(objects.powerUps, PowerUp(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED * speedMod}, POWER_UP_TYPES[math.random(#POWER_UP_TYPES)]))
+end
+
+
 -- single pigeon allows 1 ammo
 function PigeonLauncher.pigeon.ammo(numPigeons)
 	return 1
@@ -96,8 +104,11 @@ function PigeonLauncher.pigeons.shoot(numPigeons, delay)
 		else
 			y = SCREEN_HEIGHT
 		end
-		
-		PigeonLauncher.pigeon.shoot(x, y, targetX, targetY)
+		if(math.random() < 0.9) then
+			PigeonLauncher.pigeon.shoot(x, y, targetX, targetY)
+		else 
+			PigeonLauncher.pigeon.shootPowerUp(x, y, targetX, targetY)
+		end
 		PigeonLauncher.resetLauncer()
 	end
 	
