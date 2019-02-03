@@ -62,7 +62,7 @@ function physicsUpdate(physics, dt)
 	-- Bullet-player collision
 	for key, player in pairs(objects.players) do
 		for key2, bullet in pairs(objects.bullets) do
-			if circleCollision(player, bullet) then
+			if dynamicCircleCollision(bullet, player, dt, {}) then
 				if (player.id == 1 and bullet.owner == 2) then --update the appropriate scores
 					objects.players[2].score = objects.players[2].score - 1
 					table.remove(objects.bullets, key2)

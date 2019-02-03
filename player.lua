@@ -5,6 +5,7 @@ PLAYER_FRICTION = .9      -- later movement damper
 BULLET_SPREAD = 10
 NUM_BULLETS = 20
 
+
 math.randomseed(os.time())
 math.random()
 math.random()
@@ -82,6 +83,7 @@ function Player(name, controlSet)
 		
 		draw = drawPlayer,
 		update = updatePlayer,
+		velocity = {x = 0, y = 0}
 	}
 	return player
 end
