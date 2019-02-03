@@ -1,3 +1,5 @@
+FRAGMENT_COLOR = {255/255 /1.1, 127/255 /1.1, 80/255 /1.1}
+
 function Fragment(x, y, velocity)
 	local fragment = {}
 	fragment.update = fragmentUpdate
@@ -5,7 +7,7 @@ function Fragment(x, y, velocity)
 	fragment.x = x
 	fragment.y = y
 	fragment.velocity = velocity
-	fragment.color = {0, 0, 255}
+	fragment.color = FRAGMENT_COLOR
 	fragment.radius = 5
 	return fragment
 end

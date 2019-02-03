@@ -43,6 +43,7 @@ function physicsUpdate(physics, dt)
 				-- Remove the pigeon from the game
 				table.remove(objects.pigeons, key2)
 				table.remove(objects.bullets, key)
+				love.audio.newSource(pigeonBreakSound, "static"):play()
 			end
 		end
 	end
@@ -56,6 +57,7 @@ function physicsUpdate(physics, dt)
 					objects.players[1].score = objects.players[1].score + 1
 				end
 				table.remove(objects.fragments, key2)
+				love.audio.newSource(player.gruntSound, "static"):play()
 			end
 		end
 	end
