@@ -30,8 +30,8 @@ end
 function pigeonUpdate(pigeon, dt)
 	pigeon.x = pigeon.x + dt * pigeon.velocity.x
 	pigeon.y = pigeon.y + dt * pigeon.velocity.y
-	
 	pigeon.psystem:update(dt)
+	
 end
 
 function pigeonDraw(pigeon)

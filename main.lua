@@ -7,6 +7,7 @@ require 'PigeonLauncher'
 require 'PowerUp'
 
 function love.load()
+	drawTimer = 0
 	SCREEN_WIDTH = love.graphics.getWidth() -- screen width
 	SCREEN_HEIGHT = love.graphics.getHeight() -- screen height
 	love.graphics.setBackgroundColor(89/255,100/255,105/255)
@@ -16,7 +17,7 @@ function love.load()
 	objects.bullets   = {}
 	objects.fragments = {}
 	objects.powerUps = {}
-	table.insert(objects.powerUps, PowerUp(50, 50, {x = 1, y = -1}))
+	table.insert(objects.powerUps, PowerUp(50, 50, {x = 100, y = 100}))
 	objects.pigeonLauncher = {}
 	table.insert(objects.pigeonLauncher, PigeonLauncher)
 	objects.players   = {}
@@ -110,6 +111,7 @@ function love.update(dt)
 		end
 	elseif gameState == "menu" then
 	end
+	drawTimer = dt + drawTimer
 end
 
 function love.draw()
@@ -181,6 +183,11 @@ function drawScoreBoard()
 								objects.players[1].color[2]*brightness + (1 - brightness),
 								objects.players[1].color[3]*brightness + (1 - brightness)})
 		love.graphics.print(objects.players[1].name .. "'s score: " .. objects.players[1].score,0,0)
+		waveFactor = (math.sin(drawTimer*10) + 1.5)/2
+		love.graphics.setColor({objects.players[1].color[1]*brightness + (1 - brightness) *  waveFactor,
+								objects.players[1].color[2]*brightness + (1 - brightness) * waveFactor,
+								objects.players[1].color[3]*brightness + (1 - brightness) * waveFactor})
+		love.graphics.print(objects.players[1].powerUpName, 0, text:getHeight())
 		text = love.graphics.newText(scoreFont, objects.players[2].name .. "'s score: 99")
 		
 		-- players 2 score
@@ -188,6 +195,7 @@ function drawScoreBoard()
 								objects.players[2].color[2]*brightness + (1 - brightness),
 								objects.players[2].color[3]*brightness + (1 - brightness)})
 		love.graphics.print(objects.players[2].name .. "'s score: " .. objects.players[2].score,SCREEN_WIDTH-text:getWidth(),0)
+		love.graphics.print(objects.players[2].powerUpName, SCREEN_WIDTH - text:getWidth(), text:getHeight())
 		
 		-- round number
 		love.graphics.setColor(1,1,1)

@@ -48,6 +48,20 @@ function physicsUpdate(physics, dt)
 			end
 		end
 	end
+	for key, bullet in pairs(objects.bullets) do
+		for key2, powerUp in pairs(objects.powerUps) do
+			if dynamicCircleCollision(bullet, powerUp, dt, {}) then
+				if powerUp.type == "SEEK" then
+					objects.players[bullet.owner].seek = true
+				elseif powerUp.type == "SPIRAL" then
+					objects.players[bullet.owner].spiral = true
+				end
+				objects.players[bullet.owner].powerUpName = powerUp.type
+				table.remove(objects.powerUps, key2)
+				table.remove(objects.bullets, key)
+			end
+		end
+	end
 	-- Fragment-player collision
 	for key, player in pairs(objects.players) do
 		for key2, fragment in pairs(objects.fragments) do
@@ -80,6 +94,11 @@ function physicsUpdate(physics, dt)
 	for key, bullet in pairs(objects.bullets) do
 		if(bullet.x > SCREEN_WIDTH or bullet.x < 0 or bullet.y < 0 or bullet.y > SCREEN_HEIGHT) then
 			table.remove(objects.bullets, key)
+		end
+	end
+	for key, pigeon in pairs(objects.pigeons) do
+		if(pigeon.x > SCREEN_WIDTH or pigeon.x < 0 or pigeon.y < 0 or pigeon.y > SCREEN_HEIGHT) then
+			table.remove(objects.pigeons, key)
 		end
 	end
 end
