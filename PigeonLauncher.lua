@@ -10,31 +10,30 @@ PigeonLauncher = {
 
 function PigeonLauncher.update(self, dt)
 	PigeonLauncher.timer = PigeonLauncher.timer + dt
-	if not PigeonLauncher.isShooting then
-		if (roundOver()) then
-			PigeonLauncher.round = PigeonLauncher.round + 1
-			PigeonLauncher.isShooting = true
-			PigeonLauncher.pigeonsShot = 0
-			PigeonLauncher.timer = 0
+	if not PigeonLauncher.isShooting then -- if launcher has finished firing
+		if (roundOver()) then -- if all bullets, pigeons, and fragments have left the screen
+			PigeonLauncher.round = PigeonLauncher.round + 1 -- next round
+			PigeonLauncher.isShooting = true -- launcher is firing
+			PigeonLauncher.pigeonsShot = 0 -- conter for number of pigeons launcher has fired
+			PigeonLauncher.timer = 0 -- number of seconds since previous launch
 			
 			--determine shooting pattern
-			if (PigeonLauncher.round % 8 == 0) then
+			if (PigeonLauncher.round % 8 == 0) then -- every 8th round use the cascade launching pattern
 				shootingPattern = PigeonLauncher.cascade
-			else
+			else -- use the pigeons pattern for the rest
 				shootingPattern = PigeonLauncher.pigeons
 			end
-			numPigeons = math.floor(math.sqrt(10*PigeonLauncher.round + 225) + -14)
-			speedOfDecay = 30
-			pigeonDelay = (speedOfDecay * .25)/(PigeonLauncher.round + speedOfDecay -1)
+			numPigeons = math.floor(math.sqrt(10*PigeonLauncher.round + 225) + -14) -- the number of pigeons increase over time
+			local speedOfDecay = 30 -- used for calculation
+			pigeonDelay = (speedOfDecay * .25)/(PigeonLauncher.round + speedOfDecay -1) -- the delay between pigeons decrease over time
 			
-			for k, v in pairs(objects.players) do
-				--v.ammo = shootingPattern.ammo
+			for k, v in pairs(objects.players) do -- reset the ammo of each (of the two) players
 				v.ammo = shootingPattern.ammo(numPigeons)
 			end
 		end
 	else
-		if(shootingPattern.shoot(numPigeons, pigeonDelay)) then
-			PigeonLauncher.isShooting = false
+		if(shootingPattern.shoot(numPigeons, pigeonDelay)) then -- simultaneously launches pigeons and checks if launching is finished
+			PigeonLauncher.isShooting = false -- if launching is finished, set isShooting to reflect that
 		end
 	end
 end
@@ -43,6 +42,7 @@ function PigeonLauncher.draw()
 	-- intentionally empty, only here so it can be called by physics
 end
 
+-- return true if the round is
 function roundOver()
 	local returnVar = false
 	for k, v in pairs(objects.pigeons) do
