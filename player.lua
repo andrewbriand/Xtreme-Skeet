@@ -56,12 +56,14 @@ function Player(name, controlSet)
 		x = SCREEN_WIDTH/4 * 3
 		id = 2
 		gruntSound = love.sound.newSoundData("grunt 2.mp3")
+		dir = math.pi+.08
 	else -- player one otherwise
 		controls = PLAYER_CONTROLS[1]
 		color = {0,0,1}
 		x = SCREEN_WIDTH/4
 		id = 1
 		gruntSound = love.sound.newSoundData("grunt 1.mp3")
+		dir = .08
 	end
 	
 	local player = {
@@ -82,7 +84,7 @@ function Player(name, controlSet)
 		y = SCREEN_HEIGHT/2,
 		dx = 0,
 		dy = 0,
-		dir = 0,
+		dir = dir,
 		
 		draw = drawPlayer,
 		update = updatePlayer,

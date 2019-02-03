@@ -31,36 +31,49 @@ function love.load()
 	pigeonLauncerSound = love.sound.newSoundData("pigeon launcher.mp3")
 	clickSound         = love.sound.newSoundData("Gun_Click.mp3")
 	pigeonBreakSound   = love.sound.newSoundData("pigeon break.mp3")
+	
+	gameState = "menu" -- "menu", "game"
 end
 
 function love.keypressed(k)
 	if k == 'escape' then
 		love.event.quit()
 	end
+	if gameState == "game" then
+	elseif gameState == "menu" then
+		gameState = "game"
+	end
 end
 
 function love.update(dt)
-	physics:update(dt)
-	for key, t in pairs(objects) do
-		for key2, obj in pairs(t) do 
-			obj:update(dt)
+	if gameState == "game" then
+		physics:update(dt)
+		for key, t in pairs(objects) do
+			for key2, obj in pairs(t) do 
+				obj:update(dt)
+			end
 		end
+	elseif gameState == "menu" then
 	end
 end
 
 function love.draw()
-	-- draw background
-	love.graphics.setColor(1,1,1)
-	love.graphics.draw(background,0,0,0,SCREEN_WIDTH/background:getWidth())
-	
-	-- draw score board
-	drawScoreBoard()
+	if gameState == "game" then
+		-- draw background
+		love.graphics.setColor(1,1,1)
+		love.graphics.draw(background,0,0,0,SCREEN_WIDTH/background:getWidth())
+		
+		-- draw score board
+		drawScoreBoard()
 
-	-- draw objects
-	for key, t in pairs(objects) do 
-		for key2, obj in pairs(t) do 
-			obj:draw()
+		-- draw objects
+		for key, t in pairs(objects) do 
+			for key2, obj in pairs(t) do 
+				obj:draw()
+			end
 		end
+	elseif gameState == "menu" then
+		love.graphics.print("press any key to play")
 	end
 end
 
