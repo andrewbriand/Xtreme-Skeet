@@ -5,6 +5,7 @@ PigeonLauncher = {
 	isShooting = false,
 	timer = 0,
 	pigeonsShot = 0,
+	round = 1
 }
 
 function PigeonLauncher.update(self, dt)
@@ -18,12 +19,12 @@ function PigeonLauncher.update(self, dt)
 			--determine shooting pattern
 			shootingPattern = PigeonLauncher.pigeons
 			--shootingPattern = PigeonLauncher.cascade
-			numPigeons = 10--math.random(4)
+			numPigeons = PigeonLauncher.round
 			pigeonDelay = .15--math.random()
 			
 			for k, v in pairs(objects.players) do
-				v.ammo = shootingPattern.ammo
-				v.ammo = v.ammo or numPigeons
+				--v.ammo = shootingPattern.ammo
+				v.ammo = shootingPattern.ammo(numPigeons)
 			end
 		end
 	else
@@ -57,15 +58,19 @@ function roundOver()
 	return true
 end
 
-PigeonLauncher.pigeon = {ammo = nil}
-PigeonLauncher.pigeons = {ammo = nil}
-PigeonLauncher.cascade = {ammo = 1}
+PigeonLauncher.pigeon = {}
+PigeonLauncher.pigeons = {}
+PigeonLauncher.cascade = {}
 
 -- shoots a single pigeon from the given location to the given target
 function PigeonLauncher.pigeon.shoot(x, y, targetX, targetY, speedMod)
 	speedMod = speedMod or 1
 	local angle = math.atan2((targetY - y), (targetX - x))
 	table.insert(objects.pigeons, Pigeon(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED * speedMod}))
+end
+
+function PigeonLauncher.pigeon.ammo(numPigeons)
+	return 1
 end
 
 -- shoots a cluster of pigeons at random
@@ -92,6 +97,10 @@ function PigeonLauncher.pigeons.shoot(numPigeons, delay)
 	return(PigeonLauncher.returnLauncher(numPigeons))
 end
 
+function PigeonLauncher.pigeons.ammo(numPigeons)
+	return math.ceil(numPigeons/2+.01) -- the +.01 is so that 2/2 ceils to 2, not 1
+end
+
 -- shoots a wall from the top and bottom
 function PigeonLauncher.cascade.shoot(numPigeons, delay)
 	ySide = (math.random(2)-1)
@@ -109,6 +118,10 @@ function PigeonLauncher.cascade.shoot(numPigeons, delay)
 		end
 	end
 	return(PigeonLauncher.returnLauncher(numPigeons))
+end
+
+function PigeonLauncher.cascade.ammo(numPigeons)
+	return 1
 end
 
 function PigeonLauncher.resetLauncer()

@@ -36,16 +36,16 @@ PLAYER_CONTROLS = {{ -- for use with still players
 					clockwise = "d",
 					counterClockwise = "a",
 					shoot = "w",
-					slow = "s"
+					slow = "lshift"
 				  },{
 					up = "`", -- player two's control set
 					down = "`",
 					left = "`",
 					right = "`",
-					clockwise = "l",
-					counterClockwise = "j",
-					shoot = "i",
-					slow = ";"
+					clockwise = "[",
+					counterClockwise = "o",
+					shoot = "0",
+					slow = "]"
 				  }}
 
 function Player(name, controlSet)
@@ -111,7 +111,7 @@ function updatePlayer(self, dt)
 	
 	-- rotation input
 	if (love.keyboard.isDown(self.controls.slow)) then
-		rotationSpeedMod = .5
+		rotationSpeedMod = .2
 	else
 		rotationSpeedMod = 1
 	end
