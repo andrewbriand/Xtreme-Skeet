@@ -37,7 +37,9 @@ PLAYER_CONTROLS = {{ -- for use with still players
 					clockwise = "d",
 					counterClockwise = "a",
 					shoot = "w",
-					slow = "lshift"
+					slow = "lshift",
+					selectUp = "w",
+					selectDown = "s",
 				  },{
 					up = "`", -- player two's control set
 					down = "`",
@@ -46,7 +48,9 @@ PLAYER_CONTROLS = {{ -- for use with still players
 					clockwise = "[",
 					counterClockwise = "o",
 					shoot = "0",
-					slow = "]"
+					slow = "]",
+					selectUp = "0",
+					selectDown = "p",
 				  }}
 
 function Player(name, controlSet)

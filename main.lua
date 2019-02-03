@@ -23,6 +23,7 @@ function love.load()
 	
 	-- fonts
 	scoreFont = love.graphics.newFont(30)
+	menuFont = love.graphics.newFont(50)
 	
 	-- images
 	background  = love.graphics.newImage("grass.jpg")
@@ -35,6 +36,7 @@ function love.load()
 	pigeonBreakSound   = love.sound.newSoundData("pigeon break.mp3")
 	
 	gameState = "game" -- "menu", "game"
+	selectedMenu = 0
 end
 
 function love.keypressed(k)
@@ -43,17 +45,37 @@ function love.keypressed(k)
 	end
 	if gameState == "game" then
 	elseif gameState == "menu" then
-		gameState = "game"
+		if k == 'up' or k == objects.players[1].controls.selectUp or k == objects.players[2].controls.selectUp then
+			selectedMenu = selectedMenu - 1
+		end
+		if k == 'down' or k == objects.players[1].controls.selectDown or k == objects.players[2].controls.selectDown then
+			selectedMenu = selectedMenu + 1
+		end
+		if k == 'return' then
+			if selectedMenu == 0 then
+				gameState = "game"
+			elseif selectedMenu == 1 then
+				gameState = "controls"
+			elseif selectedMenu == 2 then
+				love.event.quit()
+			end
+		end
+	elseif gameState == "controls" then
+		gameState = "menu"
 	end
 end
 
 function love.resize(w, h)
 	SCREEN_WIDTH = love.graphics.getWidth() --Screen width
 	SCREEN_HEIGHT = love.graphics.getHeight() --Screen height
+	
 	objects.players[1].x = SCREEN_WIDTH  / 4
 	objects.players[1].y = SCREEN_HEIGHT / 2
 	objects.players[2].x = SCREEN_WIDTH  / 4 * 3
 	objects.players[2].y = SCREEN_HEIGHT / 2
+	
+	scoreFont = love.graphics.newFont(math.min(SCREEN_WIDTH/800,SCREEN_HEIGHT/600)*30)
+	menuFont = love.graphics.newFont(math.min(SCREEN_WIDTH/800,SCREEN_HEIGHT/600)*50)
 end
 
 function love.update(dt)
@@ -84,9 +106,16 @@ function love.draw()
 			end
 		end
 	elseif gameState == "menu" then
-		scale = math.min(SCREEN_WIDTH/titleScreen:getWidth(),SCREEN_HEIGHT/titleScreen:getHeight())
-		love.graphics.draw(titleScreen,(SCREEN_WIDTH-titleScreen:getWidth()*scale)/2,(SCREEN_HEIGHT-titleScreen:getHeight()*scale)/2,0,scale)
-		love.graphics.print("press any key to play")
+		local scale = math.min(SCREEN_WIDTH/titleScreen:getWidth(),SCREEN_HEIGHT/titleScreen:getHeight())
+		local x = (SCREEN_WIDTH-titleScreen:getWidth()*scale)/2
+		local y = (SCREEN_HEIGHT-titleScreen:getHeight()*scale)/2
+		love.graphics.draw(titleScreen, x, y, 0, scale)
+		drawButtons()
+	elseif gameState == "controls" then
+		love.graphics.setFont(scoreFont)
+		love.graphics.print("Player 1 controls:")
+		love.graphics.print("Press any key to return to the menu")
+		love.graphics.print("Press any key to return to the menu")
 	end
 end
 
@@ -129,4 +158,25 @@ function drawScoreBoard()
 		text = love.graphics.newText(scoreFont, roundString)
 		love.graphics.print(roundString,SCREEN_WIDTH/2-text:getWidth()/2)
 	end
+end
+
+function drawButtons()
+	love.graphics.setFont(menuFont)
+	local scale = math.min(SCREEN_WIDTH/titleScreen:getWidth(),SCREEN_HEIGHT/titleScreen:getHeight())
+	local x = (SCREEN_WIDTH-titleScreen:getWidth()*scale)/2
+	local y = (SCREEN_HEIGHT-titleScreen:getHeight()*scale)/2
+	
+	text = love.graphics.newText(menuFont, "Controls")
+	
+	local xPos = .55
+	local yPos = .6
+	love.graphics.print("Begin",   titleScreen:getWidth()*scale*xPos+x,titleScreen:getHeight()*scale*yPos+y + text:getHeight() * 0 * scale)
+	love.graphics.print("Controls",titleScreen:getWidth()*scale*xPos+x,titleScreen:getHeight()*scale*yPos+y + text:getHeight() * 1 * scale)
+	love.graphics.print("Exit",    titleScreen:getWidth()*scale*xPos+x,titleScreen:getHeight()*scale*yPos+y + text:getHeight() * 2 * scale)
+	
+	love.graphics.setLineWidth(3)
+	love.graphics.rectangle("line",titleScreen:getWidth()*scale*xPos+x,
+								titleScreen:getHeight()*scale*yPos+y + text:getHeight() * selectedMenu * scale,
+								text:getWidth()+1,
+								text:getHeight()+1)
 end
