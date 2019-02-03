@@ -41,14 +41,10 @@ function dynamicCircleCollision2(object1, object2, dt, collPos)
 	mindist = dist(s*dt*object1.velocity.x + object1.x, s*dt*object1.velocity.y + object1.y, s*dt*object2.velocity.x + object2.x, s*dt*object2.velocity.y + object2.y)
 	if(s >= 0 and s <= 1 and mindist < object1.radius + object2.radius) then
 		return true
-	else 
-		if(object1.x < 1000 and object1.y < 1000) then
-			print(s)
-			print(mindist)
-		end
 	end
 	return false
 end
+
 -- Returns the dot product of two 2d vectors
 -- v1 and v2
 -- Pre: both v1 and v2 have x and y components
