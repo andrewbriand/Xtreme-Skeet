@@ -21,8 +21,10 @@ function dynamicCircleCollision(object1, object2, dt, collPos)
 	obj1ToObj2 = {x = object2.x - object1.x, y = object2.y - object1.y}
 	local theta = math.atan2(obj1ToObj2.y, obj1ToObj2.x)
 					- math.atan2(object1Next.y - object1.y, object1Next.x - object1.x)
-	local mindist = math.abs(dist(object1.x, object1.y, object2.x, object2.y) * math.sin(theta))
-	return mindist < (object1.radius + object2.radius) and dotProduct(object1.velocity, obj1ToObj2) > 0
+	
+	local mindist = math.abs(magnitude(obj1ToObj2) * math.sin(theta))
+	
+	return mindist < (object1.radius + object2.radius) and dotProduct(object1.velocity, obj1ToObj2) > 0 and math.abs(magnitude(obj1ToObj2) * math.cos(theta)) < magnitude({x = object1.velocity.x*dt, y = object1.velocity.y*dt})
 end
 
 
@@ -40,9 +42,9 @@ function dynamicCircleCollision2(object1, object2, dt, collPos)
 	if(s >= 0 and s <= 1 and mindist < object1.radius + object2.radius) then
 		return true
 	else 
-		if(s < 1 and s > 0) then
-			--print(s)
-			--print(mindist)
+		if(object1.x < 1000 and object1.y < 1000) then
+			print(s)
+			print(mindist)
 		end
 	end
 	return false
