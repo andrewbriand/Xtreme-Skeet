@@ -79,7 +79,8 @@ end
 function PigeonLauncher.pigeon.shootPowerUp(x, y, targetX, targetY, speedMod)
 	speedMod = speedMod or 1
 	local angle = math.atan2((targetY - y), (targetX - x))
-	table.insert(objects.powerUps, PowerUp(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED * speedMod}, POWER_UP_TYPES[math.random(#POWER_UP_TYPES)]))
+	powerUpType = POWER_UP_TYPES[math.random(#POWER_UP_TYPES)]
+	table.insert(objects.powerUps, PowerUp(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED * speedMod}, powerUpType))
 end
 
 

@@ -95,7 +95,9 @@ function Player(name, controlSet)
 		velocity = {x = 0, y = 0},
 		seek = false,
 		spiral = false,
-		powerUpName = ""
+		powerUpName = "",
+		powerUpShots = 3,
+		aimBot = false
 	}
 	player.psystem = love.graphics.newParticleSystem(love.graphics.newImage("smoke.png"))
 	player.psystem:setParticleLifetime(1,1) 
@@ -150,6 +152,9 @@ function updatePlayer(self, dt)
 			shootPlayer(self)
 			self.ammo = self.ammo - 1
 			self.psystem:emit(20)
+			if(self.powerUpShots > 0) then
+				self.powerUpShots = self.powerUpShots - 1
+			end
 		else
 			love.audio.newSource(clickSound, "static"):play()
 		end
@@ -157,6 +162,12 @@ function updatePlayer(self, dt)
 	end
 	if ((not love.keyboard.isDown(self.controls.shoot)) and self.hasShot) then
 		self.hasShot = false
+	end
+	if(self.powerUpShots <= 0) then
+		self.seek  = false
+		self.spiral = false
+		self.powerUpName = ""
+		self.aimBot = true -- TODO: CHANGE
 	end
 	self.psystem:update(dt)
 end
