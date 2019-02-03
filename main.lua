@@ -27,7 +27,7 @@ function love.load()
 	background = love.graphics.newImage("grass.jpg")
 	shotgunSound = love.sound.newSoundData("shotgun.mp3")
 	pigeonLauncerSound = love.sound.newSoundData("pigeon launcher.mp3")
-	clickSound = love.sound.newSoundData("Gun_Click.wav")
+	clickSound = love.sound.newSoundData("Gun_Click.mp3")
 end
 
 function love.keypressed(k)
@@ -46,7 +46,7 @@ function love.update(dt)
 end
 
 function love.draw()
-	-- draw background
+	-- draw background3
 	love.graphics.setColor(1,1,1)
 	love.graphics.draw(background,0,0,0,SCREEN_WIDTH/background:getWidth())
 	
