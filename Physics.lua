@@ -125,24 +125,24 @@ function physicsDraw(physics)
 	-- TODO (Andrew): Draw trajectory?
 end
 
-points = {{text = "-1" ,x = 100, y = 200, color = {1,1,1,1}}}
-function addPoint(x, y, text, color)
+points = {}
+function addPoint(x, y, text, color, size)
 	color = color or {1,1,1,1}
+	size = size or 21
 	color = {color[1],color[2],color[3],1}
-	table.insert(points, {text = text ,x = x, y = y, color = color})
+	table.insert(points, {text = text ,x = x, y = y, color = color, size = size})
 end
 
 function updatePoints(dt)
 	for k, v in ipairs(points) do
 		v.color[4] = v.color[4] - dt/3
+		v.size = math.min(v.size + dt * 8,30)
 	end
 end
 
 function drawPoints()
 	for k, v in ipairs(points) do
-		love.graphics.setColor(v.color)
-		love.graphics.setFont(controlsFont)
-		love.graphics.print(v.text, v.x, v.y)
+		love.graphics.printWithBoarder(v.text, v.x, v.y, math.floor(v.size), v.color, {1,1,1,v.color[4]}, 1)
 	end
 end
 
