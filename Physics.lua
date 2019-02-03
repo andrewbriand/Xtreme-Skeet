@@ -51,11 +51,12 @@ function physicsUpdate(physics, dt)
 	for key, bullet in pairs(objects.bullets) do
 		for key2, powerUp in pairs(objects.powerUps) do
 			if dynamicCircleCollision(bullet, powerUp, dt, {}) then
-				if powerUp.type == "seek" then
+				if powerUp.type == "SEEK" then
 					objects.players[bullet.owner].seek = true
-				elseif powerUp.type == "spiral" then
+				elseif powerUp.type == "SPIRAL" then
 					objects.players[bullet.owner].spiral = true
 				end
+				objects.players[bullet.owner].powerUpName = powerUp.type
 				table.remove(objects.powerUps, key2)
 				table.remove(objects.bullets, key)
 			end

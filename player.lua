@@ -94,7 +94,8 @@ function Player(name, controlSet)
 		update = updatePlayer,
 		velocity = {x = 0, y = 0},
 		seek = false,
-		spiral = false
+		spiral = false,
+		powerUpName = ""
 	}
 	player.psystem = love.graphics.newParticleSystem(love.graphics.newImage("smoke.png"))
 	player.psystem:setParticleLifetime(1,1) 

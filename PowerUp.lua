@@ -23,7 +23,7 @@ function PowerUp(x, y, velocity)
 	powerUp.psystem:setDirection(math.pi + math.atan2(powerUp.velocity.y, powerUp.velocity.x), math.atan2(powerUp.velocity.y, powerUp.velocity.x))
 	powerUp.psystem:setRelativeRotation(true)
 	powerUp.destroyed = false
-	powerUp.type = "spiral"
+	powerUp.type = "SPIRAL"
 	return powerUp
 end
 
