@@ -8,9 +8,9 @@ function Physics()
 end
 
 function physicsUpdate(physics, dt)
+	-- bullet-pigeon collision
 	for key, bullet in pairs(objects.bullets) do
 		for key2, pigeon in pairs(objects.pigeons) do
-			--Bullet and pigeon are colliding
 			if  dynamicCircleCollision(bullet, pigeon, dt, {}) then
 				--print("Collision")
 				if (bullet.owner == 2) then --update the appropriate scores
@@ -48,6 +48,8 @@ function physicsUpdate(physics, dt)
 			end
 		end
 	end
+	
+	-- bullet-powerup collision
 	for key, bullet in pairs(objects.bullets) do
 		for key2, powerUp in pairs(objects.powerUps) do
 			if dynamicCircleCollision(bullet, powerUp, dt, {}) then
@@ -63,7 +65,8 @@ function physicsUpdate(physics, dt)
 			end
 		end
 	end
-	-- Fragment-player collision
+	
+	-- fragment-player collision
 	for key, player in pairs(objects.players) do
 		for key2, fragment in pairs(objects.fragments) do
 			if circleCollision(player, fragment) then
@@ -77,7 +80,8 @@ function physicsUpdate(physics, dt)
 			end
 		end
 	end
-	-- Bullet-player collision
+	
+	-- bullet-player collision
 	for key, player in pairs(objects.players) do
 		for key2, bullet in pairs(objects.bullets) do
 			if dynamicCircleCollision(bullet, player, dt, {}) then
@@ -92,18 +96,52 @@ function physicsUpdate(physics, dt)
 			end
 		end
 	end
+	
+	-- delete bullets, fragments, and pigeons when they are off the screen
 	for key, bullet in pairs(objects.bullets) do
-		if(bullet.x > SCREEN_WIDTH or bullet.x < 0 or bullet.y < 0 or bullet.y > SCREEN_HEIGHT) then
+		if(isOffScreen(bullet.x, bullet.y, 150)) then
 			table.remove(objects.bullets, key)
 		end
 	end
 	for key, pigeon in pairs(objects.pigeons) do
-		if(pigeon.x > SCREEN_WIDTH or pigeon.x < 0 or pigeon.y < 0 or pigeon.y > SCREEN_HEIGHT) then
+		if(isOffScreen(pigeon.x, pigeon.y, 150)) then
 			table.remove(objects.pigeons, key)
+		end
+	end
+	for key, fragment in pairs(objects.fragments) do
+		if(isOffScreen(fragment.x, fragment.y, 150)) then
+			table.remove(objects.fragments, key)
 		end
 	end
 end
 
 function physicsDraw(physics)
 	-- TODO (Andrew): Draw trajectory?
+end
+
+points = {{text = "-1" ,x = 100, y = 200, color = {1,1,1,1}}}
+function addPoint(x, y, text, color)
+	color = color or {1,1,1,1}
+	table.insert(points, {text = text ,x = x, y = y, color = {1,1,1,1}})
+end
+
+function updatePoints(dt)
+	for k, v in ipairs(points) do
+		v.color[4] = v.color[4] - dt/3
+	end
+end
+
+function drawPoints()
+	for k, v in ipairs(points) do
+		--love.graphics.setColor(v.color)
+		--love.graphics.print(v.text, v.x, v.y)
+	end
+end
+
+-- returns true if the given point is outside the screen
+-- buffer requires the object move an extra distance away
+--    good for ensuring not just the center is off, but the entire object
+function isOffScreen(x, y, buffer)
+	buffer = buffer or 0
+	return (x > SCREEN_WIDTH + buffer or x < 0 - buffer or y < 0 - buffer or y > SCREEN_HEIGHT + buffer)
 end
