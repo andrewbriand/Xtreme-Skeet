@@ -44,6 +44,7 @@ function physicsUpdate(physics, dt)
 				table.remove(objects.pigeons, key2)
 				table.remove(objects.bullets, key)
 				love.audio.newSource(pigeonBreakSound, "static"):play()
+				pigeon.destroyed = true
 			end
 		end
 	end

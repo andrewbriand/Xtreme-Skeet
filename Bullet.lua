@@ -1,4 +1,4 @@
-BULLET_SPEED = 1000
+BULLET_SPEED = 500
 function Bullet(x, y, velocity, color, owner, seeking)
 	color = color or {0, 0, 255}
 	owener = owner or 1
@@ -13,6 +13,7 @@ function Bullet(x, y, velocity, color, owner, seeking)
 	bullet.owner = owner
 	bullet.seeking = seeking or true
 	
+	bullet.spiral = true
 	bullet.thrust = 1000
 	bullet.thrustDecay = 10
 	if(bullet.seeking) then
@@ -45,11 +46,13 @@ function bulletUpdate(bullet, dt)
 	bullet.x = bullet.x + dt * bullet.velocity.x
 	bullet.y = bullet.y + dt * bullet.velocity.y
 	if(bullet.seeking and bullet.thrust > 0 and bullet.target ~= nil) then
-		thrustDirection = vSub(bullet.target, bullet)
-		thrustDirection = vScale(1/magnitude(thrustDirection), thrustDirection)
-		bullet.velocity = vAdd(bullet.velocity, vScale(bullet.thrust, thrustDirection))
-		bullet.velocity = vScale(BULLET_SPEED, vScale(1/magnitude(bullet.velocity), bullet.velocity))
-		bullet.thrust = bullet.thrust - bullet.thrustDecay
+		if((not bullet.target.destroyed) or bullet.spiral) then
+			thrustDirection = vSub(bullet.target, bullet)
+			thrustDirection = vScale(1/magnitude(thrustDirection), thrustDirection)
+			bullet.velocity = vAdd(bullet.velocity, vScale(bullet.thrust, thrustDirection))
+			bullet.velocity = vScale(BULLET_SPEED, vScale(1/magnitude(bullet.velocity), bullet.velocity))
+			bullet.thrust = bullet.thrust - bullet.thrustDecay
+		end
 	end
 end
 

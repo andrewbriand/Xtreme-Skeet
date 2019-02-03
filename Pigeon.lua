@@ -23,6 +23,7 @@ function Pigeon(x, y, velocity)
 	pigeon.psystem:setSpeed(magnitude(pigeon.velocity), magnitude(pigeon.velocity))
 	pigeon.psystem:setDirection(math.pi + math.atan2(pigeon.velocity.y, pigeon.velocity.x), math.atan2(pigeon.velocity.y, pigeon.velocity.x))
 	pigeon.psystem:setRelativeRotation(true)
+	pigeon.destroyed = false
 	return pigeon
 end
 
