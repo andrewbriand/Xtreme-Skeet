@@ -12,6 +12,7 @@ function physicsUpdate(physics, dt)
 	for key, bullet in pairs(objects.bullets) do
 		for key2, pigeon in pairs(objects.pigeons) do
 			if  dynamicCircleCollision(bullet, pigeon, dt, {}) then
+				addPoint(pigeon.x, pigeon.y, "+1", objects.players[bullet.owner].color)
 				--print("Collision")
 				if (bullet.owner == 2) then --update the appropriate scores
 					objects.players[2].score = objects.players[2].score + 1
@@ -53,6 +54,7 @@ function physicsUpdate(physics, dt)
 	for key, bullet in pairs(objects.bullets) do
 		for key2, powerUp in pairs(objects.powerUps) do
 			if dynamicCircleCollision(bullet, powerUp, dt, {}) then
+				addPoint(powerUp.x, powerUp.y, "0", objects.players[bullet.owner].color)
 				if powerUp.type == "SEEK" then
 					objects.players[bullet.owner].seek = true
 				elseif powerUp.type == "SPIRAL" then
@@ -69,6 +71,7 @@ function physicsUpdate(physics, dt)
 	for key, player in pairs(objects.players) do
 		for key2, fragment in pairs(objects.fragments) do
 			if circleCollision(player, fragment) then
+				addPoint(player.x, player.y, "+1", objects.players[-key + 3].color)
 				if (player.id == 1) then --update the appropriate scores
 					objects.players[2].score = objects.players[2].score + 1
 				else
@@ -84,6 +87,7 @@ function physicsUpdate(physics, dt)
 	for key, player in pairs(objects.players) do
 		for key2, bullet in pairs(objects.bullets) do
 			if dynamicCircleCollision(bullet, player, dt, {}) then
+				addPoint(player.x, player.y, "-1", objects.players[bullet.owner].color)
 				if (player.id == 1 and bullet.owner == 2) then --update the appropriate scores
 					objects.players[2].score = objects.players[2].score - 1
 					table.remove(objects.bullets, key2)
@@ -121,7 +125,8 @@ end
 points = {{text = "-1" ,x = 100, y = 200, color = {1,1,1,1}}}
 function addPoint(x, y, text, color)
 	color = color or {1,1,1,1}
-	table.insert(points, {text = text ,x = x, y = y, color = {1,1,1,1}})
+	color = {color[1],color[2],color[3],1}
+	table.insert(points, {text = text ,x = x, y = y, color = color})
 end
 
 function updatePoints(dt)
@@ -132,8 +137,9 @@ end
 
 function drawPoints()
 	for k, v in ipairs(points) do
-		--love.graphics.setColor(v.color)
-		--love.graphics.print(v.text, v.x, v.y)
+		love.graphics.setColor(v.color)
+		love.graphics.setFont(controlsFont)
+		love.graphics.print(v.text, v.x, v.y)
 	end
 end
 
