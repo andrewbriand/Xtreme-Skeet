@@ -60,6 +60,7 @@ function physicsUpdate(physics, dt)
 				elseif powerUp.type == "SPIRAL" then
 					objects.players[bullet.owner].spiral = true
 				end
+				objects.players[bullet.owner].powerUpShots = 3
 				objects.players[bullet.owner].powerUpName = powerUp.type
 				table.remove(objects.powerUps, key2)
 				table.remove(objects.bullets, key)
