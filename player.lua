@@ -91,7 +91,7 @@ function Player(name, controlSet)
 		velocity = {x = 0, y = 0}
 	}
 	player.psystem = love.graphics.newParticleSystem(love.graphics.newImage("smoke.png"))
-	player.psystem:setParticleLifetime(0.5,2) 
+	player.psystem:setParticleLifetime(1,1) 
 	player.psystem:setEmissionRate(0)
 	player.psystem:setSizes(0.4) 
 	player.psystem:setColors(255, 255, 255, 255, 255, 255, 255, 0)
