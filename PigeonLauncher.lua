@@ -16,9 +16,10 @@ function PigeonLauncher.update(self, dt)
 			PigeonLauncher.timer = 0
 			
 			--determine shooting pattern
-			shootingPattern = shootPigeon
-			numPigeons = 3
-			pigeonDelay = .5
+			--shootingPattern = shootPigeons
+			shootingPattern = shootCascade
+			numPigeons = 20--math.random(4)
+			pigeonDelay = 0--math.random()
 			
 			for k, v in pairs(objects.players) do
 				v.ammo = numPigeons
@@ -57,14 +58,14 @@ end
 
 -- shoots a single pigeon towards the given target (defaults to the center of the screen)
 --    
-function shootPigeon(numPigeons, delay, targetX, targetY)
+function shootPigeons(numPigeons, delay, targetX, targetY)
 	numPigeons = numPigeons or 1
 	delay = delay or 0
 	-- the direction the pigeons will fly
 	local targetX = targetX or SCREEN_WIDTH / 2  + ((math.random() - .5) * 2 * SCREEN_WIDTH/4)
 	local targetY = targetY or SCREEN_HEIGHT / 2
 	
-	if((PigeonLauncher.pigeonsShot < numPigeons and PigeonLauncher.timer >= delay) or (PigeonLauncher.pigeonsShot == 0)) then
+	if(launcherReady(numPigeons, delay)) then
 		local x = math.random() * SCREEN_WIDTH
 		local y
 		if (math.random() < .5) then
@@ -73,16 +74,52 @@ function shootPigeon(numPigeons, delay, targetX, targetY)
 			y = SCREEN_HEIGHT
 		end
 		
-		local angle = math.atan2((targetY - y), (targetX - x))
-		table.insert(objects.pigeons, Pigeon(x, y, {x = math.cos(angle) * PIGEON_SPEED, y = math.sin(angle) * PIGEON_SPEED}))
-		
+		shootPigeon(x, y, targetX, targetY)
+		resetLauncer()
+	end
+	
+	return(returnLauncher(numPigeons))
+end
+
+-- shoots a wall from the top and bottom
+function shootCascade(numPigeons, delay)
+	ySide = (math.random(2)-1)
+	if(launcherReady(numPigeons)) then
+		for i = 1, numPigeons do
+			y = ((i+ySide)%2) * SCREEN_HEIGHT
+			x = math.random() * SCREEN_WIDTH
+			
+			local targetX = SCREEN_WIDTH / 2  + ((math.random() - .5) * 2 * SCREEN_WIDTH/4)
+			local targetY = SCREEN_HEIGHT / 2
+			
+			shootPigeon(x, y, targetX, targetY)
+			resetLauncer()
+		end
+	end
+	return(returnLauncher(numPigeons))
+end
+
+function shootPigeon(x, y, targetX, targetY, speedMod)
+	speedMod = speedMod or 1
+	local angle = math.atan2((targetY - y), (targetX - x))
+	table.insert(objects.pigeons, Pigeon(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED * speedMod}))
+end
+
+function resetLauncer()
 		love.audio.newSource(pigeonLauncerSound, "static"):play()
 		PigeonLauncher.pigeonsShot = PigeonLauncher.pigeonsShot + 1
 		PigeonLauncher.timer = 0
-	end
+end
+
+function returnLauncher(numPigeons)
 	if(PigeonLauncher.pigeonsShot >= numPigeons) then
 		return true
 	else
 		return false
 	end
+end
+
+function launcherReady(numPigeons, delay)
+	delay = delay or 0
+	return ((PigeonLauncher.pigeonsShot < numPigeons and PigeonLauncher.timer >= delay) or (PigeonLauncher.pigeonsShot == 0))
 end

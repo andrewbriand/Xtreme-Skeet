@@ -2,8 +2,8 @@ PLAYER_SPEED = 0--1000    -- lateral movement speed
 PLAYER_ROTATION_SPEED = 5 -- rotational movement speed
 PLAYER_RADIUS = 10        -- draw radius
 PLAYER_FRICTION = .9      -- later movement damper
-BULLET_SPREAD = 2
-NUM_BULLETS = 10
+BULLET_SPREAD = 10
+NUM_BULLETS = 20
 
 math.randomseed(os.time())
 math.random()
@@ -36,14 +36,16 @@ PLAYER_CONTROLS = {{ -- for use with still players
 					clockwise = "d",
 					counterClockwise = "a",
 					shoot = "w",
+					slow = "s"
 				  },{
 					up = "`", -- player two's control set
 					down = "`",
 					left = "`",
 					right = "`",
-					clockwise = "right",
-					counterClockwise = "left",
-					shoot = "up",
+					clockwise = "l",
+					counterClockwise = "j",
+					shoot = "i",
+					slow = ";"
 				  }}
 
 function Player(name, controlSet)
@@ -108,11 +110,16 @@ function updatePlayer(self, dt)
 	end
 	
 	-- rotation input
+	if (love.keyboard.isDown(self.controls.slow)) then
+		rotationSpeedMod = .5
+	else
+		rotationSpeedMod = 1
+	end
 	if (love.keyboard.isDown(self.controls.clockwise)) then
-		self.dir = self.dir + self.rotationSpeed * dt
+		self.dir = self.dir + self.rotationSpeed * dt * rotationSpeedMod
 	end
 	if (love.keyboard.isDown(self.controls.counterClockwise)) then
-		self.dir = self.dir - self.rotationSpeed * dt
+		self.dir = self.dir - self.rotationSpeed * dt * rotationSpeedMod
 	end
 	
 	-- shooting input
