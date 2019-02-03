@@ -10,19 +10,54 @@ function circleCollision(object1, object2)
 	return dist(object1.x, object1.y, object2.x, object2.y) < (object1.radius + object2.radius)
 end
 
+-- Determines for 2 circular objects, object1 and object2
+-- if object1 will collide with object2 "during" the next frame
+-- Requires object1 to have velocity (a vector2), x, y, and radius
+-- Requires object2 to have x, y, and radius
+-- Works well for fast moving object1
+-- modifies collPos
 function dynamicCircleCollision(object1, object2, dt, collPos)
 	object1Next = { x = object1.x + object1.velocity.x * dt, y = object1.y + object1.velocity.y*dt}
-	local theta = math.atan2(object2.y - object1.y, object2.x - object1.x)
+	obj1ToObj2 = {x = object2.x - object1.x, y = object2.y - object1.y}
+	local theta = math.atan2(obj1ToObj2.y, obj1ToObj2.x)
 					- math.atan2(object1Next.y - object1.y, object1Next.x - object1.x)
 	local mindist = math.abs(dist(object1.x, object1.y, object2.x, object2.y) * math.sin(theta))
-	return mindist < (object1.radius + object2.radius) and dotProduct(object1.velocity, {x = object2.x - object1.x, y = object2.y - object1.y}) > 0
+	return mindist < (object1.radius + object2.radius) and dotProduct(object1.velocity, obj1ToObj2) > 0
 end
 
+
+function dynamicCircleCollision2(object1, object2, dt, collPos)
+	-- Two objects with the same velocity cannot collide
+	if(vEqual(object1.velocity, object2.velocity)) then
+		return false
+	end
+	vyTerm = object1.velocity.y - object2.velocity.y
+	vxTerm = object1.velocity.x - object2.velocity.x
+	oyTerm = object1.y - object2.y
+	oxTerm = object1.x - object2.x
+	s = (vyTerm*oyTerm - vxTerm*oxTerm)/(dt * (math.pow(vxTerm, 2) + math.pow(vyTerm, 2)))
+	mindist = dist(s*dt*object1.velocity.x + object1.x, s*dt*object1.velocity.y + object1.y, s*dt*object2.velocity.x + object2.x, s*dt*object2.velocity.y + object2.y)
+	if(s >= 0 and s <= 1 and mindist < object1.radius + object2.radius) then
+		return true
+	else 
+		if(s < 1 and s > 0) then
+			--print(s)
+			--print(mindist)
+		end
+	end
+	return false
+end
 -- Returns the dot product of two 2d vectors
 -- v1 and v2
 -- Pre: both v1 and v2 have x and y components
 function dotProduct(v1, v2) 
 	return v1.x*v2.x + v1.y*v2.y
+end
+
+-- Checks if two 2d vectors are equal
+-- Pre: both v1 and v2 have x and y components
+function vEqual(v1, v2)
+	return v1.x == v2.x and v1.y == v2.y
 end
 
 --Returns the magnitude of a 2d vector v
