@@ -4,6 +4,7 @@ require 'Bullet'
 require 'Fragment'
 require 'Physics'
 require 'PigeonLauncher'
+require 'PowerUp'
 
 function love.load()
 	SCREEN_WIDTH = love.graphics.getWidth() -- screen width
