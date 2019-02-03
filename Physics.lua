@@ -70,6 +70,7 @@ function physicsUpdate(physics, dt)
 					objects.players[1].score = objects.players[1].score - 1
 					table.remove(objects.bullets, key2)
 				end
+				love.audio.newSource(player.gruntSound, "static"):play()
 			end
 		end
 	end

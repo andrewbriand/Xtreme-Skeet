@@ -1,3 +1,5 @@
 clicking sound when attempting to fire a gun with no ammo
 change the color of the pigeon fragments
 delays between rounds?
+shattering sound of pigeon
+hurt sound of opponent getting shot

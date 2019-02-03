@@ -20,7 +20,7 @@ function PigeonLauncher.update(self, dt)
 			--determine shooting pattern
 			shootingPattern = PigeonLauncher.pigeons
 			--shootingPattern = PigeonLauncher.cascade
-			numPigeons = math.floor(math.sqrt(PigeonLauncher.round/.77))
+			numPigeons = math.floor(math.sqrt(10*PigeonLauncher.round + 225) + -14)
 			pigeonDelay = .15--math.random()
 			
 			for k, v in pairs(objects.players) do
