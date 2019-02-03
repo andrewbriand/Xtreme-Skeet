@@ -1,6 +1,4 @@
-numPigeons = 3
-pigeonDelay = .5
-
+-- a few variables for keeping track of timing
 PigeonLauncher = {
 	isShooting = false,
 	timer = 0,
@@ -42,7 +40,7 @@ function PigeonLauncher.draw()
 	-- intentionally empty, only here so it can be called by physics
 end
 
--- return true if the round is over, ie. all bullets, pigeons, and fragments are off the screen
+-- returns true if the round is over, ie. all bullets, pigeons, and fragments are off the screen
 function roundOver()
 	local returnVar = false
 	for k, v in pairs(objects.pigeons) do
