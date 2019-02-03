@@ -59,6 +59,8 @@ function physicsUpdate(physics, dt)
 					objects.players[bullet.owner].seek = true
 				elseif powerUp.type == "SPIRAL" then
 					objects.players[bullet.owner].spiral = true
+				elseif powerUp.type == "AIMBOT" then
+					objects.players[bullet.owner].aimBot = true
 				end
 				objects.players[bullet.owner].powerUpShots = 3
 				objects.players[bullet.owner].powerUpName = powerUp.type

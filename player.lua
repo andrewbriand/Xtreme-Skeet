@@ -96,8 +96,9 @@ function Player(name, controlSet)
 		seek = false,
 		spiral = false,
 		powerUpName = "",
-		powerUpShots = 3,
-		aimBot = false
+		powerUpShots = 0,
+		aimBot = false,
+		aimBotPastTargets = {}
 	}
 	player.psystem = love.graphics.newParticleSystem(smokeImage)
 	player.psystem:setParticleLifetime(1,1) 
@@ -139,22 +140,36 @@ function updatePlayer(self, dt)
 	else
 		rotationSpeedMod = 1
 	end
-	if (love.keyboard.isDown(self.controls.clockwise)) then
-		self.dir = self.dir + self.rotationSpeed * dt * rotationSpeedMod
+	if(not self.aimBot) then
+		if (love.keyboard.isDown(self.controls.clockwise)) then
+			self.dir = self.dir + self.rotationSpeed * dt * rotationSpeedMod
+		end
+		if (love.keyboard.isDown(self.controls.counterClockwise)) then
+			self.dir = self.dir - self.rotationSpeed * dt * rotationSpeedMod
+		end
+	else
+		mindistPigeon = objects.pigeons[1]
+		mindistKey = 1
+		if mindistPigeon ~= nil then
+			for key, pigeon in pairs(objects.pigeons) do
+				if(self.aimBotPastTargets[pigeon] == nil and vDist(self, pigeon) < vDist(self, mindistPigeon)) then
+					mindistPigeon = pigeon
+					mindistKey = key
+				end
+			end
+			
+			aimDir = vSub(vAdd(vScale(.5, mindistPigeon.velocity), mindistPigeon), self)
+			self.dir = math.atan2(aimDir.y, aimDir.x)
+			if self.ammo > 0 and self.aimBotPastTargets[mindistPigeon] == nil then 
+				shootPlayer(self)
+			end
+			self.aimBotPastTargets[mindistPigeon] = true
+		end
 	end
-	if (love.keyboard.isDown(self.controls.counterClockwise)) then
-		self.dir = self.dir - self.rotationSpeed * dt * rotationSpeedMod
-	end
-	
 	-- shooting input
 	if (love.keyboard.isDown(self.controls.shoot) and not self.hasShot) then
 		if(self.ammo > 0) then
 			shootPlayer(self)
-			self.ammo = self.ammo - 1
-			self.psystem:emit(20)
-			if(self.powerUpShots > 0) then
-				self.powerUpShots = self.powerUpShots - 1
-			end
 		else
 			love.audio.newSource(clickSound, "static"):play()
 		end
@@ -167,7 +182,7 @@ function updatePlayer(self, dt)
 		self.seek  = false
 		self.spiral = false
 		self.powerUpName = ""
-		self.aimBot = true -- TODO: CHANGE
+		self.aimBot = false -- TODO: CHANGE
 	end
 	self.psystem:update(dt)
 end
@@ -178,6 +193,12 @@ function shootPlayer(self)
 		spread = (math.random() - .5) / BULLET_SPREAD
 		table.insert(objects.bullets, Bullet(self.x, self.y, {x = math.cos(self.dir + spread) * BULLET_SPEED, y = math.sin(self.dir + spread) * BULLET_SPEED}, {self.color[1]/2, self.color[2]/2, self.color[3]/2}, self.id, self.seek or self.spiral, self.spiral))
 	end
+	self.ammo = self.ammo - 1
+	if(self.powerUpShots > 0) then
+		self.powerUpShots = self.powerUpShots - 1
+		print("Lowered powerUpShots")
+	end
+	self.psystem:emit(20)
 	love.audio.newSource(shotgunSound, "static"):play()
 end
 
