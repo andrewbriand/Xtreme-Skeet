@@ -58,6 +58,19 @@ function vEqual(v1, v2)
 	return v1.x == v2.x and v1.y == v2.y
 end
 
+-- Returns v1 - v2
+-- Where v1 and v2 are 2d vectors having x and y components
+function vSub(v1, v2)
+	return {x = v1.x - v2.x, y = v1.y - v2.y}
+end
+
+function vAdd(v1, v2)
+	return {x = v1.x + v2.x, y = v1.y + v2.y}
+end
+
+function vScale(s, v)
+	return {x = s*v.x, y = s*v.y}
+end
 --Returns the magnitude of a 2d vector v
 --Pre: v has properties x and y
 function magnitude(v)
