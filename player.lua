@@ -55,11 +55,13 @@ function Player(name, controlSet)
 		color = {1,0,0}
 		x = SCREEN_WIDTH/4 * 3
 		id = 2
+		gruntSound = love.sound.newSoundData("grunt 2.mp3")
 	else -- player one otherwise
 		controls = PLAYER_CONTROLS[1]
 		color = {0,0,1}
 		x = SCREEN_WIDTH/4
 		id = 1
+		gruntSound = love.sound.newSoundData("grunt 1.mp3")
 	end
 	
 	local player = {
@@ -72,6 +74,7 @@ function Player(name, controlSet)
 		ammo = 1, -- TODO: update by pigeon launcher
 		score = 0,
 		id = id,
+		gruntSound = gruntSound,
 		
 		hasShoot = false, -- used to prevent repeated shooting
 		
