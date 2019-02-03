@@ -71,8 +71,31 @@ end
 function vScale(s, v)
 	return {x = s*v.x, y = s*v.y}
 end
+
 --Returns the magnitude of a 2d vector v
 --Pre: v has properties x and y
 function magnitude(v)
 	return math.sqrt(math.pow(v.x,2) + math.pow(v.y,2))
+end
+
+--draw a text but with a boarder
+function love.graphics.printWithBoarder(text, x, y, size, mainColor, boarderColor, boarderSize)
+	size         = size         or 21
+	mainColor    = mainColor    or {1,1,1,1}
+	boarderColor = boarderColor or {0,0,0,1}
+	boarderSize  = boarderSize  or 1
+	
+	love.graphics.setFont(fonts[size])
+	for i = 1, 8 do -- draws the boarder
+		love.graphics.setColor(boarderColor)
+		
+		-- don't mind the magic equations
+		xDiff =  math.floor(boarderSize * math.sqrt(4/3) * math.sin(8 * math.pi / 3 * math.ceil(i/3)) + .5)
+		yDiff =  math.floor(boarderSize * math.sqrt(4/3) * math.sin(8 * math.pi / 3 * (i%3)         ) + .5)
+		
+		love.graphics.print(text,x + xDiff,y + yDiff)
+	end
+	
+	love.graphics.setColor(mainColor)
+	love.graphics.print(text, x, y)
 end

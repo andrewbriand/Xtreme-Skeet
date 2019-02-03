@@ -140,9 +140,7 @@ end
 
 function drawPoints()
 	for k, v in ipairs(points) do
-		love.graphics.setColor(v.color)
-		love.graphics.setFont(fonts[math.floor(v.size)])
-		love.graphics.print(v.text, v.x, v.y)
+		love.graphics.printWithBoarder(v.text, v.x, v.y, math.floor(v.size), v.color, {1,1,1,v.color[4]}, 1)
 	end
 end
 
