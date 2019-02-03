@@ -32,7 +32,7 @@ function love.load()
 	clickSound         = love.sound.newSoundData("Gun_Click.mp3")
 	pigeonBreakSound   = love.sound.newSoundData("pigeon break.mp3")
 	
-	gameState = "menu" -- "menu", "game"
+	gameState = "game" -- "menu", "game"
 end
 
 function love.keypressed(k)
