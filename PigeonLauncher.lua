@@ -5,13 +5,14 @@ PigeonLauncher = {
 	isShooting = false,
 	timer = 0,
 	pigeonsShot = 0,
-	round = 1
+	round = 0
 }
 
 function PigeonLauncher.update(self, dt)
 	PigeonLauncher.timer = PigeonLauncher.timer + dt
 	if not PigeonLauncher.isShooting then
 		if (roundOver()) then
+			PigeonLauncher.round = PigeonLauncher.round + 1
 			PigeonLauncher.isShooting = true
 			PigeonLauncher.pigeonsShot = 0
 			PigeonLauncher.timer = 0
@@ -19,7 +20,7 @@ function PigeonLauncher.update(self, dt)
 			--determine shooting pattern
 			shootingPattern = PigeonLauncher.pigeons
 			--shootingPattern = PigeonLauncher.cascade
-			numPigeons = PigeonLauncher.round
+			numPigeons = math.floor(math.sqrt(PigeonLauncher.round/.77))
 			pigeonDelay = .15--math.random()
 			
 			for k, v in pairs(objects.players) do
