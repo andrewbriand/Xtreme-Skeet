@@ -130,12 +130,12 @@ function updatePlayer(self, dt)
 	-- shooting input
 	if (love.keyboard.isDown(self.controls.shoot) and not self.hasShot) then
 		if(self.ammo > 0) then
-			self.hasShot = true
 			shootPlayer(self)
 			self.ammo = self.ammo - 1
 		else
 			love.audio.newSource(clickSound, "static"):play()
 		end
+		self.hasShot = true
 	end
 	if ((not love.keyboard.isDown(self.controls.shoot)) and self.hasShot) then
 		self.hasShot = false
