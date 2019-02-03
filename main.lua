@@ -47,7 +47,7 @@ end
 function love.draw()
 	-- draw background
 	love.graphics.setColor(1,1,1)
-	love.graphics.draw(background)
+	love.graphics.draw(background,0,0,0,SCREEN_WIDTH/background:getWidth())
 	
 	-- draw score
 	do
