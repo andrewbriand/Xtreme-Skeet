@@ -10,25 +10,27 @@ function love.load()
 	SCREEN_HEIGHT = love.graphics.getHeight() --Screen height
 	
 	objects = {}
+	objects.pigeons   = {}
+	objects.bullets   = {}
+	objects.fragments = {}
 	objects.pigeonLauncher = {}
 	table.insert(objects.pigeonLauncher, PigeonLauncher)
-	objects.pigeons = {}
-	--table.insert(objects.pigeons, Pigeon(50, 50, {x = 20, y = 64}))
-	objects.players = {}
+	objects.players   = {}
 	table.insert(objects.players, Player("Player 1", 1))
 	table.insert(objects.players, Player("Player 2", 2))
-	objects.bullets = {}
-	--table.insert(objects.bullets, Bullet(100, 100, {x = -60, y = -64}))
-	objects.fragments = {}
-	--table.insert(objects.fragments, Fragment(150, 150, {x = 80, y = 64}))
 	physics = Physics()
-	--objects.pigeonLauncher = PigeonLauncher()=
+	
+	-- fonts
 	scoreFont = love.graphics.newFont(30)
+	
+	-- images
 	background = love.graphics.newImage("grass.jpg")
-	shotgunSound = love.sound.newSoundData("shotgun.mp3")
+	
+	-- sounds
+	shotgunSound       = love.sound.newSoundData("shotgun.mp3")
 	pigeonLauncerSound = love.sound.newSoundData("pigeon launcher.mp3")
-	clickSound = love.sound.newSoundData("Gun_Click.mp3")
-	pigeonBreakSound = love.sound.newSoundData("pigeon break.mp3")
+	clickSound         = love.sound.newSoundData("Gun_Click.mp3")
+	pigeonBreakSound   = love.sound.newSoundData("pigeon break.mp3")
 end
 
 function love.keypressed(k)
@@ -47,10 +49,22 @@ function love.update(dt)
 end
 
 function love.draw()
-	-- draw background3
+	-- draw background
 	love.graphics.setColor(1,1,1)
 	love.graphics.draw(background,0,0,0,SCREEN_WIDTH/background:getWidth())
 	
+	-- draw score board
+	drawScoreBoard()
+
+	-- draw objects
+	for key, t in pairs(objects) do 
+		for key2, obj in pairs(t) do 
+			obj:draw()
+		end
+	end
+end
+
+function drawScoreBoard()
 	-- draw score
 	do
 		-- boarders of both scores
@@ -89,12 +103,4 @@ function love.draw()
 		text = love.graphics.newText(scoreFont, roundString)
 		love.graphics.print(roundString,SCREEN_WIDTH/2-text:getWidth()/2)
 	end
-
-	-- draw objects
-	for key, t in pairs(objects) do 
-		for key2, obj in pairs(t) do 
-			obj:draw()
-		end
-	end
 end
-
