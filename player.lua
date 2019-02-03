@@ -4,7 +4,7 @@ PLAYER_RADIUS = 10        -- draw radius
 PLAYER_FRICTION = .9      -- later movement damper
 BULLET_SPREAD = 10
 NUM_BULLETS = 20
-
+ 
 
 math.randomseed(os.time())
 math.random()
@@ -125,10 +125,14 @@ function updatePlayer(self, dt)
 	end
 	
 	-- shooting input
-	if (love.keyboard.isDown(self.controls.shoot) and not self.hasShot and self.ammo > 0) then
-		self.hasShot = true
-		shootPlayer(self)
-		self.ammo = self.ammo - 1
+	if (love.keyboard.isDown(self.controls.shoot) and not self.hasShot) then
+		if(self.ammo > 0) then
+			self.hasShot = true
+			shootPlayer(self)
+			self.ammo = self.ammo - 1
+		else
+			love.audio.newSource(clickSound, "static"):play()
+		end
 	end
 	if ((not love.keyboard.isDown(self.controls.shoot)) and self.hasShot) then
 		self.hasShot = false

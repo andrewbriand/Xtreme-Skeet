@@ -27,6 +27,7 @@ function love.load()
 	background = love.graphics.newImage("grass.jpg")
 	shotgunSound = love.sound.newSoundData("shotgun.mp3")
 	pigeonLauncerSound = love.sound.newSoundData("pigeon launcher.mp3")
+	clickSound = love.sound.newSoundData("Gun_Click.wav")
 end
 
 function love.keypressed(k)
