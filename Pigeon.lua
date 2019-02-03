@@ -38,6 +38,8 @@ function pigeonDraw(pigeon)
 	love.graphics.setColor(FRAGMENT_COLOR)
 	love.graphics.draw(pigeon.psystem, pigeon.x, pigeon.y)
 	love.graphics.setColor(pigeon.color)
-	love.graphics.circle("fill", pigeon.x, pigeon.y, pigeon.radius)
+	--love.graphics.circle("fill", pigeon.x, pigeon.y, pigeon.radius) -- old circle
 	
+	love.graphics.setColor(1,1,1,1)
+	love.graphics.draw(pigeonImage, pigeon.x - pigeon.radius, pigeon.y - pigeon.radius, 0, pigeon.radius*2/pigeonImage:getWidth())
 end
