@@ -18,6 +18,7 @@ function Pigeon(x, y, velocity)
 	pigeon.psystem:setSizes(0.5)
 	pigeon.psystem:setLinearAcceleration(0, 0, 0, 0) -- Random movement in all directions.
 	pigeon.psystem:setColors(255, 255, 255, 255, 255, 255, 255, 0)
+	pigeon.psystem:setParticleLifetime(1)
 	--pigeon.psystem:setLinearAcceleration(-pigeon.velocity.x, -pigeon.velocity.y, -pigeon.velocity.x, -pigeon.velocity.y) 
 	pigeon.psystem:setSpeed(magnitude(pigeon.velocity), magnitude(pigeon.velocity))
 	pigeon.psystem:setDirection(math.pi + math.atan2(pigeon.velocity.y, pigeon.velocity.x), math.atan2(pigeon.velocity.y, pigeon.velocity.x))

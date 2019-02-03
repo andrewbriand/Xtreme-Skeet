@@ -11,7 +11,8 @@ function physicsUpdate(physics, dt)
 	for key, bullet in pairs(objects.bullets) do
 		for key2, pigeon in pairs(objects.pigeons) do
 			--Bullet and pigeon are colliding
-			if  circleCollision(pigeon, bullet) then
+			if  dynamicCircleCollision(bullet, pigeon, dt, {}) then
+				print("Collision")
 				if (bullet.owner == 2) then --update the appropriate scores
 					objects.players[2].score = objects.players[2].score + 1
 				else
@@ -41,6 +42,7 @@ function physicsUpdate(physics, dt)
 				end
 				-- Remove the pigeon from the game
 				table.remove(objects.pigeons, key2)
+				table.remove(objects.bullets, key)
 			end
 		end
 	end
