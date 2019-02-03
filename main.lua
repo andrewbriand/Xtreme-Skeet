@@ -25,9 +25,13 @@ function love.load()
 	physics = Physics()
 	
 	-- fonts
+	fonts = {}
+	for i = 1, 50 do
+		table.insert(fonts, love.graphics.newFont(i))
+	end
 	controlsFont = love.graphics.newFont(21)
 	scoreFont = love.graphics.newFont(30)
-	menuFont = love.graphics.newFont(50)
+	menuFont = fonts[50]
 	
 	-- images
 	background  = love.graphics.newImage("grass.jpg")
