@@ -5,7 +5,7 @@ function Fragment(x, y, velocity)
 	fragment.x = x
 	fragment.y = y
 	fragment.velocity = velocity
-	fragment.color = {0, 0, 255}
+	fragment.color = {255/255 /1.1, 127/255 /1.1, 80/255 /1.1}
 	fragment.radius = 5
 	return fragment
 end
