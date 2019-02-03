@@ -4,3 +4,5 @@ menu
 distinguish between bullet-player sound and fragment-bullet sound
 aim help
 pigeon texture
+allow bullet trail to leave screen
+AI???

@@ -130,6 +130,8 @@ function love.update(dt)
 	elseif gameState == "menu" then
 	end
 	drawTimer = dt + drawTimer
+	
+	updatePoints(dt)
 end
 
 function love.draw()
@@ -147,7 +149,10 @@ function love.draw()
 				obj:draw()
 			end
 		end
+		
+		drawPoints()
 	elseif gameState == "menu" then
+		love.graphics.setColor(1,1,1,1)
 		local scale = math.min(SCREEN_WIDTH/titleScreen:getWidth(),SCREEN_HEIGHT/titleScreen:getHeight())
 		local x = (SCREEN_WIDTH-titleScreen:getWidth()*scale)/2
 		local y = (SCREEN_HEIGHT-titleScreen:getHeight()*scale)/2
