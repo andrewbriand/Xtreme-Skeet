@@ -15,6 +15,7 @@ function Bullet(x, y, velocity, color, owner, seeking, spiral)
 	bullet.spiral = spiral or false
 	bullet.thrust = 1000
 	bullet.thrustDecay = 10
+	-- find and set the target
 	if(bullet.seeking) then
 		mindistPigeon = objects.pigeons[1]
 		if(mindistPigeon ~= nil) then
@@ -32,7 +33,15 @@ function Bullet(x, y, velocity, color, owner, seeking, spiral)
 					mindistPigeon = pigeon
 				end
 			end
-			print(currDist)
+			for key, pigeon in pairs(objects.goldPigeons) do
+				--thisDist = dist(pigeon.x, pigeon.y, bullet.x, bullet.y)
+				hereToPigeon = vSub(pigeon, bullet)
+				thisDist = math.acos(dotProduct(hereToPigeon, aimDir)/(magnitude(hereToPigeon)*magnitude(aimDir)))
+				if((currDist > thisDist and thisDist > 0) or currDist < 0) then
+					currDist = thisDist
+					mindistPigeon = pigeon
+				end
+			end
 			if(currDist > 0) then
 				bullet.target = mindistPigeon
 			end

@@ -1,7 +1,6 @@
 delays between rounds?
-more power ups
-menu
+more power ups?
 distinguish between bullet-player sound and fragment-bullet sound?
 aim help
-pigeon texture
 AI???
+win condition?
