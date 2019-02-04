@@ -1,13 +1,20 @@
 POWERUP_PROBABILITY = 0.05
 GOLD_PROBABILITY = 0.05
 
--- a few variables for keeping track of timing
 PigeonLauncher = {
-	isShooting = false,
-	timer = 0,
+	isShooting  = false,
+	timer       = 0,
 	pigeonsShot = 0,
-	round = 0
+	round       = 0,
 }
+
+-- a few variables for keeping track of timing
+function loadPigeonLauncher()
+	PigeonLauncher.isShooting  = false
+	PigeonLauncher.timer       = 0
+	PigeonLauncher.pigeonsShot = 0
+	PigeonLauncher.round       = 0
+end
 
 function PigeonLauncher.update(self, dt)
 	PigeonLauncher.timer = PigeonLauncher.timer + dt
