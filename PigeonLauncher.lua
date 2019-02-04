@@ -98,7 +98,7 @@ function PigeonLauncher.pigeon.shoot(x, y, targetX, targetY, speedMod)
 		powerUpType = POWER_UP_TYPES[math.random(#POWER_UP_TYPES)]
 		table.insert(objects.powerUps, PowerUp(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED *speedMod}, powerUpType))
 	elseif(randNum < GOLD_PROBABILITY + POWERUP_PROBABILITY and randNum > POWERUP_PROBABILITY) then
-		table.insert(objects.goldPigeons, GoldPigeon(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED *speedMod}))
+		table.insert(objects.goldPigeons, GoldPigeon(x, y, {x = math.cos(angle) * GOLD_PIGEON_SPEED * speedMod, y = math.sin(angle) * GOLD_PIGEON_SPEED *speedMod}))
 	else
 		table.insert(objects.pigeons, Pigeon(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED * speedMod}))
 	end
