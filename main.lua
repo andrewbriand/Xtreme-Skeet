@@ -19,8 +19,8 @@ function resetGame()
 	objects.pigeonLauncher = {}
 	table.insert(objects.pigeonLauncher, PigeonLauncher)
 	objects.players   = {}
-	table.insert(objects.players, Player("Andrew", 1))
-	table.insert(objects.players, Player("David", 2))
+	table.insert(objects.players, Player("Player 1", 1))
+	table.insert(objects.players, Player("Player 2", 2))
 	physics = Physics()
 	
 	loadPigeonLauncher()
@@ -153,7 +153,8 @@ function love.draw()
 	if gameState == "game" then
 		-- draw background
 		love.graphics.setColor(1,1,1)
-		love.graphics.draw(background,0,0,0,SCREEN_WIDTH/background:getWidth())
+		local scale = math.max(SCREEN_WIDTH/background:getWidth(),SCREEN_HEIGHT/background:getHeight())
+		love.graphics.draw(background,0,0,0,scale)
 		
 		-- draw score board
 		drawScoreBoard()

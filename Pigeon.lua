@@ -8,7 +8,7 @@ function Pigeon(x, y, velocity)
 	pigeon.x = x
 	pigeon.y = y
 	pigeon.velocity = velocity
-	pigeon.color = {1, 127/255, 80/255}
+	pigeon.color = {255/255, 127/255, 80/255}
 	pigeon.radius = 10
 	pigeon.numFragments = 10
 	pigeon.psystem = love.graphics.newParticleSystem(fireImage)
@@ -17,7 +17,7 @@ function Pigeon(x, y, velocity)
 	pigeon.psystem:setSizeVariation(0)
 	pigeon.psystem:setSizes(pigeon.radius*2/pigeon.psystem:getTexture():getWidth()*1.6)
 	pigeon.psystem:setLinearAcceleration(0, 0, 0, 0) -- Random movement in all directions.
-	pigeon.psystem:setColors({1,0,0,1},{1,1,0,0})
+	pigeon.psystem:setColors({1,0,0,.9},{1,1,0,0})
 	pigeon.psystem:setParticleLifetime(1)
 	--pigeon.psystem:setLinearAcceleration(-pigeon.velocity.x, -pigeon.velocity.y, -pigeon.velocity.x, -pigeon.velocity.y) 
 	pigeon.psystem:setSpeed(magnitude(pigeon.velocity), magnitude(pigeon.velocity))

@@ -101,7 +101,7 @@ function physicsUpdate(physics, dt)
 		for key2, fragment in pairs(objects.fragments) do
 			if circleCollision(player, fragment) then
 				addPoint(player.x, player.y, "+1", objects.players[-key + 3].color)
-				camShake = 5
+				camShake = camShake + 5
 				if (player.id == 1) then --update the appropriate scores
 					objects.players[2].score = objects.players[2].score + 1
 				else
