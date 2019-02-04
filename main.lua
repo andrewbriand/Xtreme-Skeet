@@ -45,7 +45,8 @@ function love.load()
 	MUSIC_VOLUME = .3
 	currentMusic:setVolume(MUSIC_VOLUME)
 	
-	gameState = "menu" -- "menu", "game", "controls"
+	gameState = "menu" -- "menu", "game", "controls", "won"
+	menuTimer = 0
 	selectedMenu = 0
 	beginText = "Begin"
 end

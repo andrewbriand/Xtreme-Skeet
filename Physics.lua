@@ -164,6 +164,9 @@ function updatePoints(dt)
 	for k, v in ipairs(points) do
 		v.color[4] = v.color[4] - dt/3
 		v.size = math.min(v.size + dt * 8,30)
+		if(v.color[4] <= 0) then
+			table.remove(points, k)
+		end
 	end
 end
 
