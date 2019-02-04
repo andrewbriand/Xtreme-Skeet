@@ -14,7 +14,6 @@ function physicsUpdate(physics, dt)
 		for key2, pigeon in pairs(objects.pigeons) do
 			if  dynamicCircleCollision(bullet, pigeon, dt, {}) then
 				addPoint(pigeon.x, pigeon.y, "+1", objects.players[bullet.owner].color)
-				--print("Collision")
 				if (bullet.owner == 2) then --update the appropriate scores
 					objects.players[2].score = objects.players[2].score + 1
 				else
@@ -55,7 +54,13 @@ function physicsUpdate(physics, dt)
 	for key, bullet in pairs(objects.bullets) do
 		for key2, powerUp in pairs(objects.powerUps) do
 			if dynamicCircleCollision(bullet, powerUp, dt, {}) then
-				addPoint(powerUp.x, powerUp.y, "0", objects.players[bullet.owner].color)
+				if (bullet.owner == 2) then --update the appropriate scores
+					objects.players[2].score = objects.players[2].score + 1
+				else
+					objects.players[1].score = objects.players[1].score + 1
+				end
+				
+				addPoint(powerUp.x, powerUp.y, "+1", objects.players[bullet.owner].color)
 				if powerUp.type == "SEEK" then
 					objects.players[bullet.owner].seek = true
 				elseif powerUp.type == "SPIRAL" then
@@ -66,6 +71,22 @@ function physicsUpdate(physics, dt)
 				objects.players[bullet.owner].powerUpShots = 3
 				objects.players[bullet.owner].powerUpName = powerUp.type
 				table.remove(objects.powerUps, key2)
+				table.remove(objects.bullets, key)
+			end
+		end
+	end
+	
+	-- bullet-gold pigeon collision
+	for key, bullet in pairs(objects.bullets) do
+		for key2, goldPigeon in pairs(objects.goldPigeons) do
+			if dynamicCircleCollision(bullet, goldPigeon, dt, {}) then
+				addPoint(goldPigeon.x, goldPigeon.y, "+3", objects.players[bullet.owner].color)
+				if (bullet.owner == 2) then --update the appropriate scores
+					objects.players[2].score = objects.players[2].score + 3
+				else
+					objects.players[1].score = objects.players[1].score + 3
+				end
+				table.remove(objects.goldPigeons, key2)
 				table.remove(objects.bullets, key)
 			end
 		end

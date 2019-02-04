@@ -5,6 +5,7 @@ require 'Fragment'
 require 'Physics'
 require 'PigeonLauncher'
 require 'PowerUp'
+require 'GoldPigeon'
 
 function love.load()
 	load()
@@ -21,6 +22,7 @@ function love.load()
 	objects.bullets   = {}
 	objects.fragments = {}
 	objects.powerUps = {}
+	objects.goldPigeons = {}
 	objects.pigeonLauncher = {}
 	table.insert(objects.pigeonLauncher, PigeonLauncher)
 	objects.players   = {}

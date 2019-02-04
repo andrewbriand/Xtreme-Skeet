@@ -1,5 +1,5 @@
 POWERUP_PROBABILITY = 0.1
-
+GOLD_PROBABILITY = 0.1
 
 -- a few variables for keeping track of timing
 PigeonLauncher = {
@@ -66,6 +66,11 @@ function roundOver()
 			return false
 		end
 	end
+	for k, v in pairs(objects.goldPigeons) do
+		if not isOffScreen(v.x, v.y, SCREEN_BUFFER) then
+			return false
+		end
+	end
 	return true
 end
 
@@ -80,13 +85,15 @@ PigeonLauncher.cascade = {}
 function PigeonLauncher.pigeon.shoot(x, y, targetX, targetY, speedMod)
 	speedMod = speedMod or 1
 	local angle = math.atan2((targetY - y), (targetX - x))
-	if(math.random() > POWERUP_PROBABILITY) then
-		table.insert(objects.pigeons, Pigeon(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED * speedMod}))
-	else 
-		speedMod = speedMod or 1
-		local angle = math.atan2((targetY - y), (targetX - x))
+	
+	randNum = math.random()
+	if(randNum < POWERUP_PROBABILITY and randNum > 0) then
 		powerUpType = POWER_UP_TYPES[math.random(#POWER_UP_TYPES)]
 		table.insert(objects.powerUps, PowerUp(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED *speedMod}, powerUpType))
+	elseif(randNum < GOLD_PROBABILITY and randNum > POWERUP_PROBABILITY) then
+		table.insert(objects.goldPigeons, GoldPigeon(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED *speedMod}))
+	else
+		table.insert(objects.pigeons, Pigeon(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED * speedMod}))
 	end
 end
 
