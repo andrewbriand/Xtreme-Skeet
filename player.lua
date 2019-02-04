@@ -196,7 +196,6 @@ function shootPlayer(self)
 	self.ammo = self.ammo - 1
 	if(self.powerUpShots > 0) then
 		self.powerUpShots = self.powerUpShots - 1
-		print("Lowered powerUpShots")
 	end
 	self.psystem:emit(20)
 	love.audio.newSource(shotgunSound, "static"):play()

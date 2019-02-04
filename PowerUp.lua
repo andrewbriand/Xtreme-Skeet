@@ -25,6 +25,7 @@ function PowerUp(x, y, velocity, pType)
 	powerUp.psystem:setRelativeRotation(true)
 	powerUp.destroyed = false
 	powerUp.type = pType or "SEEK"
+	powerUp.image = seekPowerUpImage
 	return powerUp
 end
 
@@ -40,5 +41,6 @@ function powerUpDraw(powerUp)
 	love.graphics.draw(powerUp.psystem, powerUp.x, powerUp.y)
 	
 	love.graphics.setColor(1,1,1,1)
-	love.graphics.draw(pigeonImage, powerUp.x - powerUp.radius, powerUp.y - powerUp.radius, 0, powerUp.radius*2/pigeonImage:getWidth())	
+	love.graphics.draw(powerUp.image, powerUp.x - powerUp.radius, powerUp.y - powerUp.radius, 0, powerUp.radius*2/powerUp.image:getWidth())	
+	
 end

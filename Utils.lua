@@ -28,7 +28,6 @@ function dynamicCircleCollision(object1, object2, dt, collPos)
 					- math.atan2(object1Next.y - object1.y, object1Next.x - object1.x)
 	local mindist = math.abs(magnitude(obj1ToObj2) * math.sin(theta))
 	if(mindist < (object1.radius + object2.radius) and dotProduct(object1.velocity, obj1ToObj2) > 0) then
-		print(tostring(math.abs(magnitude(obj1ToObj2) * math.cos(theta))) .. ", " .. tostring(magnitude(object1.velocity) * dt))
 		if (math.abs(magnitude(obj1ToObj2) * math.cos(theta)) - math.sqrt(math.pow(object2.radius, 2) - math.pow(mindist, 2)) < magnitude(object1.velocity) * dt) then
 			return true
 		end

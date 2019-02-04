@@ -118,6 +118,11 @@ function physicsUpdate(physics, dt)
 		if(isOffScreen(fragment.x, fragment.y, 150)) then
 			table.remove(objects.fragments, key)
 		end
+	end	
+	for key, powerUp in pairs(objects.powerUps) do
+		if(isOffScreen(powerUp.x, powerUp.y, 150)) then
+			table.remove(objects.powerUps, key)
+		end
 	end
 end
 

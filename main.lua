@@ -209,6 +209,9 @@ function drawScoreBoard()
 								objects.players[2].color[2]*brightness + (1 - brightness),
 								objects.players[2].color[3]*brightness + (1 - brightness)})
 		love.graphics.print(objects.players[2].name .. "'s score: " .. objects.players[2].score,SCREEN_WIDTH-text:getWidth(),0)
+		love.graphics.setColor({objects.players[2].color[1]*brightness + (1 - brightness) *  waveFactor,
+								objects.players[2].color[2]*brightness + (1 - brightness) * waveFactor,
+								objects.players[2].color[3]*brightness + (1 - brightness) * waveFactor})
 		love.graphics.print(objects.players[2].powerUpName, SCREEN_WIDTH - text:getWidth(), text:getHeight())
 		
 		-- round number
@@ -247,6 +250,7 @@ function load()
 	smokeImage  = love.graphics.newImage("images/smoke.png")
 	fireImage   = love.graphics.newImage("images/fire 2.png")
 	pigeonImage = love.graphics.newImage("images/pigeon.png")
+	seekPowerUpImage = love.graphics.newImage("images/powerup.png")
 	
 	-- sounds
 	grunt1             = love.sound.newSoundData("sounds/grunt 1.mp3")

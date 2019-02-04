@@ -59,6 +59,11 @@ function roundOver()
 		if (v.x > 0) and (v.y > 0) and (v.x < SCREEN_WIDTH) and (v.y < SCREEN_HEIGHT) then
 			return false
 		end
+	end	
+	for k, v in pairs(objects.powerUps) do
+		if (v.x > 0) and (v.y > 0) and (v.x < SCREEN_WIDTH) and (v.y < SCREEN_HEIGHT) then
+			return false
+		end
 	end
 	return true
 end
