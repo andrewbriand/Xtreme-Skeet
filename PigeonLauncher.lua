@@ -1,3 +1,5 @@
+POWERUP_PROBABILITY = 1
+
 -- a few variables for keeping track of timing
 PigeonLauncher = {
 	isShooting = false,
@@ -72,15 +74,14 @@ PigeonLauncher.cascade = {}
 function PigeonLauncher.pigeon.shoot(x, y, targetX, targetY, speedMod)
 	speedMod = speedMod or 1
 	local angle = math.atan2((targetY - y), (targetX - x))
-	table.insert(objects.pigeons, Pigeon(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED * speedMod}))
-end
-
--- shoots a random power up from the given location to the given target
-function PigeonLauncher.pigeon.shootPowerUp(x, y, targetX, targetY, speedMod)
-	speedMod = speedMod or 1
-	local angle = math.atan2((targetY - y), (targetX - x))
-	powerUpType = POWER_UP_TYPES[math.random(#POWER_UP_TYPES)]
-	table.insert(objects.powerUps, PowerUp(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED * speedMod}, powerUpType))
+	if(math.random() > POWERUP_PROBABILITY) then
+		table.insert(objects.pigeons, Pigeon(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED * speedMod}))
+	else 
+		speedMod = speedMod or 1
+		local angle = math.atan2((targetY - y), (targetX - x))
+		powerUpType = POWER_UP_TYPES[math.random(#POWER_UP_TYPES)]
+		table.insert(objects.powerUps, PowerUp(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED *speedMod}, powerUpType))
+	end
 end
 
 
@@ -105,11 +106,8 @@ function PigeonLauncher.pigeons.shoot(numPigeons, delay)
 		else
 			y = SCREEN_HEIGHT
 		end
-		if(math.random() < 0.9) then
-			PigeonLauncher.pigeon.shoot(x, y, targetX, targetY)
-		else 
-			PigeonLauncher.pigeon.shootPowerUp(x, y, targetX, targetY)
-		end
+		
+		PigeonLauncher.pigeon.shoot(x, y, targetX, targetY)
 		PigeonLauncher.resetLauncer()
 	end
 	

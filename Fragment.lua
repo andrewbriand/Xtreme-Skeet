@@ -1,4 +1,4 @@
-FRAGMENT_COLOR = {255/255 /1.1, 127/255 /1.1, 80/255 /1.1}
+FRAGMENT_COLOR = {255/255 /1.1, 127/255 /1.1, 80/255 /1.1, 1}
 
 function Fragment(x, y, velocity)
 	local fragment = {}

@@ -245,7 +245,7 @@ function load()
 	background  = love.graphics.newImage("images/grass.jpg")
 	titleScreen = love.graphics.newImage("images/title screen.png")
 	smokeImage  = love.graphics.newImage("images/smoke.png")
-	fireImage   = love.graphics.newImage("images/Fire.png")
+	fireImage   = love.graphics.newImage("images/fire 2.png")
 	pigeonImage = love.graphics.newImage("images/pigeon.png")
 	
 	-- sounds

@@ -15,9 +15,9 @@ function Pigeon(x, y, velocity)
 	pigeon.psystem:setParticleLifetime(2, 5) -- Particles live at least 2s and at most 5s.
 	pigeon.psystem:setEmissionRate(10)
 	pigeon.psystem:setSizeVariation(0)
-	pigeon.psystem:setSizes(0.5)
+	pigeon.psystem:setSizes(pigeon.radius*2/pigeon.psystem:getTexture():getWidth()*1.6)
 	pigeon.psystem:setLinearAcceleration(0, 0, 0, 0) -- Random movement in all directions.
-	pigeon.psystem:setColors(255, 255, 255, 255, 255, 255, 255, 0)
+	pigeon.psystem:setColors({1,0,0,1},{1,1,0,0})
 	pigeon.psystem:setParticleLifetime(1)
 	--pigeon.psystem:setLinearAcceleration(-pigeon.velocity.x, -pigeon.velocity.y, -pigeon.velocity.x, -pigeon.velocity.y) 
 	pigeon.psystem:setSpeed(magnitude(pigeon.velocity), magnitude(pigeon.velocity))
@@ -35,10 +35,7 @@ function pigeonUpdate(pigeon, dt)
 end
 
 function pigeonDraw(pigeon)
-	love.graphics.setColor(FRAGMENT_COLOR)
-	love.graphics.draw(pigeon.psystem, pigeon.x, pigeon.y)
-	love.graphics.setColor(pigeon.color)
-	--love.graphics.circle("fill", pigeon.x, pigeon.y, pigeon.radius) -- old circle
+	love.graphics.draw(pigeon.psystem, pigeon.x, pigeon.y, 0, 1)
 	
 	love.graphics.setColor(1,1,1,1)
 	love.graphics.draw(pigeonImage, pigeon.x - pigeon.radius, pigeon.y - pigeon.radius, 0, pigeon.radius*2/pigeonImage:getWidth())
