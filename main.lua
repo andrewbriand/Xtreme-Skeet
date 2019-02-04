@@ -20,6 +20,8 @@ function resetGame()
 	table.insert(objects.pigeonLauncher, PigeonLauncher)
 	objects.players   = {}
 	table.insert(objects.players, Player("Player 1", 1))
+	objects.players[1].aimBot = true
+	objects.players[1].powerUpShots = 10000000
 	table.insert(objects.players, Player("Player 2", 2))
 	physics = Physics()
 	
