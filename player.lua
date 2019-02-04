@@ -99,7 +99,7 @@ function Player(name, controlSet)
 		powerUpShots = 0,
 		aimBot = false,
 		aimBotPastTargets = {},
-		laser = true
+		laser = false
 	}
 	player.psystem = love.graphics.newParticleSystem(smokeImage)
 	player.psystem:setParticleLifetime(1,1) 
@@ -184,6 +184,7 @@ function updatePlayer(self, dt)
 		self.spiral = false
 		self.powerUpName = ""
 		self.aimBot = false -- TODO: CHANGE
+		self.laser = false
 	end
 	self.psystem:update(dt)
 end

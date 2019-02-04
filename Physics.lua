@@ -59,7 +59,7 @@ function physicsUpdate(physics, dt)
 				else
 					objects.players[1].score = objects.players[1].score + 1
 				end
-				
+				objects.players[bullet.owner].powerUpShots =  3
 				addPoint(powerUp.x, powerUp.y, "+1", objects.players[bullet.owner].color)
 				if powerUp.type == "SEEK" then
 					objects.players[bullet.owner].seek = true
@@ -67,8 +67,11 @@ function physicsUpdate(physics, dt)
 					objects.players[bullet.owner].spiral = true
 				elseif powerUp.type == "AIMBOT" then
 					objects.players[bullet.owner].aimBot = true
+				elseif powerUp.type == "LASER" then
+					objects.players[bullet.owner].laser = true
+					objects.players[bullet.owner].powerUpShots =  40
 				end
-				objects.players[bullet.owner].powerUpShots = 3
+				
 				objects.players[bullet.owner].powerUpName = powerUp.type
 				table.remove(objects.powerUps, key2)
 				table.remove(objects.bullets, key)
