@@ -7,7 +7,7 @@ require 'PigeonLauncher'
 require 'PowerUp'
 require 'GoldPigeon'
 
-POINTS_REQUIRED = 1
+POINTS_REQUIRED = 50
 
 function resetGame()
 	objects = {}
