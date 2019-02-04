@@ -3,4 +3,4 @@ more power ups?
 distinguish between bullet-player sound and fragment-bullet sound?
 aim help
 AI???
-win condition?
+gold pigeon and power up sounds
