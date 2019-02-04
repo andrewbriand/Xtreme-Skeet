@@ -101,8 +101,10 @@ function Player(name, controlSet)
 		powerUpName = "",
 		powerUpShots = 0,
 		aimBot = false,
+		ai = false,
 		aimBotPastTargets = {},
-		laser = false
+		laser = false,
+		aimBotVariation = 0
 	}
 	player.psystem = love.graphics.newParticleSystem(smokeImage)
 	player.psystem:setParticleLifetime(1,1) 
@@ -162,12 +164,27 @@ function updatePlayer(self, dt)
 				end
 			end
 			
-			aimDir = vSub(vAdd(vScale(.25, mindistPigeon.velocity), mindistPigeon), self)
-			self.dir = math.atan2(aimDir.y, aimDir.x)
-			if self.ammo > 0 and self.aimBotPastTargets[mindistPigeon] == nil then 
-				shootPlayer(self)
+			aimDir = vSub(vAdd(vScale(.25 + self.aimBotVariation, mindistPigeon.velocity), mindistPigeon), self)
+			goalDir = math.atan2(aimDir.y, aimDir.x)
+			goAhead = false
+			if(math.abs(goalDir - self.dir) > self.rotationSpeed * dt * rotationSpeedMod and ai) then
+					if(goalDir < self.dir) then
+						self.dir = self.dir - self.rotationSpeed * dt * rotationSpeedMod
+					else
+						self.dir = self.dir + self.rotationSpeed * dt * rotationSpeedMod
+					end
+			else 
+					self.dir = goalDir
+					goAhead = true
 			end
-			self.aimBotPastTargets[mindistPigeon] = true
+			if self.ammo > 0 and self.aimBotPastTargets[mindistPigeon] == nil and goAhead then 
+				if(ai) then
+					self.aimBotVariation = 4*(math.random() - 0.5)
+				end
+				shootPlayer(self)
+				self.aimBotPastTargets[mindistPigeon] = true
+			end
+			
 		end
 	end
 	-- shooting input
@@ -183,11 +200,7 @@ function updatePlayer(self, dt)
 		self.hasShot = false
 	end
 	if(self.powerUpShots <= 0) then
-		self.seek  = false
-		self.spiral = false
-		self.powerUpName = ""
-		self.aimBot = false -- TODO: CHANGE
-		self.laser = false
+		resetPowerUps(self)
 	end
 	self.psystem:update(dt)
 end
@@ -204,6 +217,14 @@ function shootPlayer(self)
 	end
 	self.psystem:emit(20)
 	love.audio.newSource(shotgunSound, "static"):play()
+end
+
+function resetPowerUps(self)
+		self.seek  = false
+		self.spiral = false
+		self.powerUpName = ""
+		self.aimBot = false -- TODO: CHANGE
+		self.laser = false
 end
 
 function drawPlayer(self)
