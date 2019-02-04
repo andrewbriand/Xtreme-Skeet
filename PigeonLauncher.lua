@@ -1,4 +1,4 @@
-POWERUP_PROBABILITY = 1
+POWERUP_PROBABILITY = 0.1
 
 -- a few variables for keeping track of timing
 PigeonLauncher = {
