@@ -61,6 +61,7 @@ function Player(name, controlSet)
 		id = 2
 		gruntSound = grunt2
 		dir = math.pi+.08
+		congrad = congrad2
 	else -- player one otherwise
 		controls = PLAYER_CONTROLS[1]
 		color = {0,0,1}
@@ -68,6 +69,7 @@ function Player(name, controlSet)
 		id = 1
 		gruntSound = grunt1
 		dir = .08
+		congrad = congrad1
 	end
 	
 	local player = {
@@ -81,6 +83,7 @@ function Player(name, controlSet)
 		score = 0,
 		id = id,
 		gruntSound = gruntSound,
+		congrad = congrad,
 		
 		hasShoot = false, -- used to prevent repeated shooting
 		

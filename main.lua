@@ -19,10 +19,8 @@ function resetGame()
 	objects.pigeonLauncher = {}
 	table.insert(objects.pigeonLauncher, PigeonLauncher)
 	objects.players   = {}
-	table.insert(objects.players, Player("Player 1", 1))
-	objects.players[1].aimBot = true
-	objects.players[1].powerUpShots = 10000000
-	table.insert(objects.players, Player("Player 2", 2))
+	table.insert(objects.players, Player("Andrew", 1))
+	table.insert(objects.players, Player("David", 2))
 	physics = Physics()
 	
 	loadPigeonLauncher()
@@ -37,7 +35,7 @@ function resetGame()
 	menuTimer = 0
 	selectedMenu = 0
 	beginText = "Begin"
-	winnerLength = 2
+	winnerLength = 2.7
 end
 
 function love.load()
@@ -281,6 +279,8 @@ function load()
 	clickSound         = love.sound.newSoundData("sounds/Gun_Click.mp3")
 	pigeonBreakSound   = love.sound.newSoundData("sounds/pigeon break.mp3")
 	menuSound          = love.sound.newSoundData("sounds/menu select.mp3")
+	congrad1          = love.sound.newSoundData("sounds/congrad 1.mp3")
+	congrad2          = love.sound.newSoundData("sounds/congrad 2.mp3")
 	
 	-- music
 	menuMusic          = love.sound.newSoundData("sounds/menu music.mp3")
@@ -294,6 +294,7 @@ function updateWinner(dt)
 				love.audio.stop()
 				resetGame()
 				gameWon = i
+				love.audio.newSource(objects.players[i].congrad, "static"):play()
 --				gameState = "menu"
 --				beginText = "Begin"
 --				menuTimer = 0
