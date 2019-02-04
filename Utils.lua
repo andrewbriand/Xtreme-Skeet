@@ -44,10 +44,12 @@ function dynamicCircleCollision2(object1, object2, dt, collPos)
 	vxTerm = object1.velocity.x - object2.velocity.x
 	oyTerm = object1.y - object2.y
 	oxTerm = object1.x - object2.x
-	s = (vyTerm*oyTerm - vxTerm*oxTerm)/(dt * (math.pow(vxTerm, 2) + math.pow(vyTerm, 2)))
+	s = -(vyTerm*oyTerm - vxTerm*oxTerm)/(dt * (math.pow(vxTerm, 2) + math.pow(vyTerm, 2)))
 	mindist = dist(s*dt*object1.velocity.x + object1.x, s*dt*object1.velocity.y + object1.y, s*dt*object2.velocity.x + object2.x, s*dt*object2.velocity.y + object2.y)
-	if(s >= 0 and s <= 1 and mindist < object1.radius + object2.radius) then
-		return true
+	if(mindist < object1.radius + object2.radius) then
+		if(s >= 0 and s <= 1) then
+			return true
+		end
 	end
 	return false
 end
