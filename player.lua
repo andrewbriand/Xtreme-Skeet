@@ -98,7 +98,8 @@ function Player(name, controlSet)
 		powerUpName = "",
 		powerUpShots = 0,
 		aimBot = false,
-		aimBotPastTargets = {}
+		aimBotPastTargets = {},
+		laser = false
 	}
 	player.psystem = love.graphics.newParticleSystem(smokeImage)
 	player.psystem:setParticleLifetime(1,1) 
@@ -158,7 +159,7 @@ function updatePlayer(self, dt)
 				end
 			end
 			
-			aimDir = vSub(vAdd(vScale(.5, mindistPigeon.velocity), mindistPigeon), self)
+			aimDir = vSub(vAdd(vScale(.25, mindistPigeon.velocity), mindistPigeon), self)
 			self.dir = math.atan2(aimDir.y, aimDir.x)
 			if self.ammo > 0 and self.aimBotPastTargets[mindistPigeon] == nil then 
 				shootPlayer(self)
@@ -167,8 +168,8 @@ function updatePlayer(self, dt)
 		end
 	end
 	-- shooting input
-	if (love.keyboard.isDown(self.controls.shoot) and not self.hasShot) then
-		if(self.ammo > 0) then
+	if (love.keyboard.isDown(self.controls.shoot) and (not self.hasShot or self.laser)) then
+		if(self.ammo > 0 or self.laser) then
 			shootPlayer(self)
 		else
 			love.audio.newSource(clickSound, "static"):play()
@@ -183,6 +184,7 @@ function updatePlayer(self, dt)
 		self.spiral = false
 		self.powerUpName = ""
 		self.aimBot = false -- TODO: CHANGE
+		self.laser = false
 	end
 	self.psystem:update(dt)
 end

@@ -32,6 +32,7 @@ function dynamicCircleCollision(object1, object2, dt, collPos)
 			return true
 		end
 	end
+	return false
 end
 
 
