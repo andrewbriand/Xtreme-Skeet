@@ -11,13 +11,14 @@ function PowerUp(x, y, velocity, pType)
 	powerUp.velocity = velocity
 	powerUp.color = {0, 0, 1}
 	powerUp.radius = 10
+	powerUp.birth = globalTimer
 	powerUp.psystem = love.graphics.newParticleSystem(fireImage)
 	powerUp.psystem:setParticleLifetime(2, 5) -- Particles live at least 2s and at most 5s.
 	powerUp.psystem:setEmissionRate(10)
 	powerUp.psystem:setSizeVariation(0)
 	powerUp.psystem:setSizes(.5)
 	powerUp.psystem:setLinearAcceleration(0, 0, 0, 0) -- Random movement in all directions.
-	powerUp.psystem:setColors({0,0,1,1},{.5,0,1,.5},{1,0,1,0})
+	powerUp.psystem:setColors({1,1,1,1},{1,1,1,.5},{1,1,1,0})
 	powerUp.psystem:setParticleLifetime(1)
 	--powerUp.psystem:setLinearAcceleration(-powerUp.velocity.x, -powerUp.velocity.y, -powerUp.velocity.x, -powerUp.velocity.y) 
 	powerUp.psystem:setSpeed(magnitude(powerUp.velocity), magnitude(powerUp.velocity))
@@ -38,7 +39,7 @@ end
 
 function powerUpDraw(powerUp)
 	--love.graphics.setColor(POWER_UP_COLOR)
-	love.graphics.setColor(1,1,1,1)
+	love.graphics.setColor(hsvToRgb(globalTimer+powerUp.birth,1,1))
 	love.graphics.draw(powerUp.psystem, powerUp.x, powerUp.y)
 	
 	love.graphics.setColor(1,1,1,1)
