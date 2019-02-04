@@ -288,6 +288,7 @@ function load()
 	menuSound          = love.sound.newSoundData("sounds/menu select.mp3")
 	congrad1          = love.sound.newSoundData("sounds/congrad 1.mp3")
 	congrad2          = love.sound.newSoundData("sounds/congrad 2.mp3")
+	powerUpSound      = love.sound.newSoundData("sounds/PowerUp.wav")
 	
 	-- music
 	menuMusic          = love.sound.newSoundData("sounds/menu music.mp3")

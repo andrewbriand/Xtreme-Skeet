@@ -76,6 +76,7 @@ function physicsUpdate(physics, dt)
 				objects.players[bullet.owner].powerUpName = powerUp.type
 				table.remove(objects.powerUps, key2)
 				table.remove(objects.bullets, key)
+				love.audio.newSource(powerUpSound, "static"):play()
 			end
 		end
 	end
