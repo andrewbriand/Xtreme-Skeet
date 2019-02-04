@@ -9,6 +9,8 @@ require 'PowerUp'
 function love.load()
 	load()
 	
+	globalTimer = 0
+	
 	drawTimer = 0
 	SCREEN_WIDTH = love.graphics.getWidth() -- screen width
 	SCREEN_HEIGHT = love.graphics.getHeight() -- screen height
@@ -111,6 +113,7 @@ function love.resize(w, h)
 end
 
 function love.update(dt)
+	globalTimer = globalTimer + dt
 	if gameState == "game" then
 		physics:update(dt)
 		for key, t in pairs(objects) do

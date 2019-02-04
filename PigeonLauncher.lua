@@ -1,5 +1,6 @@
 POWERUP_PROBABILITY = 0.1
 
+
 -- a few variables for keeping track of timing
 PigeonLauncher = {
 	isShooting = false,
@@ -46,22 +47,22 @@ end
 function roundOver()
 	local returnVar = false
 	for k, v in pairs(objects.pigeons) do
-		if (v.x > 0) and (v.y > 0) and (v.x < SCREEN_WIDTH) and (v.y < SCREEN_HEIGHT) then
+		if not isOffScreen(v.x, v.y, SCREEN_BUFFER) then
 			return false
 		end
 	end
 	for k, v in pairs(objects.bullets) do
-		if (v.x > 0) and (v.y > 0) and (v.x < SCREEN_WIDTH) and (v.y < SCREEN_HEIGHT) then
+		if not isOffScreen(v.x, v.y, SCREEN_BUFFER) then
 			return false
 		end
 	end
 	for k, v in pairs(objects.fragments) do
-		if (v.x > 0) and (v.y > 0) and (v.x < SCREEN_WIDTH) and (v.y < SCREEN_HEIGHT) then
+		if not isOffScreen(v.x, v.y, SCREEN_BUFFER) then
 			return false
 		end
 	end	
 	for k, v in pairs(objects.powerUps) do
-		if (v.x > 0) and (v.y > 0) and (v.x < SCREEN_WIDTH) and (v.y < SCREEN_HEIGHT) then
+		if not isOffScreen(v.x, v.y, SCREEN_BUFFER) then
 			return false
 		end
 	end
@@ -128,6 +129,17 @@ end
 function PigeonLauncher.cascade.shoot(numPigeons, delay)
 	ySide = (math.random(2)-1)
 	if(PigeonLauncher.launcherReady(numPigeons)) then
+		local i = 1
+		x = (((-SCREEN_WIDTH) / numPigeons) * (i + 0)) + SCREEN_WIDTH  + SCREEN_WIDTH/numPigeons/2
+		y = ((i+ySide)%2) * SCREEN_HEIGHT
+			
+		local targetX = ((((SCREEN_WIDTH / 4) - (SCREEN_WIDTH / 4 * 3)) / numPigeons) * (i + 0)) + (SCREEN_WIDTH / 4 * 3)
+		                - (((SCREEN_WIDTH / 4) - (SCREEN_WIDTH / 4 * 3)) / numPigeons)/2
+		local targetY = SCREEN_HEIGHT / 2
+		
+		local d = math.sqrt((x-targetX)^2+(y-targetY)^2)
+		local t = d/PIGEON_SPEED
+		
 		for i = 1, numPigeons do
 			x = (((-SCREEN_WIDTH) / numPigeons) * (i + 0)) + SCREEN_WIDTH  + SCREEN_WIDTH/numPigeons/2
 			y = ((i+ySide)%2) * SCREEN_HEIGHT
@@ -136,7 +148,10 @@ function PigeonLauncher.cascade.shoot(numPigeons, delay)
 				- (((SCREEN_WIDTH / 4) - (SCREEN_WIDTH / 4 * 3)) / numPigeons)/2
 			local targetY = SCREEN_HEIGHT / 2
 			
-			PigeonLauncher.pigeon.shoot(x, y, targetX, targetY)
+			local d = math.sqrt((x-targetX)^2+(y-targetY)^2)
+			local s = d/t
+			
+			PigeonLauncher.pigeon.shoot(x, y, targetX, targetY, s/PIGEON_SPEED)
 			PigeonLauncher.resetLauncer()
 		end
 	end

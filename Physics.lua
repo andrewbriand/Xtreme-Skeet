@@ -1,4 +1,5 @@
 require 'Utils'
+SCREEN_BUFFER = 150
 
 function Physics()
 	local physics = {}
@@ -105,22 +106,22 @@ function physicsUpdate(physics, dt)
 	
 	-- delete bullets, fragments, and pigeons when they are off the screen
 	for key, bullet in pairs(objects.bullets) do
-		if(isOffScreen(bullet.x, bullet.y, 150)) then
+		if(isOffScreen(bullet.x, bullet.y, SCREEN_BUFFER)) then
 			table.remove(objects.bullets, key)
 		end
 	end
 	for key, pigeon in pairs(objects.pigeons) do
-		if(isOffScreen(pigeon.x, pigeon.y, 150)) then
+		if(isOffScreen(pigeon.x, pigeon.y, SCREEN_BUFFER)) then
 			table.remove(objects.pigeons, key)
 		end
 	end
 	for key, fragment in pairs(objects.fragments) do
-		if(isOffScreen(fragment.x, fragment.y, 150)) then
+		if(isOffScreen(fragment.x, fragment.y, SCREEN_BUFFER)) then
 			table.remove(objects.fragments, key)
 		end
 	end	
 	for key, powerUp in pairs(objects.powerUps) do
-		if(isOffScreen(powerUp.x, powerUp.y, 150)) then
+		if(isOffScreen(powerUp.x, powerUp.y, SCREEN_BUFFER)) then
 			table.remove(objects.powerUps, key)
 		end
 	end
