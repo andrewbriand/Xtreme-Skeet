@@ -23,13 +23,16 @@ end
 -- modifies collPos
 function dynamicCircleCollision(object1, object2, dt, collPos)
 	object1Next = { x = object1.x + object1.velocity.x * dt, y = object1.y + object1.velocity.y*dt}
-	obj1ToObj2 = {x = object2.x - object1.x, y = object2.y - object1.y}
+	obj1ToObj2 = vSub(object2, object1)
 	local theta = math.atan2(obj1ToObj2.y, obj1ToObj2.x)
 					- math.atan2(object1Next.y - object1.y, object1Next.x - object1.x)
-	
 	local mindist = math.abs(magnitude(obj1ToObj2) * math.sin(theta))
-	
-	return mindist < (object1.radius + object2.radius) and dotProduct(object1.velocity, obj1ToObj2) > 0 and math.abs(magnitude(obj1ToObj2) * math.cos(theta)) < magnitude({x = object1.velocity.x*dt, y = object1.velocity.y*dt})
+	if(mindist < (object1.radius + object2.radius) and dotProduct(object1.velocity, obj1ToObj2) > 0) then
+		print(tostring(math.abs(magnitude(obj1ToObj2) * math.cos(theta))) .. ", " .. tostring(magnitude(object1.velocity) * dt))
+		if (math.abs(magnitude(obj1ToObj2) * math.cos(theta)) - math.sqrt(math.pow(object2.radius, 2) - math.pow(mindist, 2)) < magnitude(object1.velocity) * dt) then
+			return true
+		end
+	end
 end
 
 
