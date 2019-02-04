@@ -36,6 +36,8 @@ function resetGame()
 	selectedMenu = 0
 	beginText = "Begin"
 	winnerLength = 2.7
+	
+	camShake = 1
 end
 
 function love.load()
@@ -127,7 +129,12 @@ end
 
 function love.update(dt)
 	globalTimer = globalTimer + dt
+	
+	xShake = math.random() * camShake - camShake/2
+	yShake = math.random() * camShake - camShake/2
+	
 	if gameState == "game" then
+		camShake = camShake * .97
 		physics:update(dt)
 		for key, t in pairs(objects) do
 			for key2, obj in pairs(t) do 
@@ -314,4 +321,39 @@ function drawGameWinner()
 			love.graphics.printWithBoarder("WNNER: \n" .. objects.players[i].name,SCREEN_WIDTH/2-text:getWidth()/2,SCREEN_HEIGHT/3,100,objects.players[i].color,{1,1,1,1},2)
 		end
 	end
+end
+
+drawOld = love.graphics.draw
+function love.graphics.draw( drawable, x, y, r, sx, sy, ox, oy, kx, ky )
+	x = x or 0
+	y = y or 0
+	drawOld( drawable, x + xShake, y + yShake, r, sx, sy, ox, oy, kx, ky )
+end
+
+printOld = love.graphics.print
+function love.graphics.print( text, x, y, r, sx, sy, ox, oy, kx, ky )
+	x = x or 0
+	y = y or 0
+	printOld( text, x + xShake, y + yShake, r, sx, sy, ox, oy, kx, ky )
+end
+
+circleOld = love.graphics.circle
+function love.graphics.circle( mode, x, y, radius )
+	x = x or 0
+	y = y or 0
+	circleOld(mode, x + xShake, y + yShake, radius)
+end
+
+lineOld = love.graphics.line
+function love.graphics.line(x1, y1, x2, y2)
+	x = x or 0
+	y = y or 0
+	lineOld(x1 + xShake, y1 + yShake, x2 + xShake, y2 + yShake)
+end
+
+rectangleOld = love.graphics.rectangle
+function love.graphics.rectangle( mode, x, y, width, height )
+	x = x or 0
+	y = y or 0
+	rectangleOld( mode, x + xShake, y + yShake, width, height )
 end

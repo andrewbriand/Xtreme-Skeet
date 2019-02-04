@@ -2,5 +2,5 @@ delays between rounds?
 more power ups?
 distinguish between bullet-player sound and fragment-bullet sound?
 aim help
-AI???
+AI shoot at power ups and gold
 gold pigeon and power up sounds

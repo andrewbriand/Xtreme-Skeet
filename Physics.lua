@@ -100,6 +100,7 @@ function physicsUpdate(physics, dt)
 		for key2, fragment in pairs(objects.fragments) do
 			if circleCollision(player, fragment) then
 				addPoint(player.x, player.y, "+1", objects.players[-key + 3].color)
+				camShake = 5
 				if (player.id == 1) then --update the appropriate scores
 					objects.players[2].score = objects.players[2].score + 1
 				else
@@ -115,12 +116,13 @@ function physicsUpdate(physics, dt)
 	for key, player in pairs(objects.players) do
 		for key2, bullet in pairs(objects.bullets) do
 			if dynamicCircleCollision(bullet, player, dt, {}) then
-				addPoint(player.x, player.y, "-1", objects.players[bullet.owner].color)
+				addPoint(player.x, player.y, "-.25", objects.players[bullet.owner].color)
+				camShake = 10
 				if (player.id == 1 and bullet.owner == 2) then --update the appropriate scores
-					objects.players[2].score = objects.players[2].score - 1
+					objects.players[2].score = objects.players[2].score - .25
 					table.remove(objects.bullets, key2)
 				elseif(player.id == 2 and bullet.owner == 1) then
-					objects.players[1].score = objects.players[1].score - 1
+					objects.players[1].score = objects.players[1].score - .25
 					table.remove(objects.bullets, key2)
 				end
 				love.audio.newSource(player.gruntSound, "static"):play()
