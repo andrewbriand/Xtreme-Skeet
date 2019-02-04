@@ -159,7 +159,7 @@ function updatePlayer(self, dt)
 				end
 			end
 			
-			aimDir = vSub(vAdd(vScale(.5, mindistPigeon.velocity), mindistPigeon), self)
+			aimDir = vSub(vAdd(vScale(.25, mindistPigeon.velocity), mindistPigeon), self)
 			self.dir = math.atan2(aimDir.y, aimDir.x)
 			if self.ammo > 0 and self.aimBotPastTargets[mindistPigeon] == nil then 
 				shootPlayer(self)
