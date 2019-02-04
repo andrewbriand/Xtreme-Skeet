@@ -61,6 +61,7 @@ function physicsUpdate(physics, dt)
 				end
 				objects.players[bullet.owner].powerUpShots =  3
 				addPoint(powerUp.x, powerUp.y, "+1", objects.players[bullet.owner].color)
+				resetPowerUps(objects.players[bullet.owner])
 				if powerUp.type == "SEEK" then
 					objects.players[bullet.owner].seek = true
 				elseif powerUp.type == "SPIRAL" then

@@ -200,11 +200,7 @@ function updatePlayer(self, dt)
 		self.hasShot = false
 	end
 	if(self.powerUpShots <= 0) then
-		self.seek  = false
-		self.spiral = false
-		self.powerUpName = ""
-		self.aimBot = false -- TODO: CHANGE
-		self.laser = false
+		resetPowerUps(self)
 	end
 	self.psystem:update(dt)
 end
@@ -221,6 +217,14 @@ function shootPlayer(self)
 	end
 	self.psystem:emit(20)
 	love.audio.newSource(shotgunSound, "static"):play()
+end
+
+function resetPowerUps(self)
+		self.seek  = false
+		self.spiral = false
+		self.powerUpName = ""
+		self.aimBot = false -- TODO: CHANGE
+		self.laser = false
 end
 
 function drawPlayer(self)
