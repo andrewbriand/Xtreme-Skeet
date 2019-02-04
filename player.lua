@@ -98,7 +98,8 @@ function Player(name, controlSet)
 		powerUpName = "",
 		powerUpShots = 0,
 		aimBot = false,
-		aimBotPastTargets = {}
+		aimBotPastTargets = {},
+		laser = true
 	}
 	player.psystem = love.graphics.newParticleSystem(smokeImage)
 	player.psystem:setParticleLifetime(1,1) 
@@ -167,8 +168,8 @@ function updatePlayer(self, dt)
 		end
 	end
 	-- shooting input
-	if (love.keyboard.isDown(self.controls.shoot) and not self.hasShot) then
-		if(self.ammo > 0) then
+	if (love.keyboard.isDown(self.controls.shoot) and (not self.hasShot or self.laser)) then
+		if(self.ammo > 0 or self.laser) then
 			shootPlayer(self)
 		else
 			love.audio.newSource(clickSound, "static"):play()
