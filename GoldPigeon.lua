@@ -16,7 +16,7 @@ function GoldPigeon(x, y, velocity, pType)
 	goldPigeon.psystem:setSizeVariation(0)
 	goldPigeon.psystem:setSizes(.5)
 	goldPigeon.psystem:setLinearAcceleration(0, 0, 0, 0) -- Random movement in all directions.
-	goldPigeon.psystem:setColors({1,1,1,1},{1,1,1,.5},{1,1,1,0})
+	goldPigeon.psystem:setColors({.95,.95,.1,1},{1,1,0,.5},{1,1,0,0})
 	goldPigeon.psystem:setParticleLifetime(1)
 	--goldPigeon.psystem:setLinearAcceleration(-goldPigeon.velocity.x, -goldPigeon.velocity.y, -goldPigeon.velocity.x, -goldPigeon.velocity.y) 
 	goldPigeon.psystem:setSpeed(magnitude(goldPigeon.velocity), magnitude(goldPigeon.velocity))
@@ -36,10 +36,10 @@ end
 
 function goldPigeonDraw(goldPigeon)
 	--love.graphics.setColor(POWER_UP_COLOR)
-	love.graphics.setColor(hsvToRgb(globalTimer+goldPigeon.birth,1,1))
+	love.graphics.setColor(1,1,1)
 	love.graphics.draw(goldPigeon.psystem, goldPigeon.x, goldPigeon.y)
 	
-	love.graphics.setColor(1,1,1,1)
+	love.graphics.setColor(.9,.9,0,1)
 	love.graphics.draw(goldPigeon.image, goldPigeon.x - goldPigeon.radius, goldPigeon.y - goldPigeon.radius, 0, goldPigeon.radius*2/goldPigeon.image:getWidth())	
 	
 end
