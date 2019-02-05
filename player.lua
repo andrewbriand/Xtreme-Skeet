@@ -45,12 +45,12 @@ PLAYER_CONTROLS = {{ -- for use with still players
 					down = "`",
 					left = "`",
 					right = "`",
-					clockwise = "[",
-					counterClockwise = "o",
-					shoot = "0",
-					slow = "]",
-					selectUp = "0",
-					selectDown = "p",
+					clockwise = "l",
+					counterClockwise = "j",
+					shoot = "i",
+					slow = ";",
+					selectUp = "i",
+					selectDown = "k",
 				  }}
 
 function Player(name, controlSet)
