@@ -111,7 +111,7 @@ function Player(name, controlSet)
 	player.psystem:setEmissionRate(0)
 	player.psystem:setSizes(0.4) 
 	player.psystem:setColors(255, 255, 255, 255, 255, 255, 255, 0)
-	player.psystem:setLinearAcceleration(-10, -10, 10, 10)
+	player.psystem:setLinearAcceleration(-100, -100, 100, 100)
 	--player.psystem:setSpeed(5, 5)
 	--player.psystem:setEmissionArea("ellipse", 0, 0, 2*math.pi, true )
 	return player
@@ -215,7 +215,12 @@ function shootPlayer(self)
 	if(self.powerUpShots > 0) then
 		self.powerUpShots = self.powerUpShots - 1
 	end
-	self.psystem:emit(20)
+	
+	spreadMin = -.5 / BULLET_SPREAD * 15
+	spreadMax =  .5 / BULLET_SPREAD * 15
+	pVel = 200
+	self.psystem:setLinearAcceleration(math.cos(self.dir + spreadMin) * pVel, math.sin(self.dir + spreadMin) * pVel, math.cos(self.dir + spreadMax) * pVel, math.sin(self.dir + spreadMax) * pVel)
+	self.psystem:emit(10)
 	love.audio.newSource(shotgunSound, "static"):play()
 end
 
