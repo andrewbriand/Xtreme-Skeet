@@ -1,5 +1,5 @@
 require 'Utils'
-GOLD_PIGEON_SPEED = 360
+GOLD_PIGEON_SPEED = 270
 
 function GoldPigeon(x, y, velocity, pType)
 	local goldPigeon = {}

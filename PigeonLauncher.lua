@@ -6,6 +6,7 @@ PigeonLauncher = {
 	timer       = 0,
 	pigeonsShot = 0,
 	round       = 0,
+	speedMod    = 1,
 }
 
 -- a few variables for keeping track of timing
@@ -24,6 +25,8 @@ function PigeonLauncher.update(self, dt)
 			PigeonLauncher.isShooting = true -- launcher is firing
 			PigeonLauncher.pigeonsShot = 0 -- counter for number of pigeons launcher has fired
 			PigeonLauncher.timer = 0 -- number of seconds since previous launch
+			
+			PigeonLauncher.speedMod = PigeonLauncher.speedMod * 1.01 -- everything is 28% faster by the 25th round
 			
 			--determine shooting pattern
 			if (PigeonLauncher.round % 8 == 0) then -- every 8th round use the cascade launching pattern
@@ -91,12 +94,13 @@ PigeonLauncher.cascade = {}
 -- shoots a single pigeon from the given location to the given target
 function PigeonLauncher.pigeon.shoot(x, y, targetX, targetY, speedMod)
 	speedMod = speedMod or 1
+	speedMod = speedMod * PigeonLauncher.speedMod
 	local angle = math.atan2((targetY - y), (targetX - x))
 	
 	randNum = math.random()
 	if(randNum < POWERUP_PROBABILITY and randNum > 0) then
 		powerUpType = POWER_UP_TYPES[math.random(#POWER_UP_TYPES)]
-		table.insert(objects.powerUps, PowerUp(x, y, {x = math.cos(angle) * PIGEON_SPEED * speedMod, y = math.sin(angle) * PIGEON_SPEED *speedMod}, powerUpType))
+		table.insert(objects.powerUps, PowerUp(x, y, {x = math.cos(angle) * POWERUP_SPEED * speedMod, y = math.sin(angle) * POWERUP_SPEED *speedMod}, powerUpType))
 	elseif(randNum < GOLD_PROBABILITY + POWERUP_PROBABILITY and randNum > POWERUP_PROBABILITY) then
 		table.insert(objects.goldPigeons, GoldPigeon(x, y, {x = math.cos(angle) * GOLD_PIGEON_SPEED * speedMod, y = math.sin(angle) * GOLD_PIGEON_SPEED *speedMod}))
 	else

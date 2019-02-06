@@ -1,4 +1,4 @@
-require 'Utils'
+POWERUP_SPEED = 200
 POWER_UP_COLOR = {0, 0, 1}
 POWER_UP_TYPES = {"SPIRAL", "SEEK", "AIMBOT", "LASER"}
 

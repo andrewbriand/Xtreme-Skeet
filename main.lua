@@ -6,6 +6,7 @@ require 'Physics'
 require 'PigeonLauncher'
 require 'PowerUp'
 require 'GoldPigeon'
+require 'Utils'
 
 POINTS_REQUIRED = 50
 
@@ -37,7 +38,7 @@ function resetGame()
 	beginText = "Begin"
 	winnerLength = 2.7
 	
-	camShake = 1
+	camShake = .1
 end
 
 function love.load()
