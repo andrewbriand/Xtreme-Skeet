@@ -209,9 +209,9 @@ function drawScoreBoard()
 			love.graphics.setColor(0,0,0)
 			xDiff =  math.floor(2 * math.sqrt(4/3) * math.sin(8 * math.pi / 3 * math.ceil(i/3)) + .5) -- don't mind the magic equations
 			yDiff =  math.floor(2 * math.sqrt(4/3) * math.sin(8 * math.pi / 3 * (i%3)         ) + .5)
-			love.graphics.print(objects.players[1].name .. "'s score: " .. objects.players[1].score,xDiff,yDiff)
+			love.graphics.print(objects.players[1].name .. "'s score: " .. math.floor(objects.players[1].score),xDiff,yDiff)
 			text = love.graphics.newText(scoreFont, objects.players[2].name .. "'s score: 99")
-			love.graphics.print(objects.players[2].name .. "'s score: " .. objects.players[2].score,SCREEN_WIDTH-text:getWidth() + xDiff,yDiff)
+			love.graphics.print(objects.players[2].name .. "'s score: " .. math.floor(objects.players[2].score),SCREEN_WIDTH-text:getWidth() + xDiff,yDiff)
 			
 			-- draw round
 			roundString = "Round: " .. objects.pigeonLauncher[1].round
@@ -224,7 +224,7 @@ function drawScoreBoard()
 		love.graphics.setColor({objects.players[1].color[1]*brightness + (1 - brightness),
 								objects.players[1].color[2]*brightness + (1 - brightness),
 								objects.players[1].color[3]*brightness + (1 - brightness)})
-		love.graphics.print(objects.players[1].name .. "'s score: " .. objects.players[1].score,0,0)
+		love.graphics.print(objects.players[1].name .. "'s score: " .. math.floor(objects.players[1].score),0,0)
 		waveFactor = (math.sin(drawTimer*10) + 1.5)/2
 		love.graphics.setColor({objects.players[1].color[1]*brightness + (1 - brightness) *  waveFactor,
 								objects.players[1].color[2]*brightness + (1 - brightness) * waveFactor,
@@ -236,7 +236,7 @@ function drawScoreBoard()
 		love.graphics.setColor({objects.players[2].color[1]*brightness + (1 - brightness),
 								objects.players[2].color[2]*brightness + (1 - brightness),
 								objects.players[2].color[3]*brightness + (1 - brightness)})
-		love.graphics.print(objects.players[2].name .. "'s score: " .. objects.players[2].score,SCREEN_WIDTH-text:getWidth(),0)
+		love.graphics.print(objects.players[2].name .. "'s score: " .. math.floor(objects.players[2].score),SCREEN_WIDTH-text:getWidth(),0)
 		love.graphics.setColor({objects.players[2].color[1]*brightness + (1 - brightness) *  waveFactor,
 								objects.players[2].color[2]*brightness + (1 - brightness) * waveFactor,
 								objects.players[2].color[3]*brightness + (1 - brightness) * waveFactor})
