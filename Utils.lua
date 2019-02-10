@@ -15,6 +15,11 @@ function circleCollision(object1, object2)
 	return dist(object1.x, object1.y, object2.x, object2.y) < (object1.radius + object2.radius)
 end
 
+-- Returns a vector (having x and y compnents) with direction direction (in radians) and magnitude
+-- magnitude
+function vFromDirMag(direction, magnitude)
+	return {x = magnitude*math.cos(direction), y = magnitude*math.sin(direction)}
+end
 -- Determines for 2 circular objects, object1 and object2
 -- if object1 will collide with object2 "during" the next frame
 -- Requires object1 to have velocity (a vector2), x, y, and radius

@@ -279,6 +279,7 @@ function load()
 	fireImage   = love.graphics.newImage("images/fire 2.png")
 	pigeonImage = love.graphics.newImage("images/pigeon.png")
 	seekPowerUpImage = love.graphics.newImage("images/powerup.png")
+	windParticle = love.graphics.newImage("images/wind particle.png")
 	
 	-- sounds
 	grunt1             = love.sound.newSoundData("sounds/grunt 1.mp3")
@@ -291,6 +292,7 @@ function load()
 	congrad1          = love.sound.newSoundData("sounds/congrad 1.mp3")
 	congrad2          = love.sound.newSoundData("sounds/congrad 2.mp3")
 	powerUpSound      = love.sound.newSoundData("sounds/PowerUp.wav")
+	windSound         = love.sound.newSoundData("sounds/wind.mp3")
 	
 	-- music
 	menuMusic          = love.sound.newSoundData("sounds/menu music.mp3")

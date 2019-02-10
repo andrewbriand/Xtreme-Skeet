@@ -28,8 +28,11 @@ function Pigeon(x, y, velocity)
 end
 
 function pigeonUpdate(pigeon, dt)
+	pigeon.velocity = vAdd(PigeonLauncher.windVelocity, pigeon.velocity)
 	pigeon.x = pigeon.x + dt * pigeon.velocity.x
 	pigeon.y = pigeon.y + dt * pigeon.velocity.y
+	pigeon.psystem:setSpeed(magnitude(pigeon.velocity), magnitude(pigeon.velocity))
+	pigeon.psystem:setDirection(math.pi + math.atan2(pigeon.velocity.y, pigeon.velocity.x), math.atan2(pigeon.velocity.y, pigeon.velocity.x))
 	pigeon.psystem:update(dt)
 	
 end

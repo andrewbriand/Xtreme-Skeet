@@ -7,6 +7,7 @@ PigeonLauncher = {
 	pigeonsShot = 0,
 	round       = 0,
 	speedMod    = 1,
+	windVelocity   = {x = 0, y = 0},
 }
 
 -- a few variables for keeping track of timing
@@ -15,6 +16,16 @@ function loadPigeonLauncher()
 	PigeonLauncher.timer       = 0
 	PigeonLauncher.pigeonsShot = 0
 	PigeonLauncher.round       = 0
+	PigeonLauncher.maxWindSpeed = 1
+	PigeonLauncher.psystem = love.graphics.newParticleSystem(windParticle)
+	PigeonLauncher.psystem:setParticleLifetime(2) -- Particles live at least 2s and at most 5s.
+	PigeonLauncher.psystem:setEmissionRate(50)
+	PigeonLauncher.psystem:setEmissionArea("uniform", SCREEN_HEIGHT, SCREEN_WIDTH)
+	PigeonLauncher.psystem:setColors({1,1,1,.9},{1,1,1,0})
+	PigeonLauncher.psystem:setSizeVariation(0)
+	PigeonLauncher.psystem:setSizes(.5)
+	PigeonLauncher.psystem:setRelativeRotation(true)
+	PigeonLauncher.windSource = love.audio.newSource(windSound)
 end
 
 function PigeonLauncher.update(self, dt)
@@ -41,16 +52,28 @@ function PigeonLauncher.update(self, dt)
 			for k, v in pairs(objects.players) do -- reset the ammo of each (of the two) players
 				v.ammo = shootingPattern.ammo(numPigeons)
 			end
+			
+			windSpeed = math.random()*self.maxWindSpeed
+			windDirection = math.random()*math.pi*2
+			self.windVelocity = vFromDirMag(windDirection, windSpeed)
+			self.psystem:setSpeed(windSpeed*500)
+			self.psystem:setEmissionRate(windSpeed*50)
+			self.psystem:setDirection(windDirection)
+			self.windSource:setPitch(windSpeed*2)
+			self.windSource:play()
+			--print("Wind velocity: x = " .. tostring(self.windVelocity.x) .. " y = " .. tostring(self.windVelocity.y))
 		end
 	else
 		if(shootingPattern.shoot(numPigeons, pigeonDelay)) then -- simultaneously launches pigeons and checks if launching is finished
 			PigeonLauncher.isShooting = false -- if launching is finished, set isShooting to reflect that
 		end
 	end
+	PigeonLauncher.psystem:update(dt)
 end
 
 function PigeonLauncher.draw()
-	-- intentionally empty, only here so it can be called by physics
+	love.graphics.setColor(1,1,1,1)
+	love.graphics.draw(PigeonLauncher.psystem, SCREEN_HEIGHT/2, SCREEN_WIDTH/2,0,1)
 end
 
 -- returns true if the round is over, ie. all bullets, pigeons, and fragments are off the screen
