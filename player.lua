@@ -219,7 +219,9 @@ function shootPlayer(self)
 	spreadMin = -.5 / BULLET_SPREAD * 15
 	spreadMax =  .5 / BULLET_SPREAD * 15
 	pVel = 200
-	self.psystem:setLinearAcceleration(math.cos(self.dir + spreadMin) * pVel, math.sin(self.dir + spreadMin) * pVel, math.cos(self.dir + spreadMax) * pVel, math.sin(self.dir + spreadMax) * pVel)
+	windSpeedEffect = 400
+	self.psystem:setLinearAcceleration(math.cos(self.dir + spreadMin) * pVel + PigeonLauncher.windVelocity.x*windSpeedEffect, math.sin(self.dir + spreadMin) * pVel + PigeonLauncher.windVelocity.y*windSpeedEffect, math.cos(self.dir + spreadMax) * pVel + PigeonLauncher.windVelocity.x*windSpeedEffect, math.sin(self.dir + spreadMax) * pVel + PigeonLauncher.windVelocity.y*windSpeedEffect)
+	self.psystem:setDirection(0)
 	self.psystem:emit(10)
 	love.audio.newSource(shotgunSound, "static"):play()
 end
