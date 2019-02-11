@@ -62,6 +62,7 @@ function Player(name, controlSet)
 		gruntSound = grunt2
 		dir = math.pi+.08
 		congrad = congrad2
+		name = name or "player 2"
 	else -- player one otherwise
 		controls = PLAYER_CONTROLS[1]
 		color = {0,0,1}
@@ -70,40 +71,43 @@ function Player(name, controlSet)
 		gruntSound = grunt1
 		dir = .08
 		congrad = congrad1
+		name = name or "player 1"
 	end
 	
 	local player = {
-		name = name,
+		name = name, -- name to be displayed
 		radius = PLAYER_RADIUS,
 		speed = PLAYER_SPEED,
 		rotationSpeed = PLAYER_ROTATION_SPEED,
-		controls = controls,
+		controls = controls, -- array for storing player controls
 		color = color,
 		ammo = 1, -- TODO: update by pigeon launcher
 		score = 0,
-		id = id,
-		gruntSound = gruntSound,
-		congrad = congrad,
+		id = id, -- 1 if player 1, 2 if player 2
+		gruntSound = gruntSound, -- audio file to be played if player is hit
+		congrad = congrad,       -- audio file to be played if player wins
 		
 		hasShoot = false, -- used to prevent repeated shooting
 		
-		x = x,
-		y = SCREEN_HEIGHT/2,
-		dx = 0,
-		dy = 0,
-		dir = dir,
+		x = x,               -- x pos; doesn't change
+		y = SCREEN_HEIGHT/2, -- y pos; doesn't change
+		dx = 0,              -- x vel; doesn't change
+		dy = 0,              -- y vel; doesn't change
+		dir = dir, -- direction measured in radians
 		
-		draw = drawPlayer,
-		update = updatePlayer,
-		velocity = {x = 0, y = 0},
-		seek = false,
-		spiral = false,
-		powerUpName = "",
-		powerUpShots = 0,
-		aimBot = false,
+		draw = drawPlayer, -- draw function
+		update = updatePlayer, -- update function
+		velocity = {x = 0, y = 0}, -- lateral movement of player (unused)
+		
+		-- power up stuff
+		seek   = false, -- true if player has seek power up
+		spiral = false, -- true if player has spiral power up
+		aimBot = false, -- true if player has aim bot power up
+		laser  = false, -- true if player has laser power up
+		powerUpName = "", -- name of current power up to be displayed
+		powerUpShots = 0, -- number of power up shots remaining
 		ai = false,
 		aimBotPastTargets = {},
-		laser = false,
 		aimBotVariation = 0
 	}
 	player.psystem = love.graphics.newParticleSystem(smokeImage)
@@ -118,13 +122,13 @@ function Player(name, controlSet)
 end
 
 function updatePlayer(self, dt)
-	-- update lateral position
-	self.x = self.x + self.dx * dt
-	self.y = self.y + self.dy * dt
-	
 	-- update lateral speed
 	self.dx = self.dx * PLAYER_FRICTION
 	self.dy = self.dy * PLAYER_FRICTION
+	
+	-- update lateral position
+	self.x = self.x + self.dx * dt
+	self.y = self.y + self.dy * dt
 	
 	-- lateral input
 	if (love.keyboard.isDown(self.controls.down)) then
@@ -140,20 +144,22 @@ function updatePlayer(self, dt)
 		self.dx = self.dx - self.speed * dt
 	end
 	
-	-- rotation input
+	-- slow rotation input
 	if (love.keyboard.isDown(self.controls.slow)) then
 		rotationSpeedMod = .2
 	else
 		rotationSpeedMod = 1
 	end
-	if(not self.aimBot) then
+	
+	-- rotation input
+	if(not self.aimBot) then -- ignore input if aimbot is on
 		if (love.keyboard.isDown(self.controls.clockwise)) then
 			self.dir = self.dir + self.rotationSpeed * dt * rotationSpeedMod
 		end
 		if (love.keyboard.isDown(self.controls.counterClockwise)) then
 			self.dir = self.dir - self.rotationSpeed * dt * rotationSpeedMod
 		end
-	else
+	else -- calculate aimbot rotation
 		mindistPigeon = objects.pigeons[1]
 		mindistKey = 1
 		if mindistPigeon ~= nil then
@@ -187,6 +193,7 @@ function updatePlayer(self, dt)
 			
 		end
 	end
+	
 	-- shooting input
 	if (love.keyboard.isDown(self.controls.shoot) and (not self.hasShot or self.laser)) then
 		if(self.ammo > 0 or self.laser) then
@@ -196,44 +203,60 @@ function updatePlayer(self, dt)
 		end
 		self.hasShot = true
 	end
+	
+	-- reset functions
 	if ((not love.keyboard.isDown(self.controls.shoot)) and self.hasShot) then
 		self.hasShot = false
 	end
 	if(self.powerUpShots <= 0) then
 		resetPowerUps(self)
 	end
+	
+	-- smoke effect
 	self.psystem:update(dt)
 end
 
 -- shoots a cluster of bullets
 function shootPlayer(self)
-	for i = 1, NUM_BULLETS do
+	for i = 1, NUM_BULLETS do -- fire a cluster of bullets
 		spread = (math.random() - .5) / BULLET_SPREAD
 		table.insert(objects.bullets, Bullet(self.x, self.y, {x = math.cos(self.dir + spread) * BULLET_SPEED, y = math.sin(self.dir + spread) * BULLET_SPEED}, {self.color[1]/2, self.color[2]/2, self.color[3]/2}, self.id, self.seek or self.spiral, self.spiral))
 	end
-	self.ammo = self.ammo - 1
-	if(self.powerUpShots > 0) then
+	self.ammo = self.ammo - 1 -- reduce ammo
+	if(self.powerUpShots > 0) then -- reduce powerup ammo if applicable
 		self.powerUpShots = self.powerUpShots - 1
 	end
 	
-	spreadMin = -.5 / BULLET_SPREAD * 15
-	spreadMax =  .5 / BULLET_SPREAD * 15
-	pVel = 200
-	windSpeedEffect = 400
-	self.psystem:setLinearAcceleration(math.cos(self.dir + spreadMin) * pVel + PigeonLauncher.windVelocity.x*windSpeedEffect, math.sin(self.dir + spreadMin) * pVel + PigeonLauncher.windVelocity.y*windSpeedEffect, math.cos(self.dir + spreadMax) * pVel + PigeonLauncher.windVelocity.x*windSpeedEffect, math.sin(self.dir + spreadMax) * pVel + PigeonLauncher.windVelocity.y*windSpeedEffect)
-	self.psystem:setDirection(0)
-	self.psystem:emit(10)
+	do -- smoke effect
+		spreadMin = -.5 / BULLET_SPREAD * 15
+		spreadMax =  .5 / BULLET_SPREAD * 15
+		pVel = 200
+		windSpeedEffect = 400
+		
+		self.psystem:setLinearAcceleration(
+		math.cos(self.dir + spreadMin) * pVel + PigeonLauncher.windVelocity.x*windSpeedEffect,
+		math.sin(self.dir + spreadMin) * pVel + PigeonLauncher.windVelocity.y*windSpeedEffect,
+		math.cos(self.dir + spreadMax) * pVel + PigeonLauncher.windVelocity.x*windSpeedEffect,
+		math.sin(self.dir + spreadMax) * pVel + PigeonLauncher.windVelocity.y*windSpeedEffect)
+		
+		self.psystem:setDirection(0)
+		self.psystem:emit(10)
+	end
+	
+	-- gun shot sound
 	love.audio.newSource(shotgunSound, "static"):play()
 end
 
+--
 function resetPowerUps(self)
-		self.seek  = false
-		self.spiral = false
-		self.powerUpName = ""
-		self.aimBot = false -- TODO: CHANGE
-		self.laser = false
+	self.seek        = false
+	self.spiral      = false
+	self.powerUpName = ""
+	self.aimBot      = false -- TODO: CHANGE
+	self.laser       = false
 end
 
+-- draws the player
 function drawPlayer(self)
 	love.graphics.setColor(self.color)
 	love.graphics.setLineWidth(2)
@@ -261,8 +284,6 @@ function drawPlayer(self)
 		love.graphics.line(x1Left, y1Left, x2Left, y2Left)
 		love.graphics.line(x1Right, y1Right, x2Right, y2Right)
 	end
-	--love.graphics.line(self.x, self.y, self.x + math.cos(self.dir + (.5/BULLET_SPREAD)) * 200, self.y + math.sin(self.dir + (.5/BULLET_SPREAD)) * 200)
-	--love.graphics.line(self.x, self.y, self.x + math.cos(self.dir - (.5/BULLET_SPREAD)) * 200, self.y + math.sin(self.dir - (.5/BULLET_SPREAD)) * 200)
 	
 	love.graphics.line(self.x, self.y, self.x + math.cos(self.dir) * self.radius * 2, self.y + math.sin(self.dir) * self.radius * 2)
 	
@@ -276,6 +297,8 @@ function drawPlayer(self)
 	-- main player drawing
 	love.graphics.setColor(self.color)
 	love.graphics.circle("fill", self.x, self.y, self.radius)
+	
+	-- smoke effect
 	love.graphics.setColor(1,1, 1)
 	love.graphics.draw(self.psystem, self.x + self.radius*math.cos(self.dir), self.y + self.radius*math.sin(self.dir)) 
 end
