@@ -2,20 +2,20 @@ POWERUP_PROBABILITY = 0.05
 GOLD_PROBABILITY = 0.05
 
 PigeonLauncher = {
-	isShooting  = false,
-	timer       = 0,
-	pigeonsShot = 0,
-	round       = 0,
-	speedMod    = 1,
+	isShooting     = false,
+	timer          = 0,
+	pigeonsShot    = 0,
+	round          = 0,
+	speedMod       = 1,
 	windVelocity   = {x = 0, y = 0},
 }
 
 -- a few variables for keeping track of timing
 function loadPigeonLauncher()
-	PigeonLauncher.isShooting  = false
-	PigeonLauncher.timer       = 0
-	PigeonLauncher.pigeonsShot = 0
-	PigeonLauncher.round       = 0
+	PigeonLauncher.isShooting   = false
+	PigeonLauncher.timer        = 0
+	PigeonLauncher.pigeonsShot  = 0
+	PigeonLauncher.round        = 0
 	PigeonLauncher.maxWindSpeed = 1
 	PigeonLauncher.psystem = love.graphics.newParticleSystem(windParticle)
 	PigeonLauncher.psystem:setParticleLifetime(2) -- Particles live at least 2s and at most 5s.
@@ -32,10 +32,10 @@ function PigeonLauncher.update(self, dt)
 	PigeonLauncher.timer = PigeonLauncher.timer + dt
 	if not PigeonLauncher.isShooting then -- if launcher has finished firing
 		if (roundOver()) then -- if all bullets, pigeons, and fragments have left the screen
-			PigeonLauncher.round = PigeonLauncher.round + 1 -- next round
-			PigeonLauncher.isShooting = true -- launcher is firing
-			PigeonLauncher.pigeonsShot = 0 -- counter for number of pigeons launcher has fired
-			PigeonLauncher.timer = 0 -- number of seconds since previous launch
+			PigeonLauncher.round       = PigeonLauncher.round + 1 -- next round
+			PigeonLauncher.isShooting  = true -- launcher is firing
+			PigeonLauncher.pigeonsShot = 0    -- counter for number of pigeons launcher has fired
+			PigeonLauncher.timer       = 0    -- number of seconds since previous launch
 			
 			PigeonLauncher.speedMod = PigeonLauncher.speedMod * 1.01 -- everything is 28% faster by the 25th round
 			
@@ -61,7 +61,6 @@ function PigeonLauncher.update(self, dt)
 			self.psystem:setDirection(windDirection)
 			self.windSource:setPitch(windSpeed*2)
 			self.windSource:play()
-			--print("Wind velocity: x = " .. tostring(self.windVelocity.x) .. " y = " .. tostring(self.windVelocity.y))
 		end
 	else
 		if(shootingPattern.shoot(numPigeons, pigeonDelay)) then -- simultaneously launches pigeons and checks if launching is finished
